@@ -39,18 +39,24 @@ function toneText(plain, tone) {
   return plain.slice(0, i) + MARKED[plain[i]][tone - 1] + plain.slice(i + 1);
 }
 
-// 渲染拼音（自绘声调符号，字体统一，教材式单层 ɑ）
+// 渲染拼音（自绘声调符号，字体统一，教材式单层 ɑ、单环 ɡ）
 // tone: 0/null 不标；'?' 显示问号
+function stdPyChar(ch) {
+  if (ch === 'a') return 'ɑ';
+  if (ch === 'g') return 'ɡ';
+  return ch;
+}
 function renderPy(plain, tone, extraClass = '') {
   plain = plain.replace(/v/g, 'ü');
   const idx = (tone && tone !== 0) ? toneIndex(plain) : -1;
   let html = '';
   [...plain].forEach((ch, i) => {
+    const disp = stdPyChar(ch);
     if (i === idx) {
-      const base = ch === 'i' ? 'ı' : ch;
+      const base = ch === 'i' ? 'ı' : disp;
       const cls = tone === '?' ? 'q' : 't' + tone;
       html += `<span class="tv ${cls} ${ch === 'ü' ? 'hi' : ''}">${base}</span>`;
-    } else html += escapeHtml(ch);
+    } else html += escapeHtml(disp);
   });
   return `<span class="py ${extraClass}">${html || '&nbsp;'}</span>`;
 }
@@ -380,22 +386,25 @@ function flashKey(k) {
   if (el) { el.classList.add('pressed'); setTimeout(() => el.classList.remove('pressed'), 120); }
 }
 
-// 屏幕键盘（iPad / 触屏也能玩，同时帮助认识键盘位置）
+// 屏幕键盘（iPad / 触屏也能玩，字母与教材汉语拼音完全一致，声调直接显示符号）
 function keyboardHtml(withTones = true) {
   const rows = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
   let h = '<div class="kb">';
   rows.forEach((r, ri) => {
     h += '<div class="kb-row">';
     [...r].forEach(c => {
-      h += `<button class="key" data-k="${c}">${c === 'v' ? 'v<small>ü</small>' : c}</button>`;
+      const pyChar = c === 'v' ? 'ü' : c;
+      h += `<button class="key" data-k="${c}">${renderPy(pyChar)}</button>`;
     });
     if (ri === 2) h += `<button class="key wide del" data-k="Backspace">⌫ 删除</button>`;
     h += '</div>';
   });
   if (withTones) {
     h += '<div class="kb-row">';
-    [1, 2, 3, 4].forEach(t => { h += `<button class="key tone t${t}" data-k="${t}"><b>${t}</b> ${['ˉ', 'ˊ', 'ˇ', 'ˋ'][t - 1]}</button>`; });
-    h += `<button class="key tone t0" data-k="0"><b>0</b> 轻声</button>`;
+    [1, 2, 3, 4].forEach(t => {
+      h += `<button class="key tone t${t}" data-k="${t}" title="${TONE_NAMES[t]}"><span class="tone-svg-wrap">${TONE_SVG[t]}</span></button>`;
+    });
+    h += `<button class="key tone t0" data-k="0" title="轻声">轻声</button>`;
     h += `<button class="key wide ok" data-k="Enter">✓ 确定</button>`;
     h += '</div>';
   } else {
@@ -1236,7 +1245,7 @@ function showQuestion() {
   $('#pc').textContent = `${R.idx + 1} / ${R.items.length}`;
   let q = '';
   if (it.type === 'char') {
-    q = `<div class="prompt">打出这个字的<b>拼音</b>，再按<b>数字</b>选声调</div>
+    q = `<div class="prompt">点出这个字的<b>拼音字母</b>，再点<b>声调符号</b></div>
       <div class="hintpy" id="hintpy">${S().pyHint ? renderPy(it.plain, it.tone) : ''}</div>
       <div class="tzg"><span class="hz">${it.char}</span></div>
       <div class="word">${it.word.replace(it.char, `<b>${it.char}</b>`)}</div>`;
@@ -1246,7 +1255,7 @@ function showQuestion() {
       <div class="bigletter">${renderPy(it.letter)}</div>
       <div class="hintpy" id="hintpy"></div>`;
   } else {
-    q = `<div class="prompt">照着拼音打出来，别忘了按<b>声调数字</b></div>
+    q = `<div class="prompt">照着拼音点出字母，别忘了点<b>声调符号</b></div>
       <div class="bigpy">${renderPy(it.plain, it.tone)}</div>
       <div class="word">${it.char ? `${it.char}（${it.word}）` : '&nbsp;'}</div>
       <div class="hintpy" id="hintpy" style="min-height:0"></div>`;
@@ -1258,8 +1267,8 @@ function showQuestion() {
   $('#hnt').onclick = () => { R.reveal = true; updateAnswer(); };
   $('#fb').textContent = ''; $('#fb').className = 'feedback';
   $('#tip').innerHTML = R.requireTone
-    ? `声调：<span class="k">1</span>ˉ <span class="k">2</span>ˊ <span class="k">3</span>ˇ <span class="k">4</span>ˋ ${it.tone === 0 ? '　这个字读<b>轻声</b>，按 <span class="k">0</span>' : ''}　${it.key.includes('v') ? '　ü 用 <span class="k">v</span> 键' : ''}`
-    : (it.key.includes('v') ? 'ü 用 <span class="k">v</span> 键来打' : '');
+    ? `声调：<span class="k" style="color:var(--t1)">ˉ</span>一声 <span class="k" style="color:var(--t2)">ˊ</span>二声 <span class="k" style="color:var(--t3)">ˇ</span>三声 <span class="k" style="color:var(--t4)">ˋ</span>四声${it.tone === 0 ? '　（这个字读<b>轻声</b>，点 <span class="k">轻声</span>）' : ''}`
+    : '';
   updateAnswer();
   setTimeout(() => speak(it.speak), 250);
 }
@@ -1385,7 +1394,7 @@ function toneHomeScreen() {
       ${TONE_SVG[t]}<div>${renderPy(demo.base, t)}</div><div class="hz">${demo.chars[t - 1]}</div><div class="rh">${TONE_NAMES[t]}</div></button>`;
   });
   h += `</div>
-      <p class="sub" style="margin-bottom:0">小秘诀：<b>有 ɑ 不放过，没 ɑ 找 o e，i u 并列标在后</b>。打字时，先打拼音字母，再按数字 <b>1 2 3 4</b> 选声调。</p>
+      <p class="sub" style="margin-bottom:0">小秘诀：<b>有 ɑ 不放过，没 ɑ 找 o e，i u 并列标在后</b>。拼读时，先点拼音字母，再点声调符号 <b>ˉ ˊ ˇ ˋ</b>。</p>
     </div>
     <div class="row center" style="margin-top:24px">
       <button class="btn orange" id="tA">🎵 四声练一练（妈麻马骂…）</button>
@@ -1413,8 +1422,8 @@ function startToneRound(opts) {
       </div>
       <div class="card question" id="q"></div>
       <div class="feedback" id="fb"></div>
-      <div class="tone-btns">${[1, 2, 3, 4].map(t => `<button class="tone-btn t${t}" data-t="${t}">${TONE_SVG[t]}<span class="num">${t}</span>${TONE_NAMES[t]}</button>`).join('')}</div>
-      <p class="sub" style="text-align:center">可以点按钮，也可以按键盘上的数字 1 2 3 4</p>
+      <div class="tone-btns">${[1, 2, 3, 4].map(t => `<button class="tone-btn t${t}" data-t="${t}">${TONE_SVG[t]}<div>${TONE_NAMES[t]}</div></button>`).join('')}</div>
+      <p class="sub" style="text-align:center">听一听读音，点击上方对应的声调符号吧！</p>
     </div>`;
   $('#quit').onclick = () => opts.back();
   app.querySelectorAll('.tone-btn').forEach(b => b.addEventListener('click', () => toneAnswer(+b.dataset.t)));
@@ -1488,7 +1497,7 @@ function balloonSetupScreen() {
   CHAR_UNITS.forEach((u, i) => { h += `<label class="chip"><input type="checkbox" value="${i}" ${i < 2 ? 'checked' : ''}> ${u.unit}</label>`; });
   h += `</div>
       <div class="setting-row"><span>🐢 气球上升速度</span>${speedSelectHtml('bSpeed')}</div>
-      <div class="setting-row"><span>🔢 要打声调数字（更难）</span><label class="switch"><input type="checkbox" id="bTone" checked><span></span></label></div>
+      <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="bTone" checked><span></span></label></div>
       <div class="setting-row" style="border:none"><span>👀 气球上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="bPy"><span></span></label></div>
       <p class="sub">🏅 最高分：${save.balloonBest}</p>
       <div class="row center"><button class="btn pink" id="start">🚀 开始游戏</button></div>
@@ -1522,7 +1531,7 @@ function balloonGame(opts) {
       <div class="overlay" id="ov"><div class="card" style="text-align:center;max-width:460px">
         <div style="font-size:60px">🎈</div>
         <h2 style="margin:6px 0">气球要飞走啦！</h2>
-        <p style="font-size:18px">打出气球上汉字的拼音${needTone ? '，<b>再按声调数字</b>' : ''}，<br>就能把气球戳破！漏掉 5 个就结束哦。</p>
+        <p style="font-size:18px">点出气球上汉字的拼音${needTone ? '，<b>再点声调符号</b>' : ''}，<br>就能把气球戳破！漏掉 5 个就结束哦。</p>
         <button class="btn pink" id="go">开始！（回车）</button>
       </div></div>
     </div>
@@ -1687,7 +1696,7 @@ function duckSetupScreen() {
   CHAR_UNITS.forEach((u, i) => { h += `<label class="chip"><input type="checkbox" value="${i}" ${i < 2 ? 'checked' : ''}> ${u.unit}</label>`; });
   h += `</div>
       <div class="setting-row"><span>🐢 野鸭飞行速度</span>${speedSelectHtml('dSpeed')}</div>
-      <div class="setting-row"><span>🔢 要打声调数字（更难）</span><label class="switch"><input type="checkbox" id="dTone" checked><span></span></label></div>
+      <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="dTone" checked><span></span></label></div>
       <div class="setting-row" style="border:none"><span>👀 野鸭木牌上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="dPy"><span></span></label></div>
       <p class="sub">🏅 最高分：${save.duckBest || 0}</p>
       <div class="row center"><button class="btn purple" id="start">🎯 开始狩猎</button></div>
@@ -1757,7 +1766,7 @@ function duckGame(opts) {
       <div class="overlay" id="ov"><div class="card" style="text-align:center;max-width:460px">
         <div style="font-size:60px">🦆🎯</div>
         <h2 style="margin:6px 0">野鸭飞出来啦！</h2>
-        <p style="font-size:18px">看准野鸭木牌上的汉字，打出拼音${needTone ? '<b>再按声调数字</b>' : ''}，<br>就能开枪击落野鸭！飞跑 5 只就结束哦。</p>
+        <p style="font-size:18px">看准野鸭木牌上的汉字，点出拼音${needTone ? '<b>再点声调符号</b>' : ''}，<br>就能开枪击落野鸭！飞跑 5 只就结束哦。</p>
         <button class="btn purple" id="go">🎯 开始狩猎！（回车）</button>
       </div></div>
     </div>
@@ -2008,7 +2017,7 @@ function pacmanSetupScreen() {
   CHAR_UNITS.forEach((u, i) => { h += `<label class="chip"><input type="checkbox" value="${i}" ${i < 2 ? 'checked' : ''}> ${u.unit}</label>`; });
   h += `</div>
       <div class="setting-row"><span>👻 小幽灵移动速度</span>${speedSelectHtml('pSpeed')}</div>
-      <div class="setting-row"><span>🔢 要打声调数字（更难）</span><label class="switch"><input type="checkbox" id="pTone" checked><span></span></label></div>
+      <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="pTone" checked><span></span></label></div>
       <div class="setting-row" style="border:none"><span>👀 汉字豆上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="pPy"><span></span></label></div>
       <p class="sub">🏅 最高分：${save.pacBest || 0}</p>
       <div class="row center"><button class="btn orange" id="start">🟡 进入迷宫</button></div>
@@ -2425,7 +2434,7 @@ function tankSetupScreen() {
   CHAR_UNITS.forEach((u, i) => { h += `<label class="chip"><input type="checkbox" value="${i}" ${i < 2 ? 'checked' : ''}> ${u.unit}</label>`; });
   h += `</div>
       <div class="setting-row"><span>🐢 敌方坦克推进速度</span>${speedSelectHtml('tSpeed')}</div>
-      <div class="setting-row"><span>🔢 要打声调数字（更难）</span><label class="switch"><input type="checkbox" id="tTone" checked><span></span></label></div>
+      <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="tTone" checked><span></span></label></div>
       <div class="setting-row" style="border:none"><span>👀 坦克装甲牌上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="tPy"><span></span></label></div>
       <p class="sub">🏅 最高分：${save.tankBest || 0}</p>
       <div class="row center"><button class="btn" style="background:#4d7c0f" id="start">🛡️ 保卫大本营</button></div>
@@ -2507,7 +2516,7 @@ function tankGame(opts) {
       <div class="overlay" id="ov"><div class="card" style="text-align:center;max-width:480px">
         <div style="font-size:58px">🛡️💥🚜</div>
         <h2 style="margin:6px 0">保卫老鹰大本营！</h2>
-        <p style="font-size:18px">敌方装甲坦克正从上方开过来！<br>打出坦克上汉字的拼音${needTone ? '<b>+声调数字</b>' : ''}，<br>我方金色坦克就会旋转炮塔发射炮弹轰碎它！</p>
+        <p style="font-size:18px">敌方装甲坦克正从上方开过来！<br>点出坦克上汉字的拼音${needTone ? '<b>+声调符号</b>' : ''}，<br>我方金色坦克就会旋转炮塔发射炮弹轰碎它！</p>
         <button class="btn" style="background:#4d7c0f" id="go">💥 开始战斗！（回车）</button>
       </div></div>
     </div>

@@ -1,5 +1,5 @@
 :root {
-  --py-font: 'Futura', 'Century Gothic', 'Avenir Next', 'Trebuchet MS', sans-serif;
+  --py-font: 'Yuanti SC', 'PingFang SC', 'Hiragino Sans GB', 'Helvetica Neue', 'Arial', sans-serif;
   --hz-font: 'Kaiti SC', 'STKaiti', 'KaiTi', '楷体', 'PingFang SC', serif;
   --ui-font: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --blue: #4fb3e8;
@@ -305,25 +305,30 @@ main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; paddin
 .tone-tip .k { display: inline-block; background: #fff; border-radius: 6px; padding: 0 6px; margin: 0 2px; box-shadow: 0 2px 0 #ddd; font-weight: 700; }
 
 /* ---------- 屏幕键盘 ---------- */
-.kb { display: flex; flex-direction: column; gap: 8px; align-items: center; margin-top: 6px; }
-.kb-row { display: flex; gap: 7px; }
+.kb { display: flex; flex-direction: column; gap: 10px; align-items: center; margin-top: 10px; width: 100%; }
+.kb-row { display: flex; gap: 8px; justify-content: center; width: 100%; max-width: 980px; }
 .key {
-  width: 58px; height: 58px; border: none; border-radius: 14px; background: #fff; font-size: 26px;
-  font-family: var(--py-font); color: var(--ink); box-shadow: 0 4px 0 #d8d1ec; transition: transform .08s, background .2s;
-  position: relative;
+  flex: 1; max-width: 86px; min-width: 58px; height: 74px;
+  border: 2px solid #ebe5f7; border-radius: 18px; background: #fff; font-size: 46px; font-weight: 700;
+  font-family: var(--py-font); color: var(--ink); box-shadow: 0 5px 0 #d8d1ec; transition: transform .08s, background .2s;
+  position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 0;
 }
-.key small { position: absolute; right: 5px; bottom: 2px; font-size: 13px; color: var(--pink); }
-.key.wide { width: 96px; font-size: 20px; font-family: var(--ui-font); font-weight: 700; }
-.key.tone { width: 82px; font-size: 18px; font-family: var(--ui-font); }
-.key.tone b { font-family: var(--py-font); font-size: 22px; }
-.key.tone.t1 { background: #fdecea; } .key.tone.t2 { background: #fef3e2; }
-.key.tone.t3 { background: #e7f7ee; } .key.tone.t4 { background: #e8f1fe; }
-.key.tone.t0 { background: #f1eef8; }
-.key.ok { background: var(--green); color: #fff; }
-.key.del { background: #ffe1e1; }
+.key .py { font-size: 46px; font-weight: 700; line-height: 1; }
+.key.wide { flex: 1.55; max-width: 140px; font-size: 24px; font-family: var(--ui-font); font-weight: 800; }
+.key.tone { flex: 1.35; max-width: 128px; height: 74px; font-family: var(--ui-font); font-weight: 800; }
+.key.tone .tone-svg-wrap { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.key.tone svg { width: 64px; height: 38px; display: block; }
+.key.tone svg path { stroke-width: 6.5; }
+.key.tone.t1 { background: #fdecea; color: var(--t1); border-color: #f9c6c0; }
+.key.tone.t2 { background: #fef3e2; color: var(--t2); border-color: #fad7a0; }
+.key.tone.t3 { background: #e7f7ee; color: var(--t3); border-color: #a9dfbf; }
+.key.tone.t4 { background: #e8f1fe; color: var(--t4); border-color: #a9cce3; }
+.key.tone.t0 { background: #f1eef8; color: #6c5ce7; border-color: #d6c8f5; font-size: 26px; }
+.key.ok { background: var(--green); color: #fff; border-color: #46b078; }
+.key.del { background: #ffe1e1; color: #c92a2a; border-color: #ffc9c9; }
 .key.pressed, .key:active { transform: translateY(4px); box-shadow: 0 0 0 #d8d1ec; }
 .key.next { background: #ffe066 !important; animation: glow 1s ease-in-out infinite; }
-@keyframes glow { 0%,100% { box-shadow: 0 4px 0 #e0b800, 0 0 0 0 rgba(255,214,0,.6); } 50% { box-shadow: 0 4px 0 #e0b800, 0 0 0 8px rgba(255,214,0,0); } }
+@keyframes glow { 0%,100% { box-shadow: 0 5px 0 #e0b800, 0 0 0 0 rgba(255,214,0,.6); } 50% { box-shadow: 0 5px 0 #e0b800, 0 0 0 8px rgba(255,214,0,0); } }
 
 /* ---------- 声调小精灵 ---------- */
 .tone-song { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
@@ -772,10 +777,12 @@ main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; paddin
 @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
 
 @media (max-width: 760px) {
-  .key { width: 30px; height: 46px; font-size: 18px; border-radius: 10px; }
-  .key.wide { width: 64px; font-size: 15px; }
-  .key.tone { width: 54px; font-size: 13px; }
-  .kb-row { gap: 4px; }
+  .key { min-width: 0; height: 64px; font-size: 36px; border-radius: 14px; }
+  .key .py { font-size: 36px; }
+  .key.wide { font-size: 20px; }
+  .key.tone { height: 64px; font-size: 22px; }
+  .key.tone svg { width: 50px; height: 30px; }
+  .kb-row { gap: 5px; }
   .tone-song, .tone-btns { grid-template-columns: repeat(2, 1fr); }
   .question .bigpy { font-size: 72px; }
   .tzg { width: 150px; height: 150px; }
