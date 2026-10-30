@@ -53,28 +53,28 @@ button, .v-item, .formula-cell, .balloon, .enemy-tank, .maze-cell {
 /* ---------- 顶栏 ---------- */
 .topbar {
   position: sticky; top: 0; z-index: 20;
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 18px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 16px;
   background: rgba(255,255,255,.88);
   backdrop-filter: blur(8px);
   box-shadow: 0 2px 10px rgba(0,0,0,.06);
 }
-.topbar .title { flex: 1; font-size: 22px; font-weight: 900; color: #ff6b35; letter-spacing: 1.5px; }
+.topbar .title { flex: 1; font-size: 20px; font-weight: 900; color: #ff6b35; letter-spacing: 1.5px; }
 .icon-btn {
-  border: none; background: #fff3d6; font-size: 24px; width: 46px; height: 46px; border-radius: 14px;
+  border: none; background: #fff3d6; font-size: 21px; width: 40px; height: 40px; border-radius: 12px;
   box-shadow: 0 3px 0 #f0d48a; transition: transform .1s; display: inline-flex; align-items: center; justify-content: center;
 }
 .icon-btn:active { transform: translateY(3px); box-shadow: none; }
-.star-count { font-size: 20px; font-weight: 800; background: #fff3d6; padding: 8px 14px; border-radius: 14px; cursor: pointer; box-shadow: 0 3px 0 #f0d48a; }
+.star-count { font-size: 18px; font-weight: 800; background: #fff3d6; padding: 6px 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 3px 0 #f0d48a; }
 
-main { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 18px 18px 46px; }
+main { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; padding: 10px 16px 16px; }
 
 /* ---------- 通用组件 ---------- */
-.screen-title { font-size: 28px; font-weight: 900; margin: 8px 0 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.sub { color: #7a7393; font-size: 16px; font-weight: 500; }
+.screen-title { font-size: 24px; font-weight: 900; margin: 4px 0 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sub { color: #7a7393; font-size: 15px; font-weight: 500; }
 .btn {
-  border: none; border-radius: 18px; padding: 13px 24px; font-size: 19px; font-weight: 800; color: #fff;
-  background: var(--orange); box-shadow: 0 5px 0 rgba(0,0,0,.18); transition: transform .1s, filter .15s;
+  border: none; border-radius: 16px; padding: 11px 22px; font-size: 18px; font-weight: 800; color: #fff;
+  background: var(--orange); box-shadow: 0 4px 0 rgba(0,0,0,.18); transition: transform .1s, filter .15s;
 }
 .btn:hover { filter: brightness(1.04); }
 .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 rgba(0,0,0,.18); }
@@ -85,30 +85,30 @@ main { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; paddin
 .btn.teal { background: var(--teal); }
 .btn.red { background: var(--red); }
 .btn.gray { background: #b5afc7; }
-.btn.small { padding: 8px 16px; font-size: 15px; border-radius: 14px; }
+.btn.small { padding: 7px 14px; font-size: 15px; border-radius: 12px; }
 .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 .center { text-align: center; justify-content: center; }
-.card { background: var(--card); border-radius: 26px; padding: 22px; box-shadow: 0 8px 24px rgba(80,60,140,.10); }
+.card { background: var(--card); border-radius: 22px; padding: 16px 18px; box-shadow: 0 6px 20px rgba(80,60,140,.09); }
 .hidden { display: none !important; }
 
 /* ---------- 首页 ---------- */
-.hero { text-align: center; margin: 8px 0 22px; }
-.hero h1 { font-size: 42px; margin: 0; color: #ff6b35; text-shadow: 3px 3px 0 #fff; letter-spacing: 3px; }
-.hero p { font-size: 18px; color: #5f587a; margin: 8px 0 0; font-weight: 600; }
+.hero { text-align: center; margin: 2px 0 12px; }
+.hero h1 { font-size: 32px; margin: 0; color: #ff6b35; text-shadow: 2px 2px 0 #fff; letter-spacing: 3px; }
+.hero p { font-size: 15px; color: #5f587a; margin: 4px 0 0; font-weight: 600; }
 .congcong-banner {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: #fff; padding: 8px 18px; border-radius: 99px; margin-top: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.07); font-size: 15px; color: #4a4366; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; padding: 6px 14px; border-radius: 99px; margin-top: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.07); font-size: 14px; color: #4a4366; font-weight: 700;
 }
 .congcong-avatar {
-  width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #74c0fc, #339af0);
-  display: inline-flex; align-items: center; justify-content: center; font-size: 20px; color: #fff;
+  width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #74c0fc, #339af0);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 17px; color: #fff;
 }
 
-.mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; }
+.mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
 .mode-card {
-  border: none; text-align: left; border-radius: 28px; padding: 22px; color: #fff; min-height: 168px;
-  box-shadow: 0 8px 0 rgba(0,0,0,.15); transition: transform .15s; position: relative; overflow: hidden;
+  border: none; text-align: left; border-radius: 22px; padding: 16px; color: #fff; min-height: 126px;
+  box-shadow: 0 6px 0 rgba(0,0,0,.15); transition: transform .15s; position: relative; overflow: hidden;
 }
 .mode-card:hover { transform: translateY(-4px) rotate(-.4deg); }
 .mode-card:active { transform: translateY(4px); box-shadow: 0 3px 0 rgba(0,0,0,.15); }
@@ -471,7 +471,7 @@ main { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; paddin
 
 /* 1. 算式气球大作战 */
 .balloon-stage {
-  position: relative; height: 420px; border-radius: 26px; overflow: hidden;
+  position: relative; height: calc(100dvh - 310px); min-height: 250px; max-height: 410px; border-radius: 24px; overflow: hidden;
   background: linear-gradient(180deg, #74c7ff 0%, #c9eeff 75%, #9be15d 75%, #5cc68d 100%);
   box-shadow: 0 8px 24px rgba(80,60,140,.12);
 }
@@ -494,7 +494,7 @@ main { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; paddin
 
 /* 2. 坦克口算保卫战 */
 .tank-stage {
-  position: relative; height: 430px; border-radius: 26px; overflow: hidden;
+  position: relative; height: calc(100dvh - 310px); min-height: 250px; max-height: 410px; border-radius: 24px; overflow: hidden;
   background:
     radial-gradient(circle at 20% 25%, rgba(255,255,255,.06) 0 18px, transparent 19px),
     radial-gradient(circle at 75% 55%, rgba(0,0,0,.08) 0 24px, transparent 25px),

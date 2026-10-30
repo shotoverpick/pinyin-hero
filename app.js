@@ -1041,32 +1041,38 @@ function hanziWriteScreen(opts) {
       </div>
 
       <div class="card hw-hanzi-stage">
-        <div class="hw-mode-switch">
-          <button class="cat-tab active" id="modeTrace" type="button">🖌️ 描红跟写（显示字帖轮廓）</button>
-          <button class="cat-tab" id="modeDictate" type="button">🧠 听音默写（隐藏字帖挑战）</button>
+        <div class="hw-hanzi-body">
+          <div class="hw-left-col">
+            <div class="hw-mode-switch">
+              <button class="cat-tab active" id="modeTrace" type="button">🖌️ 描红跟写</button>
+              <button class="cat-tab" id="modeDictate" type="button">🧠 听音默写</button>
+            </div>
+
+            <div class="hw-hanzi-info">
+              <div class="hw-py" id="hzPy"></div>
+              <div class="hw-word" id="hzWord"></div>
+              <button class="speak-btn" id="spk" title="听读音">🔊</button>
+            </div>
+
+            <div class="hw-stroke-status" id="strokeStatus">👆 请拿手写笔在田字格里按笔顺一笔一画写出来</div>
+
+            <div class="row center" style="margin-top:10px;gap:8px">
+              <button class="btn small gray" id="prevChar" type="button">◀ 上一字</button>
+              <button class="btn small blue" id="btnAnimate" type="button">🎬 演示笔顺</button>
+              <button class="btn small orange" id="btnHint" type="button">💡 提示下一笔</button>
+              <button class="btn small purple" id="btnRedo" type="button">🧽 重写</button>
+              <button class="btn small green" id="nextChar" type="button">下一字 ▶</button>
+            </div>
+
+            <div class="hw-char-strip" id="charStrip"></div>
+          </div>
+
+          <div class="hw-right-col">
+            <div class="tzg-writer-wrap">
+              <div class="tzg writer-box" id="writerTarget"></div>
+            </div>
+          </div>
         </div>
-
-        <div class="hw-hanzi-info">
-          <div class="hw-py" id="hzPy"></div>
-          <div class="hw-word" id="hzWord"></div>
-          <button class="speak-btn" id="spk" title="听读音">🔊</button>
-        </div>
-
-        <div class="tzg-writer-wrap">
-          <div class="tzg writer-box" id="writerTarget"></div>
-        </div>
-
-        <div class="hw-stroke-status" id="strokeStatus">👆 请拿手写笔在田字格里按笔顺一笔一画写出来</div>
-
-        <div class="row center" style="margin-top:14px">
-          <button class="btn small gray" id="prevChar" type="button">◀ 上一字</button>
-          <button class="btn small blue" id="btnAnimate" type="button">🎬 演示笔顺</button>
-          <button class="btn small orange" id="btnHint" type="button">💡 提示下一笔</button>
-          <button class="btn small purple" id="btnRedo" type="button">🧽 重写</button>
-          <button class="btn small green" id="nextChar" type="button">下一字 ▶</button>
-        </div>
-
-        <div class="hw-char-strip" id="charStrip"></div>
       </div>
     </div>`;
 
@@ -1216,17 +1222,21 @@ function startRound(opts) {
   R = { ...opts, idx: 0, firstTry: 0, buf: '', tone: null, wrong: 0, reveal: false, locked: false };
   setTitle(opts.title);
   app.innerHTML = `
-    <div class="play-wrap">
+    <div class="play-wrap round-screen">
       <div class="play-head">
         <button class="btn small gray" id="quit">✕</button>
         <div class="progress"><div id="prog"></div></div>
         <div class="pc" id="pc"></div>
       </div>
-      <div class="card question" id="q"></div>
-      <div class="card" style="padding:16px">
-        <div class="answer-box" id="ans"></div>
-        <div class="feedback" id="fb"></div>
-        <div class="tone-tip" id="tip"></div>
+      <div class="round-top-grid">
+        <div class="card question" id="q"></div>
+        <div class="card ans-card">
+          <div class="answer-box" id="ans"></div>
+          <div class="feedback" id="fb"></div>
+          <div class="tone-tip" id="tip"></div>
+        </div>
+      </div>
+      <div class="card kb-card">
         ${inputPanelHtml(opts.requireTone)}
       </div>
     </div>`;
