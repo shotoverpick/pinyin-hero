@@ -1,0 +1,9 @@
+{
+  "name": "一年级小勇士 · 拼音与数学闯关",
+  "short_name": "拼音小勇士",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#b8ecff",
+  "theme_color": "#ff6b35",
+  "orientation": "any"
+}

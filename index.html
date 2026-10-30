@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="拼音小勇士">
+  <link rel="manifest" href="manifest.json">
+  <title>拼音小勇士 · 一年级拼音打字游戏</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sky">
+    <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  </div>
+
+  <header class="topbar">
+    <button class="icon-btn" id="btnHome" title="回到首页">🏠</button>
+    <div class="title" id="topTitle">拼音小勇士</div>
+    <a href="math.html" style="text-decoration:none;background:#339af0;color:#fff;padding:6px 12px;border-radius:999px;font-weight:800;font-size:14px;box-shadow:0 3px 0 #1971c2;white-space:nowrap">🦸‍♂️ 切到数学</a>
+    <div class="star-count" id="starCount" title="我的星星">⭐ 0</div>
+    <button class="icon-btn" id="btnSettings" title="设置">⚙️</button>
+  </header>
+
+  <main id="app"></main>
+
+  <div id="toast" class="toast"></div>
+  <div id="modal" class="modal hidden"></div>
+
+  <script src="hanzi-writer.min.js"></script>
+  <script src="hanzi-data.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
