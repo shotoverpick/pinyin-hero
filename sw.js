@@ -1,10 +1,12 @@
-const CACHE_NAME = 'xiaoyongshi-v3';
+const CACHE_NAME = 'xiaoyongshi-v4';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './data.js',
   './app.js',
+  './hanzi-writer.min.js',
+  './hanzi-data.js',
   './math.html',
   './math-style.css',
   './math-data.js',

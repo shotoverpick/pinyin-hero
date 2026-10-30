@@ -459,6 +459,9 @@ function homeScreen() {
       <button class="mode-card" style="background:linear-gradient(135deg,#4fb3e8,#2f8fd0)" data-go="chars">
         <div class="emoji">🏯</div><h2>识字·阅读·课文闯关</h2><p>第一～八单元全部课文原文 + 语文园地<br>识字表 280 字 + 写字表 100 字</p><div class="big-bg">字</div>
       </button>
+      <button class="mode-card" style="background:linear-gradient(135deg,#e11d48,#be123c)" data-go="write">
+        <div class="emoji">🖌️</div><h2>田字格写汉字</h2><p>课本写字表 100 字 + 识字表 280 字<br>用手写笔一笔一画描红练笔顺！</p><div class="big-bg">写</div>
+      </button>
       <button class="mode-card" style="background:linear-gradient(135deg,#f5a623,#f07f1e)" data-go="tone">
         <div class="emoji">🎵</div><h2>声调小精灵</h2><p>一声平、二声扬<br>三声拐弯、四声降</p><div class="big-bg">ǎ</div>
       </button>
@@ -481,7 +484,7 @@ function homeScreen() {
       <button class="btn gray" data-go="help">👨‍👩‍👦 家长说明</button>
     </div>`;
   app.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => {
-    const m = { pinyin: pinyinListScreen, tone: toneHomeScreen, chars: () => charListScreen('all'), balloon: balloonSetupScreen, duck: duckSetupScreen, pacman: pacmanSetupScreen, tank: tankSetupScreen, mistakes: mistakesScreen, stickers: stickerScreen, help: helpScreen };
+    const m = { pinyin: pinyinListScreen, tone: toneHomeScreen, chars: () => charListScreen('all'), write: hanziWriteListScreen, balloon: balloonSetupScreen, duck: duckSetupScreen, pacman: pacmanSetupScreen, tank: tankSetupScreen, mistakes: mistakesScreen, stickers: stickerScreen, help: helpScreen };
     go(m[b.dataset.go]);
   }));
   app.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
@@ -889,18 +892,21 @@ function charLessonScreen(id) {
   if (writeItems.length) {
     h += `<div class="section-block card write-box">
       <div class="tb-box-head">
-        <span>✍️ 本课写字表（课后田字格要求会写的字 · 共 ${writeItems.length} 个，点字卡听发音）</span>
+        <span>✍️ 本课写字表（课后田字格要求会写的字 · 共 ${writeItems.length} 个，点字卡即可用笔描红）</span>
+        <button class="btn small" style="background:#e11d48" id="mWriteBox">🖌️ 手写笔练写字表</button>
       </div>
       <div class="write-grid">
         ${writeItems.map((c, wi) => `<button class="write-card" data-wi="${wi}">
             <div class="w-py">${renderPy(c.plain, c.tone)}</div>
             <div class="tzg mini"><span class="hz">${c.char}</span></div>
+            <div style="font-size:12px;color:#b45309;margin-top:4px">🖌️ 点我描红</div>
           </button>`).join('')}
       </div>
     </div>`;
   }
 
   h += `<div class="row center" style="margin-top:26px">
+      <button class="btn" style="background:#e11d48" id="mWriteAll">🖌️ 田字格手写练字</button>
       <button class="btn blue" id="mType">⌨️ 打字闯关</button>
       <button class="btn orange" id="mTone">🎵 声调练习</button>
       <button class="btn pink" id="mBalloon">🎈 气球大作战</button>
@@ -924,9 +930,15 @@ function charLessonScreen(id) {
   }));
   const back = () => go(charLessonScreen, id);
   app.querySelectorAll('.write-card[data-wi]').forEach(b => b.addEventListener('click', () => {
-    speak(writeItems[+b.dataset.wi].speak);
-    b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+    go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: +b.dataset.wi, starKey: 'write:' + id, back });
   }));
+  if ($('#mWriteBox')) {
+    $('#mWriteBox').onclick = () => go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: 0, starKey: 'write:' + id, back });
+  }
+  $('#mWriteAll').onclick = () => {
+    const pool = writeItems.length ? writeItems : items;
+    go(hanziWriteScreen, { title: `田字格手写 · ${l.name}`, items: pool, startIdx: 0, starKey: 'write:' + id, back });
+  };
   $('#mType').onclick = () => go(startRound, { title: `打字闯关 · ${l.name}`, items: roundItems(items), requireTone: true, starKey: 'char:' + id, back });
   $('#mTone').onclick = () => {
     const t = items.filter(x => x.tone);
@@ -944,6 +956,248 @@ function roundItems(items) {
   const min = Math.min(S().roundSize, Math.max(6, items.length));
   while (out.length < min) out = out.concat(shuffle(items));
   return out.slice(0, Math.max(min, Math.min(items.length, S().roundSize)));
+}
+
+// ======================= 田字格手写笔练汉字（写字表 100 字 + 识字表 280 字） =======================
+let currentWriteScope = 'write100';
+function hanziWriteListScreen(scope) {
+  if (typeof scope === 'string') currentWriteScope = scope;
+  setTitle('🖌️ 田字格手写汉字');
+
+  let h = `<div class="screen-title">🖌️ 田字格手写汉字 <span class="sub">用手写笔一笔一画练笔顺，写错笔顺会自动提示！</span></div>
+    <div class="cat-tabs">
+      <button class="cat-tab ${currentWriteScope === 'write100' ? 'active' : ''}" data-s="write100">✍️ 课本《写字表》必写 100 字</button>
+      <button class="cat-tab ${currentWriteScope === 'all280' ? 'active' : ''}" data-s="all280">🀄 课本《识字表》全部 280 字</button>
+    </div>`;
+
+  CHAR_UNITS.forEach(u => {
+    const lessonsWithChars = u.lessons.filter(l =>
+      currentWriteScope === 'write100' ? (l.writeChars && l.writeChars.length) : (l.items && l.items.length)
+    );
+    if (!lessonsWithChars.length) return;
+    h += `<div class="unit"><div class="unit-title" style="background:${u.color}">${u.unit}</div><div class="lesson-grid">`;
+    lessonsWithChars.forEach(l => {
+      const list = currentWriteScope === 'write100'
+        ? l.writeChars.map(w => w.split(' ')[0])
+        : LESSON_ITEMS[l.id].map(x => x.char);
+      const st = save.stars['write:' + l.id] || 0;
+      h += `<button class="lesson-card" style="--c:${u.color}" data-id="${l.id}">
+        <div class="ln-row"><span class="ln">${l.name}</span><span class="pg-badge">${l.page || ''}</span></div>
+        <div class="lc" style="font-size:22px;color:#2d2640">🖌️ ${list.join(' ')}</div>
+        <div class="write-preview">共 ${list.length} 个汉字 · 点卡片进入田字格描红</div>
+        ${starsHtml(st)}
+      </button>`;
+    });
+    h += `</div></div>`;
+  });
+
+  app.innerHTML = h;
+  app.querySelectorAll('.cat-tab').forEach(b => b.addEventListener('click', () => go(hanziWriteListScreen, b.dataset.s)));
+  app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => {
+    const l = ALL_LESSONS.find(x => x.id === b.dataset.id);
+    if (!l) return;
+    const writeItems = (l.writeChars || []).map(w => {
+      const [hz, py] = w.split(' ');
+      const found = ALL_CHAR_ITEMS.find(c => c.char === hz);
+      return charItem(`${hz} ${py} ${found ? found.word : hz}`);
+    });
+    const pool = (currentWriteScope === 'write100' && writeItems.length) ? writeItems : LESSON_ITEMS[l.id];
+    go(hanziWriteScreen, {
+      title: `田字格手写 · ${l.name}`,
+      items: pool,
+      startIdx: 0,
+      starKey: 'write:' + l.id,
+      back: () => go(hanziWriteListScreen, currentWriteScope)
+    });
+  }));
+}
+
+function hanziWriteScreen(opts) {
+  const items = opts.items || [];
+  if (!items.length) { opts.back(); return; }
+  let idx = opts.startIdx || 0;
+  let showOutline = true; // true: 描红跟写；false: 听音默写
+  let totalMistakes = 0;
+  let completedCount = 0;
+  let writer = null;
+
+  setTitle('🖌️ ' + opts.title);
+
+  app.innerHTML = `
+    <div class="play-wrap">
+      <div class="play-head">
+        <button class="btn small gray" id="quit">← 返回</button>
+        <div class="progress"><div id="prog"></div></div>
+        <div class="pc" id="pc"></div>
+      </div>
+
+      <div class="card hw-hanzi-stage">
+        <div class="hw-mode-switch">
+          <button class="cat-tab active" id="modeTrace" type="button">🖌️ 描红跟写（显示字帖轮廓）</button>
+          <button class="cat-tab" id="modeDictate" type="button">🧠 听音默写（隐藏字帖挑战）</button>
+        </div>
+
+        <div class="hw-hanzi-info">
+          <div class="hw-py" id="hzPy"></div>
+          <div class="hw-word" id="hzWord"></div>
+          <button class="speak-btn" id="spk" title="听读音">🔊</button>
+        </div>
+
+        <div class="tzg-writer-wrap">
+          <div class="tzg writer-box" id="writerTarget"></div>
+        </div>
+
+        <div class="hw-stroke-status" id="strokeStatus">👆 请拿手写笔在田字格里按笔顺一笔一画写出来</div>
+
+        <div class="row center" style="margin-top:14px">
+          <button class="btn small gray" id="prevChar" type="button">◀ 上一字</button>
+          <button class="btn small blue" id="btnAnimate" type="button">🎬 演示笔顺</button>
+          <button class="btn small orange" id="btnHint" type="button">💡 提示下一笔</button>
+          <button class="btn small purple" id="btnRedo" type="button">🧽 重写</button>
+          <button class="btn small green" id="nextChar" type="button">下一字 ▶</button>
+        </div>
+
+        <div class="hw-char-strip" id="charStrip"></div>
+      </div>
+    </div>`;
+
+  $('#quit').onclick = () => opts.back();
+
+  function renderStrip() {
+    $('#charStrip').innerHTML = items.map((c, i) =>
+      `<button type="button" class="strip-char ${i === idx ? 'active' : ''}" data-i="${i}">${c.char}</button>`
+    ).join('');
+    app.querySelectorAll('.strip-char').forEach(b => b.addEventListener('click', () => {
+      idx = +b.dataset.i;
+      loadChar();
+    }));
+  }
+
+  function loadChar() {
+    const it = items[idx];
+    $('#prog').style.width = ((idx) / items.length * 100) + '%';
+    $('#pc').textContent = `${idx + 1} / ${items.length}`;
+    $('#hzPy').innerHTML = renderPy(it.plain, it.tone);
+    $('#hzWord').innerHTML = it.word ? it.word.replace(it.char, `<b>${it.char}</b>`) : it.char;
+    renderStrip();
+
+    const target = $('#writerTarget');
+    target.innerHTML = '';
+    const strokeData = (window.HANZI_STROKE_DATA || {})[it.char];
+    if (!window.HanziWriter || !strokeData) {
+      target.innerHTML = `<span class="hz">${it.char}</span>`;
+      $('#strokeStatus').textContent = '⚠️ 暂无该字笔顺数据';
+      return;
+    }
+
+    const totalStrokes = strokeData.strokes.length;
+    $('#strokeStatus').className = 'hw-stroke-status';
+    $('#strokeStatus').innerHTML = `共 <b>${totalStrokes}</b> 画 · 请用手写笔写第 <b>1</b> 画`;
+
+    writer = window.HanziWriter.create(target, it.char, {
+      width: 280,
+      height: 280,
+      padding: 16,
+      showOutline: showOutline,
+      showCharacter: false,
+      strokeAnimationSpeed: 1,
+      delayBetweenStrokes: 220,
+      strokeColor: '#1e293b',
+      outlineColor: '#e2e8f0',
+      drawingColor: '#e11d48',
+      drawingWidth: 22,
+      highlightColor: '#3b82f6',
+      showHintAfterMisses: 2,
+      leniency: 1.35,
+      charDataLoader: (ch, onComplete) => onComplete(strokeData)
+    });
+
+    startQuiz(totalStrokes, it);
+    setTimeout(() => speak(it.speak), 200);
+  }
+
+  function startQuiz(totalStrokes, it) {
+    if (!writer) return;
+    writer.quiz({
+      onCorrectStroke: data => {
+        sfx.key();
+        const nextNum = data.strokeNum + 2;
+        if (nextNum <= totalStrokes) {
+          $('#strokeStatus').className = 'hw-stroke-status ok';
+          $('#strokeStatus').innerHTML = `👍 第 ${data.strokeNum + 1} 画写对啦！继续写第 <b>${nextNum}</b> / ${totalStrokes} 画`;
+        }
+      },
+      onMistake: data => {
+        totalMistakes++;
+        sfx.bad();
+        $('#strokeStatus').className = 'hw-stroke-status bad';
+        $('#strokeStatus').innerHTML = `💪 第 <b>${data.strokeNum + 1}</b> 画笔顺或方向不对哦，注意看蓝色闪烁提示！`;
+      },
+      onComplete: summary => {
+        completedCount++;
+        sfx.ok();
+        confetti(12);
+        $('#strokeStatus').className = 'hw-stroke-status win';
+        $('#strokeStatus').innerHTML = `🎉 ${praise()} 「${it.char}」写得真工整！（失误 ${summary.totalMistakes} 次）`;
+        speak(`${praise()} ${it.speak}`);
+        setTimeout(() => {
+          if (idx < items.length - 1) {
+            idx++;
+            loadChar();
+          } else if (completedCount >= items.length) {
+            const stars = totalMistakes <= items.length ? 3 : totalMistakes <= items.length * 3 ? 2 : 1;
+            showResult({
+              stars,
+              starKey: opts.starKey,
+              line: `完成了 ${items.length} 个汉字的田字格手写练习！`,
+              again: () => go(hanziWriteScreen, { ...opts, startIdx: 0 }),
+              back: opts.back
+            });
+          }
+        }, 1600);
+      }
+    });
+  }
+
+  $('#spk').onclick = () => speak(items[idx].speak);
+  $('#modeTrace').onclick = () => {
+    showOutline = true;
+    $('#modeTrace').classList.add('active');
+    $('#modeDictate').classList.remove('active');
+    if (writer) writer.showOutline();
+  };
+  $('#modeDictate').onclick = () => {
+    showOutline = false;
+    $('#modeDictate').classList.add('active');
+    $('#modeTrace').classList.remove('active');
+    if (writer) writer.hideOutline();
+  };
+  $('#btnAnimate').onclick = () => {
+    if (!writer) return;
+    const it = items[idx];
+    const strokeData = (window.HANZI_STROKE_DATA || {})[it.char];
+    $('#strokeStatus').className = 'hw-stroke-status';
+    $('#strokeStatus').innerHTML = `🎬 正在演示「${it.char}」的标准笔顺…`;
+    speak(it.speak);
+    writer.animateCharacter({
+      onComplete: () => {
+        setTimeout(() => {
+          writer.hideCharacter();
+          if (showOutline) writer.showOutline();
+          startQuiz(strokeData ? strokeData.strokes.length : 1, it);
+          $('#strokeStatus').innerHTML = `👆 现在轮到你用手写笔来写「${it.char}」啦！`;
+        }, 500);
+      }
+    });
+  };
+  $('#btnHint').onclick = () => {
+    if (writer && writer._quiz) writer._quiz._hanziWriter.highlightStroke(writer._quiz._currentStrokeIndex);
+  };
+  $('#btnRedo').onclick = () => loadChar();
+  $('#prevChar').onclick = () => { if (idx > 0) { idx--; loadChar(); } };
+  $('#nextChar').onclick = () => { if (idx < items.length - 1) { idx++; loadChar(); } };
+
+  loadChar();
 }
 
 // ======================= 打字闯关核心 =======================
