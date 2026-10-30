@@ -153,7 +153,7 @@ function letterItem(letter) {
 
 // ======================= 存档 =======================
 const SAVE_KEY = 'pinyin-hero-v1';
-const DEFAULT_SETTINGS = { sound: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true, handwrite: true };
+const DEFAULT_SETTINGS = { sound: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
 let save = loadSave();
 function loadSave() {
   try {
@@ -322,7 +322,6 @@ let cleanup = null;        // 离开页面时清理（定时器等）
 function go(render, ...args) {
   if (cleanup) { cleanup(); cleanup = null; }
   keyHandler = null;
-  activeTargetKeysGetter = null;
   if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
   if ('speechSynthesis' in window) speechSynthesis.cancel();
   window.scrollTo(0, 0);
@@ -406,496 +405,10 @@ function keyboardHtml(withTones = true) {
 }
 function bindKeyboard(root) {
   root.querySelectorAll('.key').forEach(b => b.addEventListener('click', () => { if (keyHandler) keyHandler(b.dataset.k); }));
-  bindHandwrite(root);
 }
-
-// ======================= 手写笔作答（拼音字母 + 声调 分开写） =======================
-// 左边 ① 四线三格手写拼音字母（内置离线字母识别 + 候选字条，也可一键切换平板系统随手写框）
-// 右边 ② 声调格一笔画声调（ˉ ˊ ˇ ˋ，完全独立识别，拼音和声调分开写！）
-let activeTargetKeysGetter = null; // 供各游戏注册当前页面可能的目标拼音，辅助儿童手写字母纠错
 
 function inputPanelHtml(withTones = true) {
-  return (S().handwrite ? handwritePanelHtml(withTones) : '') + (S().showKb ? keyboardHtml(withTones) : '');
-}
-
-function handwritePanelHtml(withTones) {
-  return `<div class="hw-panel" data-tone="${withTones ? 1 : 0}">
-    <div class="hw-header">
-      <div class="hw-title">✍️ <b>手写笔作答（拼音和声调分开写）</b>：先在 <b>① 四线格</b> 一笔一笔写拼音字母${withTones ? '，再在 <b>② 声调格</b> 画声调' : ''}</div>
-      <button class="btn small gray hw-mode-btn" type="button" title="在手写画板和系统随手写输入框之间切换">📝 切换系统随手写框</button>
-    </div>
-    <div class="hw-row">
-      <div class="hw-letters">
-        <div class="hw-label">① 写拼音字母 <span class="hw-sub-tip">（每写完 1 个字母停笔即自动识别，可连续写 b → a）</span></div>
-        <div class="hw-canvas-wrap">
-          <canvas class="hw-letter-canvas"></canvas>
-          <input class="hw-input hidden" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="用笔在这里写字母（如 ba）">
-        </div>
-        <div class="hw-cands">
-          <span class="hw-cand-tip">识别候选（点一下可更正刚写的字母）：</span>
-          <div class="hw-cand-list"></div>
-        </div>
-      </div>
-      ${withTones ? `<div class="hw-tone">
-        <div class="hw-label">② 画声调</div>
-        <canvas class="hw-canvas"></canvas>
-        <div class="hw-tone-res">画 ˉ ˊ ˇ ˋ</div>
-      </div>` : ''}
-      <div class="hw-btns">
-        <button class="btn small gray hw-back" type="button">⌫ 删一字</button>
-        <button class="btn small gray hw-clear" type="button">🧽 重写</button>
-        ${withTones ? '<button class="btn small purple hw-light" type="button">0 轻声</button>' : ''}
-        <button class="btn small green hw-ok" type="button">✓ 确定</button>
-      </div>
-    </div>
-  </div>`;
-}
-
-// 预生成 26 个拼音字母 + ü 的多字体标准笔画栅格模板（用于手写字母离线识别）
-const PY_ALPHABET = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'ü', 'v', 'w', 'x', 'y', 'z'];
-let LETTER_TEMPLATES = null;
-function ensureLetterTemplates() {
-  if (LETTER_TEMPLATES) return LETTER_TEMPLATES;
-  LETTER_TEMPLATES = [];
-  const N = 24;
-  const c = document.createElement('canvas');
-  c.width = N; c.height = N;
-  const ctx = c.getContext('2d', { willReadFrequently: true });
-  const fonts = ['bold 20px Futura, "Century Gothic", sans-serif', 'bold 20px "PingFang SC", Arial, sans-serif', 'italic bold 20px Georgia, serif'];
-
-  function rasterToGrid(canvasCtx) {
-    const img = canvasCtx.getImageData(0, 0, N, N).data;
-    let minX = N, minY = N, maxX = 0, maxY = 0, count = 0;
-    for (let y = 0; y < N; y++) {
-      for (let x = 0; x < N; x++) {
-        if (img[(y * N + x) * 4 + 3] > 60) {
-          if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
-          if (y < minY) minY = y;
-          if (y > maxY) maxY = y;
-          count++;
-        }
-      }
-    }
-    if (!count) return null;
-    const bw = Math.max(1, maxX - minX + 1), bh = Math.max(1, maxY - minY + 1);
-    const grid = new Float32Array(16 * 16);
-    for (let gy = 0; gy < 16; gy++) {
-      for (let gx = 0; gx < 16; gx++) {
-        const sx = Math.min(N - 1, Math.floor(minX + (gx + 0.5) / 16 * bw));
-        const sy = Math.min(N - 1, Math.floor(minY + (gy + 0.5) / 16 * bh));
-        grid[gy * 16 + gx] = img[(sy * N + sx) * 4 + 3] > 60 ? 1 : 0;
-      }
-    }
-    return { grid, aspect: bw / bh };
-  }
-
-  PY_ALPHABET.forEach(ch => {
-    fonts.forEach(f => {
-      ctx.clearRect(0, 0, N, N);
-      ctx.fillStyle = '#000';
-      ctx.font = f;
-      ctx.textBaseline = 'middle';
-      ctx.textAlign = 'center';
-      ctx.fillText(ch === 'a' ? 'ɑ' : ch, N / 2, N / 2);
-      const tpl = rasterToGrid(ctx);
-      if (tpl) LETTER_TEMPLATES.push({ ch: ch === 'v' ? 'ü' : ch, ...tpl });
-    });
-  });
-  return LETTER_TEMPLATES;
-}
-
-function recognizePinyinLetter(strokes, expectedNextSet) {
-  if (!strokes || !strokes.length) return [];
-  const tpls = ensureLetterTemplates();
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity, totalPts = 0;
-  strokes.forEach(s => s.forEach(p => {
-    if (p.x < minX) minX = p.x;
-    if (p.x > maxX) maxX = p.x;
-    if (p.y < minY) minY = p.y;
-    if (p.y > maxY) maxY = p.y;
-    totalPts++;
-  }));
-  if (totalPts < 2) return ['i', 'l', 'a', 'o'];
-  const bw = Math.max(8, maxX - minX), bh = Math.max(8, maxY - minY);
-  const aspect = bw / bh;
-
-  // 将手写轨迹光栅化到 16x16 归一化网格（带一点膨胀容差）
-  const N = 24;
-  const off = document.createElement('canvas');
-  off.width = N; off.height = N;
-  const octx = off.getContext('2d', { willReadFrequently: true });
-  octx.strokeStyle = '#000';
-  octx.lineWidth = 3.4;
-  octx.lineCap = 'round';
-  octx.lineJoin = 'round';
-  const scale = 18 / Math.max(bw, bh);
-  const ox = (N - bw * scale) / 2, oy = (N - bh * scale) / 2;
-  strokes.forEach(s => {
-    octx.beginPath();
-    s.forEach((p, idx) => {
-      const x = ox + (p.x - minX) * scale;
-      const y = oy + (p.y - minY) * scale;
-      if (idx === 0) octx.moveTo(x, y); else octx.lineTo(x, y);
-    });
-    if (s.length === 1) octx.lineTo(ox + (s[0].x - minX) * scale + 0.5, oy + (s[0].y - minY) * scale + 0.5);
-    octx.stroke();
-  });
-
-  const img = octx.getImageData(0, 0, N, N).data;
-  let rMinX = N, rMinY = N, rMaxX = 0, rMaxY = 0;
-  for (let y = 0; y < N; y++) {
-    for (let x = 0; x < N; x++) {
-      if (img[(y * N + x) * 4 + 3] > 50) {
-        if (x < rMinX) rMinX = x;
-        if (x > rMaxX) rMaxX = x;
-        if (y < rMinY) rMinY = y;
-        if (y > rMaxY) rMaxY = y;
-      }
-    }
-  }
-  const rbw = Math.max(1, rMaxX - rMinX + 1), rbh = Math.max(1, rMaxY - rMinY + 1);
-  const userGrid = new Float32Array(16 * 16);
-  for (let gy = 0; gy < 16; gy++) {
-    for (let gx = 0; gx < 16; gx++) {
-      const sx = Math.min(N - 1, Math.floor(rMinX + (gx + 0.5) / 16 * rbw));
-      const sy = Math.min(N - 1, Math.floor(rMinY + (gy + 0.5) / 16 * rbh));
-      userGrid[gy * 16 + gx] = img[(sy * N + sx) * 4 + 3] > 50 ? 1 : 0;
-    }
-  }
-
-  // 检测顶部是否有小点（辅助区分 i, j, ü）
-  const shortTopStrokes = strokes.filter(s => {
-    let len = 0, sy = 0;
-    for (let i = 1; i < s.length; i++) len += Math.hypot(s[i].x - s[i - 1].x, s[i].y - s[i - 1].y);
-    s.forEach(p => sy += p.y);
-    sy /= s.length;
-    return len < Math.max(bw, bh) * 0.35 && (sy - minY) < bh * 0.38;
-  }).length;
-
-  const scores = {};
-  tpls.forEach(t => {
-    let dot = 0, na = 0, nb = 0;
-    for (let k = 0; k < 256; k++) {
-      dot += userGrid[k] * t.grid[k];
-      na += userGrid[k] * userGrid[k];
-      nb += t.grid[k] * t.grid[k];
-    }
-    let sim = dot / (Math.sqrt(na * nb) || 1);
-    // 宽高比惩罚
-    sim -= Math.min(0.25, Math.abs(aspect - t.aspect) * 0.14);
-    // 细长竖线优先 l / i
-    if (aspect < 0.35 && (t.ch === 'l' || t.ch === 'i')) sim += 0.25;
-    if (shortTopStrokes >= 2 && t.ch === 'ü') sim += 0.32;
-    else if (shortTopStrokes === 1 && (t.ch === 'i' || t.ch === 'j')) sim += 0.22;
-
-    if (!scores[t.ch] || sim > scores[t.ch]) scores[t.ch] = sim;
-  });
-
-  // 如果当前题目有明确的下一个期望拼音字母，且儿童手写形状相似度在合理范围内，给予智能纠错加成
-  if (expectedNextSet && expectedNextSet.size) {
-    const maxRaw = Math.max(...Object.values(scores));
-    expectedNextSet.forEach(expCh => {
-      const c = expCh === 'v' ? 'ü' : expCh;
-      if (scores[c] !== undefined && scores[c] >= maxRaw - 0.24) {
-        scores[c] += 0.26;
-      }
-    });
-  }
-
-  return Object.entries(scores)
-    .sort((a, b) => b[1] - a[1])
-    .map(e => e[0])
-    .filter((ch, idx, arr) => arr.indexOf(ch) === idx)
-    .slice(0, 6);
-}
-
-// 获取当前题目或当前屏幕上所有目标的“下一个应该写的拼音字母集合”
-function getExpectedNextLetters() {
-  const set = new Set();
-  if (R && R.items && R.items[R.idx]) {
-    const it = R.items[R.idx];
-    const buf = R.buf || '';
-    if (it.key && it.key.startsWith(buf) && buf.length < it.key.length) {
-      set.add(it.key[buf.length]);
-    } else if (it.key && it.key.length) {
-      set.add(it.key[0]);
-    }
-  }
-  if (activeTargetKeysGetter) {
-    try {
-      const { buf, keys } = activeTargetKeysGetter();
-      keys.forEach(k => {
-        if (k.startsWith(buf) && buf.length < k.length) set.add(k[buf.length]);
-      });
-    } catch (e) {}
-  }
-  return set;
-}
-
-// 识别一笔画出的声调：1 平、2 扬、3 拐弯（V）、4 降；很小的一点 → 0 轻声
-function recognizeTone(strokes, size) {
-  const pathLen = s => { let l = 0; for (let i = 1; i < s.length; i++) l += Math.hypot(s[i].x - s[i - 1].x, s[i].y - s[i - 1].y); return l; };
-  let pts = [], best = -1;
-  strokes.forEach(s => { const l = pathLen(s); if (l > best) { best = l; pts = s; } });
-  if (!pts.length) return null;
-  if (best < size * 0.08) return 0;
-  const S0 = pts[0], E = pts[pts.length - 1];
-  let bi = 0;
-  pts.forEach((p, i) => { if (p.y > pts[bi].y) bi = i; });
-  const B = pts[bi], frac = bi / Math.max(1, pts.length - 1);
-  if (frac > 0.12 && frac < 0.88 && B.y - S0.y > size * 0.1 && B.y - E.y > size * 0.1) return 3;
-  let dx = E.x - S0.x, dy = E.y - S0.y;
-  if (dx < 0) { dx = -dx; dy = -dy; } // 从右往左画也能认
-  const ang = Math.atan2(-dy, dx) * 180 / Math.PI; // 往右上为正
-  if (Math.abs(ang) < 25) return 1;
-  return ang > 0 ? 2 : 4;
-}
-
-const TONE_MARK_TEXT = { 0: '轻声', 1: 'ˉ 第 1 声', 2: 'ˊ 第 2 声', 3: 'ˇ 第 3 声', 4: 'ˋ 第 4 声' };
-
-// 把一个 canvas 变成“画声调”的小格子，识别后回调 onTone(t)
-function setupToneCanvas(canvas, resEl, onTone, cssSize = 128) {
-  const dpr = window.devicePixelRatio || 1;
-  canvas.style.width = cssSize + 'px'; canvas.style.height = cssSize + 'px';
-  canvas.width = cssSize * dpr; canvas.height = cssSize * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-  let strokes = [], cur = null, timer = null;
-  const defaultRes = resEl ? resEl.innerHTML : '';
-  function drawGuide() {
-    ctx.clearRect(0, 0, cssSize, cssSize);
-    ctx.save();
-    ctx.strokeStyle = '#f2a3a3'; ctx.setLineDash([5, 5]); ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(0, cssSize / 2); ctx.lineTo(cssSize, cssSize / 2); ctx.stroke();
-    ctx.restore();
-  }
-  function clear() { strokes = []; cur = null; clearTimeout(timer); drawGuide(); if (resEl) { resEl.innerHTML = defaultRes; resEl.className = 'hw-tone-res'; } }
-  const pt = e => { const r = canvas.getBoundingClientRect(); return { x: (e.clientX - r.left) * cssSize / r.width, y: (e.clientY - r.top) * cssSize / r.height }; };
-  canvas.addEventListener('pointerdown', e => {
-    e.preventDefault();
-    clearTimeout(timer);
-    if (canvas.dataset.done === '1') { canvas.dataset.done = ''; clear(); }
-    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-    cur = [pt(e)]; strokes.push(cur);
-    ctx.strokeStyle = '#e11d48'; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.setLineDash([]);
-  });
-  canvas.addEventListener('pointermove', e => {
-    if (!cur) return;
-    e.preventDefault();
-    const p = pt(e), last = cur[cur.length - 1];
-    cur.push(p);
-    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
-  });
-  const end = () => {
-    if (!cur) return;
-    cur = null;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      const t = recognizeTone(strokes, cssSize);
-      canvas.dataset.done = '1';
-      if (t === null) { clear(); return; }
-      if (resEl) { resEl.innerHTML = '✅ ' + TONE_MARK_TEXT[t]; resEl.className = 'hw-tone-res ok t' + t; }
-      sfx.key();
-      onTone(t);
-    }, 340);
-  };
-  canvas.addEventListener('pointerup', end);
-  canvas.addEventListener('pointercancel', end);
-  drawGuide();
-  return { clear };
-}
-
-// 四线三格手写拼音字母画布：孩子用手写笔每写完一个字母，停笔 580ms 自动识别并输入
-function setupLetterCanvas(canvas, candListEl, onLetterRecognized, onReplaceLastLetter) {
-  const cssW = 320, cssH = 128;
-  const dpr = window.devicePixelRatio || 1;
-  canvas.style.width = '100%';
-  canvas.style.maxWidth = cssW + 'px';
-  canvas.style.height = cssH + 'px';
-  canvas.width = cssW * dpr;
-  canvas.height = cssH * dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  let strokes = [], cur = null, timer = null;
-
-  function drawFourLines() {
-    ctx.clearRect(0, 0, cssW, cssH);
-    ctx.save();
-    // 拼音本四线三格
-    const ys = [22, 50, 86, 112];
-    ys.forEach((y, i) => {
-      ctx.strokeStyle = (i === 1 || i === 2) ? '#93c5fd' : '#cbd5e1';
-      ctx.lineWidth = (i === 1 || i === 2) ? 2 : 1.5;
-      ctx.setLineDash(i === 1 || i === 2 ? [] : [5, 5]);
-      ctx.beginPath(); ctx.moveTo(8, y); ctx.lineTo(cssW - 8, y); ctx.stroke();
-    });
-    ctx.fillStyle = 'rgba(148,163,184,0.45)';
-    ctx.font = 'bold 15px "PingFang SC", sans-serif';
-    ctx.fillText('用笔在四线格里写字母 (如 b、a)', 52, 74);
-    ctx.restore();
-  }
-
-  function clearCanvasOnly() {
-    strokes = []; cur = null; clearTimeout(timer);
-    drawFourLines();
-  }
-
-  const pt = e => {
-    const r = canvas.getBoundingClientRect();
-    return { x: (e.clientX - r.left) * cssW / r.width, y: (e.clientY - r.top) * cssH / r.height };
-  };
-
-  canvas.addEventListener('pointerdown', e => {
-    e.preventDefault();
-    clearTimeout(timer);
-    if (canvas.dataset.done === '1') { canvas.dataset.done = ''; clearCanvasOnly(); }
-    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
-    cur = [pt(e)];
-    strokes.push(cur);
-    ctx.strokeStyle = '#1e293b';
-    ctx.lineWidth = 5.5;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.setLineDash([]);
-    ctx.beginPath();
-    ctx.arc(cur[0].x, cur[0].y, 2.2, 0, Math.PI * 2);
-    ctx.fillStyle = '#1e293b';
-    ctx.fill();
-  });
-
-  canvas.addEventListener('pointermove', e => {
-    if (!cur) return;
-    e.preventDefault();
-    const p = pt(e), last = cur[cur.length - 1];
-    cur.push(p);
-    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
-  });
-
-  const end = () => {
-    if (!cur) return;
-    cur = null;
-    clearTimeout(timer);
-    // 停笔 580ms 后识别刚才写的字母（允许 i、j、ü、f、t、x 等多笔字母写完点或横）
-    timer = setTimeout(() => {
-      if (!strokes.length) return;
-      const cands = recognizePinyinLetter(strokes, getExpectedNextLetters());
-      canvas.dataset.done = '1';
-      if (!cands.length) { clearCanvasOnly(); return; }
-      const best = cands[0];
-      onLetterRecognized(best);
-      if (candListEl) {
-        candListEl.innerHTML = cands.map((ch, idx) =>
-          `<button type="button" class="hw-cand-btn ${idx === 0 ? 'picked' : ''}" data-ch="${ch}">${renderPy(ch)}</button>`
-        ).join('');
-        candListEl.querySelectorAll('.hw-cand-btn').forEach(btn => {
-          btn.onclick = () => {
-            candListEl.querySelectorAll('.hw-cand-btn').forEach(b => b.classList.toggle('picked', b === btn));
-            onReplaceLastLetter(btn.dataset.ch);
-          };
-        });
-      }
-      setTimeout(() => { if (canvas.dataset.done === '1') clearCanvasOnly(); }, 350);
-    }, 580);
-  };
-
-  canvas.addEventListener('pointerup', end);
-  canvas.addEventListener('pointercancel', end);
-  drawFourLines();
-  return {
-    clear: () => {
-      clearCanvasOnly();
-      if (candListEl) candListEl.innerHTML = '';
-    }
-  };
-}
-
-function bindHandwrite(root) {
-  const panel = root.querySelector('.hw-panel');
-  if (!panel) return;
-  const withTone = panel.dataset.tone === '1';
-  const letterCanvas = panel.querySelector('.hw-letter-canvas');
-  const input = panel.querySelector('.hw-input');
-  const candListEl = panel.querySelector('.hw-cand-list');
-  const modeBtn = panel.querySelector('.hw-mode-btn');
-  let tonePad = null, letterPad = null;
-
-  const feed = k => { if (keyHandler) keyHandler(k); };
-
-  // 1. 绑定四线三格手写字母画布（每写一个字母，立刻送入 keyHandler）
-  if (letterCanvas) {
-    letterPad = setupLetterCanvas(
-      letterCanvas,
-      candListEl,
-      ch => { feed(ch === 'ü' ? 'v' : ch); },
-      newCh => {
-        feed('Backspace');
-        feed(newCh === 'ü' ? 'v' : newCh);
-      }
-    );
-  }
-
-  // 2. 切换“四线格手写画板”与“系统随手写输入框”
-  if (modeBtn && letterCanvas && input) {
-    modeBtn.onclick = () => {
-      const usingInput = !input.classList.contains('hidden');
-      if (usingInput) {
-        input.classList.add('hidden');
-        letterCanvas.classList.remove('hidden');
-        modeBtn.textContent = '📝 切换系统随手写框';
-      } else {
-        letterCanvas.classList.add('hidden');
-        input.classList.remove('hidden');
-        modeBtn.textContent = '✍️ 切换四线格画板';
-        input.focus();
-      }
-    };
-  }
-
-  // 3. 系统随手写输入框模式（只保留字母，过滤掉声调）
-  const cleanLetters = () => {
-    let s = '';
-    for (const ch of (input ? input.value : '').toLowerCase()) {
-      if (TONE_CHARS[ch]) s += TONE_CHARS[ch][0];
-      else if (/[a-zü]/.test(ch)) s += ch;
-    }
-    return s;
-  };
-  if (input) {
-    input.addEventListener('input', e => {
-      if (e.isComposing) return;
-      const s = cleanLetters();
-      if (input.value !== s) input.value = s;
-      for (let i = 0; i < 10; i++) feed('Backspace');
-      for (const ch of s) feed(ch === 'ü' ? 'v' : ch);
-    });
-    input.addEventListener('compositionend', () => input.dispatchEvent(new Event('input')));
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); feed('Enter'); } });
-  }
-
-  // 4. 绑定右侧独立声调手写格（画完声调立刻送入声调数字 1~4 或 0）
-  const canvas = panel.querySelector('.hw-canvas');
-  if (canvas) {
-    tonePad = setupToneCanvas(canvas, panel.querySelector('.hw-tone-res'), t => {
-      feed(String(t));
-      setTimeout(() => { if (tonePad) tonePad.clear(); }, 650);
-    });
-  }
-
-  function resetAll() {
-    if (input) input.value = '';
-    if (letterPad) letterPad.clear();
-    if (tonePad) tonePad.clear();
-    for (let i = 0; i < 12; i++) feed('Backspace');
-  }
-
-  const backBtn = panel.querySelector('.hw-back');
-  if (backBtn) backBtn.onclick = () => feed('Backspace');
-  panel.querySelector('.hw-clear').onclick = resetAll;
-  panel.querySelector('.hw-ok').onclick = () => feed('Enter');
-  const light = panel.querySelector('.hw-light');
-  if (light) light.onclick = () => feed('0');
+  return S().showKb ? keyboardHtml(withTones) : '';
 }
 function highlightKey(k) {
   document.querySelectorAll('.key.next').forEach(e => e.classList.remove('next'));
@@ -946,9 +459,6 @@ function homeScreen() {
       <button class="mode-card" style="background:linear-gradient(135deg,#4fb3e8,#2f8fd0)" data-go="chars">
         <div class="emoji">🏯</div><h2>识字·阅读·课文闯关</h2><p>第一～八单元全部课文原文 + 语文园地<br>识字表 280 字 + 写字表 100 字</p><div class="big-bg">字</div>
       </button>
-      <button class="mode-card" style="background:linear-gradient(135deg,#e11d48,#be123c)" data-go="write">
-        <div class="emoji">🖌️</div><h2>田字格写汉字</h2><p>课本写字表 100 字 + 识字表 280 字<br>用手写笔一笔一画描红练笔顺！</p><div class="big-bg">写</div>
-      </button>
       <button class="mode-card" style="background:linear-gradient(135deg,#f5a623,#f07f1e)" data-go="tone">
         <div class="emoji">🎵</div><h2>声调小精灵</h2><p>一声平、二声扬<br>三声拐弯、四声降</p><div class="big-bg">ǎ</div>
       </button>
@@ -971,7 +481,7 @@ function homeScreen() {
       <button class="btn gray" data-go="help">👨‍👩‍👦 家长说明</button>
     </div>`;
   app.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => {
-    const m = { pinyin: pinyinListScreen, tone: toneHomeScreen, chars: () => charListScreen('all'), write: hanziWriteListScreen, balloon: balloonSetupScreen, duck: duckSetupScreen, pacman: pacmanSetupScreen, tank: tankSetupScreen, mistakes: mistakesScreen, stickers: stickerScreen, help: helpScreen };
+    const m = { pinyin: pinyinListScreen, tone: toneHomeScreen, chars: () => charListScreen('all'), balloon: balloonSetupScreen, duck: duckSetupScreen, pacman: pacmanSetupScreen, tank: tankSetupScreen, mistakes: mistakesScreen, stickers: stickerScreen, help: helpScreen };
     go(m[b.dataset.go]);
   }));
   app.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
@@ -1379,21 +889,18 @@ function charLessonScreen(id) {
   if (writeItems.length) {
     h += `<div class="section-block card write-box">
       <div class="tb-box-head">
-        <span>✍️ 本课写字表（课后田字格要求会写的字 · 共 ${writeItems.length} 个，点字卡即可用笔描红）</span>
-        <button class="btn small" style="background:#e11d48" id="mWriteBox">🖌️ 手写笔练写字表</button>
+        <span>✍️ 本课写字表（课后田字格要求会写的字 · 共 ${writeItems.length} 个，点字卡听发音）</span>
       </div>
       <div class="write-grid">
         ${writeItems.map((c, wi) => `<button class="write-card" data-wi="${wi}">
             <div class="w-py">${renderPy(c.plain, c.tone)}</div>
             <div class="tzg mini"><span class="hz">${c.char}</span></div>
-            <div style="font-size:12px;color:#b45309;margin-top:4px">🖌️ 点我描红</div>
           </button>`).join('')}
       </div>
     </div>`;
   }
 
   h += `<div class="row center" style="margin-top:26px">
-      <button class="btn" style="background:#e11d48" id="mWriteAll">🖌️ 田字格手写练字</button>
       <button class="btn blue" id="mType">⌨️ 打字闯关</button>
       <button class="btn orange" id="mTone">🎵 声调练习</button>
       <button class="btn pink" id="mBalloon">🎈 气球大作战</button>
@@ -1417,15 +924,9 @@ function charLessonScreen(id) {
   }));
   const back = () => go(charLessonScreen, id);
   app.querySelectorAll('.write-card[data-wi]').forEach(b => b.addEventListener('click', () => {
-    go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: +b.dataset.wi, starKey: 'write:' + id, back });
+    speak(writeItems[+b.dataset.wi].speak);
+    b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
-  if ($('#mWriteBox')) {
-    $('#mWriteBox').onclick = () => go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: 0, starKey: 'write:' + id, back });
-  }
-  $('#mWriteAll').onclick = () => {
-    const pool = writeItems.length ? writeItems : items;
-    go(hanziWriteScreen, { title: `田字格手写 · ${l.name}`, items: pool, startIdx: 0, starKey: 'write:' + id, back });
-  };
   $('#mType').onclick = () => go(startRound, { title: `打字闯关 · ${l.name}`, items: roundItems(items), requireTone: true, starKey: 'char:' + id, back });
   $('#mTone').onclick = () => {
     const t = items.filter(x => x.tone);
@@ -1443,248 +944,6 @@ function roundItems(items) {
   const min = Math.min(S().roundSize, Math.max(6, items.length));
   while (out.length < min) out = out.concat(shuffle(items));
   return out.slice(0, Math.max(min, Math.min(items.length, S().roundSize)));
-}
-
-// ======================= 田字格手写笔练汉字（写字表 100 字 + 识字表 280 字） =======================
-let currentWriteScope = 'write100';
-function hanziWriteListScreen(scope) {
-  if (typeof scope === 'string') currentWriteScope = scope;
-  setTitle('🖌️ 田字格手写汉字');
-
-  let h = `<div class="screen-title">🖌️ 田字格手写汉字 <span class="sub">用手写笔一笔一画练笔顺，写错笔顺会自动提示！</span></div>
-    <div class="cat-tabs">
-      <button class="cat-tab ${currentWriteScope === 'write100' ? 'active' : ''}" data-s="write100">✍️ 课本《写字表》必写 100 字</button>
-      <button class="cat-tab ${currentWriteScope === 'all280' ? 'active' : ''}" data-s="all280">🀄 课本《识字表》全部 280 字</button>
-    </div>`;
-
-  CHAR_UNITS.forEach(u => {
-    const lessonsWithChars = u.lessons.filter(l =>
-      currentWriteScope === 'write100' ? (l.writeChars && l.writeChars.length) : (l.items && l.items.length)
-    );
-    if (!lessonsWithChars.length) return;
-    h += `<div class="unit"><div class="unit-title" style="background:${u.color}">${u.unit}</div><div class="lesson-grid">`;
-    lessonsWithChars.forEach(l => {
-      const list = currentWriteScope === 'write100'
-        ? l.writeChars.map(w => w.split(' ')[0])
-        : LESSON_ITEMS[l.id].map(x => x.char);
-      const st = save.stars['write:' + l.id] || 0;
-      h += `<button class="lesson-card" style="--c:${u.color}" data-id="${l.id}">
-        <div class="ln-row"><span class="ln">${l.name}</span><span class="pg-badge">${l.page || ''}</span></div>
-        <div class="lc" style="font-size:22px;color:#2d2640">🖌️ ${list.join(' ')}</div>
-        <div class="write-preview">共 ${list.length} 个汉字 · 点卡片进入田字格描红</div>
-        ${starsHtml(st)}
-      </button>`;
-    });
-    h += `</div></div>`;
-  });
-
-  app.innerHTML = h;
-  app.querySelectorAll('.cat-tab').forEach(b => b.addEventListener('click', () => go(hanziWriteListScreen, b.dataset.s)));
-  app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => {
-    const l = ALL_LESSONS.find(x => x.id === b.dataset.id);
-    if (!l) return;
-    const writeItems = (l.writeChars || []).map(w => {
-      const [hz, py] = w.split(' ');
-      const found = ALL_CHAR_ITEMS.find(c => c.char === hz);
-      return charItem(`${hz} ${py} ${found ? found.word : hz}`);
-    });
-    const pool = (currentWriteScope === 'write100' && writeItems.length) ? writeItems : LESSON_ITEMS[l.id];
-    go(hanziWriteScreen, {
-      title: `田字格手写 · ${l.name}`,
-      items: pool,
-      startIdx: 0,
-      starKey: 'write:' + l.id,
-      back: () => go(hanziWriteListScreen, currentWriteScope)
-    });
-  }));
-}
-
-function hanziWriteScreen(opts) {
-  const items = opts.items || [];
-  if (!items.length) { opts.back(); return; }
-  let idx = opts.startIdx || 0;
-  let showOutline = true; // true: 描红跟写；false: 听音默写
-  let totalMistakes = 0;
-  let completedCount = 0;
-  let writer = null;
-
-  setTitle('🖌️ ' + opts.title);
-
-  app.innerHTML = `
-    <div class="play-wrap">
-      <div class="play-head">
-        <button class="btn small gray" id="quit">← 返回</button>
-        <div class="progress"><div id="prog"></div></div>
-        <div class="pc" id="pc"></div>
-      </div>
-
-      <div class="card hw-hanzi-stage">
-        <div class="hw-mode-switch">
-          <button class="cat-tab active" id="modeTrace" type="button">🖌️ 描红跟写（显示字帖轮廓）</button>
-          <button class="cat-tab" id="modeDictate" type="button">🧠 听音默写（隐藏字帖挑战）</button>
-        </div>
-
-        <div class="hw-hanzi-info">
-          <div class="hw-py" id="hzPy"></div>
-          <div class="hw-word" id="hzWord"></div>
-          <button class="speak-btn" id="spk" title="听读音">🔊</button>
-        </div>
-
-        <div class="tzg-writer-wrap">
-          <div class="tzg writer-box" id="writerTarget"></div>
-        </div>
-
-        <div class="hw-stroke-status" id="strokeStatus">👆 请拿手写笔在田字格里按笔顺一笔一画写出来</div>
-
-        <div class="row center" style="margin-top:14px">
-          <button class="btn small gray" id="prevChar" type="button">◀ 上一字</button>
-          <button class="btn small blue" id="btnAnimate" type="button">🎬 演示笔顺</button>
-          <button class="btn small orange" id="btnHint" type="button">💡 提示下一笔</button>
-          <button class="btn small purple" id="btnRedo" type="button">🧽 重写</button>
-          <button class="btn small green" id="nextChar" type="button">下一字 ▶</button>
-        </div>
-
-        <div class="hw-char-strip" id="charStrip"></div>
-      </div>
-    </div>`;
-
-  $('#quit').onclick = () => opts.back();
-
-  function renderStrip() {
-    $('#charStrip').innerHTML = items.map((c, i) =>
-      `<button type="button" class="strip-char ${i === idx ? 'active' : ''}" data-i="${i}">${c.char}</button>`
-    ).join('');
-    app.querySelectorAll('.strip-char').forEach(b => b.addEventListener('click', () => {
-      idx = +b.dataset.i;
-      loadChar();
-    }));
-  }
-
-  function loadChar() {
-    const it = items[idx];
-    $('#prog').style.width = ((idx) / items.length * 100) + '%';
-    $('#pc').textContent = `${idx + 1} / ${items.length}`;
-    $('#hzPy').innerHTML = renderPy(it.plain, it.tone);
-    $('#hzWord').innerHTML = it.word ? it.word.replace(it.char, `<b>${it.char}</b>`) : it.char;
-    renderStrip();
-
-    const target = $('#writerTarget');
-    target.innerHTML = '';
-    const strokeData = (window.HANZI_STROKE_DATA || {})[it.char];
-    if (!window.HanziWriter || !strokeData) {
-      target.innerHTML = `<span class="hz">${it.char}</span>`;
-      $('#strokeStatus').textContent = '⚠️ 暂无该字笔顺数据';
-      return;
-    }
-
-    const totalStrokes = strokeData.strokes.length;
-    $('#strokeStatus').className = 'hw-stroke-status';
-    $('#strokeStatus').innerHTML = `共 <b>${totalStrokes}</b> 画 · 请用手写笔写第 <b>1</b> 画`;
-
-    writer = window.HanziWriter.create(target, it.char, {
-      width: 280,
-      height: 280,
-      padding: 16,
-      showOutline: showOutline,
-      showCharacter: false,
-      strokeAnimationSpeed: 1,
-      delayBetweenStrokes: 220,
-      strokeColor: '#1e293b',
-      outlineColor: '#e2e8f0',
-      drawingColor: '#e11d48',
-      drawingWidth: 22,
-      highlightColor: '#3b82f6',
-      showHintAfterMisses: 2,
-      leniency: 1.35,
-      charDataLoader: (ch, onComplete) => onComplete(strokeData)
-    });
-
-    startQuiz(totalStrokes, it);
-    setTimeout(() => speak(it.speak), 200);
-  }
-
-  function startQuiz(totalStrokes, it) {
-    if (!writer) return;
-    writer.quiz({
-      onCorrectStroke: data => {
-        sfx.key();
-        const nextNum = data.strokeNum + 2;
-        if (nextNum <= totalStrokes) {
-          $('#strokeStatus').className = 'hw-stroke-status ok';
-          $('#strokeStatus').innerHTML = `👍 第 ${data.strokeNum + 1} 画写对啦！继续写第 <b>${nextNum}</b> / ${totalStrokes} 画`;
-        }
-      },
-      onMistake: data => {
-        totalMistakes++;
-        sfx.bad();
-        $('#strokeStatus').className = 'hw-stroke-status bad';
-        $('#strokeStatus').innerHTML = `💪 第 <b>${data.strokeNum + 1}</b> 画笔顺或方向不对哦，注意看蓝色闪烁提示！`;
-      },
-      onComplete: summary => {
-        completedCount++;
-        sfx.ok();
-        confetti(12);
-        $('#strokeStatus').className = 'hw-stroke-status win';
-        $('#strokeStatus').innerHTML = `🎉 ${praise()} 「${it.char}」写得真工整！（失误 ${summary.totalMistakes} 次）`;
-        speak(`${praise()} ${it.speak}`);
-        setTimeout(() => {
-          if (idx < items.length - 1) {
-            idx++;
-            loadChar();
-          } else if (completedCount >= items.length) {
-            const stars = totalMistakes <= items.length ? 3 : totalMistakes <= items.length * 3 ? 2 : 1;
-            showResult({
-              stars,
-              starKey: opts.starKey,
-              line: `完成了 ${items.length} 个汉字的田字格手写练习！`,
-              again: () => go(hanziWriteScreen, { ...opts, startIdx: 0 }),
-              back: opts.back
-            });
-          }
-        }, 1600);
-      }
-    });
-  }
-
-  $('#spk').onclick = () => speak(items[idx].speak);
-  $('#modeTrace').onclick = () => {
-    showOutline = true;
-    $('#modeTrace').classList.add('active');
-    $('#modeDictate').classList.remove('active');
-    if (writer) writer.showOutline();
-  };
-  $('#modeDictate').onclick = () => {
-    showOutline = false;
-    $('#modeDictate').classList.add('active');
-    $('#modeTrace').classList.remove('active');
-    if (writer) writer.hideOutline();
-  };
-  $('#btnAnimate').onclick = () => {
-    if (!writer) return;
-    const it = items[idx];
-    const strokeData = (window.HANZI_STROKE_DATA || {})[it.char];
-    $('#strokeStatus').className = 'hw-stroke-status';
-    $('#strokeStatus').innerHTML = `🎬 正在演示「${it.char}」的标准笔顺…`;
-    speak(it.speak);
-    writer.animateCharacter({
-      onComplete: () => {
-        setTimeout(() => {
-          writer.hideCharacter();
-          if (showOutline) writer.showOutline();
-          startQuiz(strokeData ? strokeData.strokes.length : 1, it);
-          $('#strokeStatus').innerHTML = `👆 现在轮到你用手写笔来写「${it.char}」啦！`;
-        }, 500);
-      }
-    });
-  };
-  $('#btnHint').onclick = () => {
-    if (writer && writer._quiz) writer._quiz._hanziWriter.highlightStroke(writer._quiz._currentStrokeIndex);
-  };
-  $('#btnRedo').onclick = () => loadChar();
-  $('#prevChar').onclick = () => { if (idx > 0) { idx--; loadChar(); } };
-  $('#nextChar').onclick = () => { if (idx < items.length - 1) { idx++; loadChar(); } };
-
-  loadChar();
 }
 
 // ======================= 打字闯关核心 =======================
@@ -1902,21 +1161,10 @@ function startToneRound(opts) {
       <div class="feedback" id="fb"></div>
       <div class="tone-btns">${[1, 2, 3, 4].map(t => `<button class="tone-btn t${t}" data-t="${t}">${TONE_SVG[t]}<span class="num">${t}</span>${TONE_NAMES[t]}</button>`).join('')}</div>
       <p class="sub" style="text-align:center">可以点按钮，也可以按键盘上的数字 1 2 3 4</p>
-      ${S().handwrite ? `<div class="hw-panel hw-solo">
-        <div class="hw-title">✍️ 也可以用手写笔在格子里<b>画声调</b>（ˉ ˊ ˇ ˋ）</div>
-        <canvas class="hw-canvas" id="toneCanvas"></canvas>
-        <div class="hw-tone-res">在这里画声调</div>
-      </div>` : ''}
     </div>`;
   $('#quit').onclick = () => opts.back();
   app.querySelectorAll('.tone-btn').forEach(b => b.addEventListener('click', () => toneAnswer(+b.dataset.t)));
   keyHandler = k => { if (/^[1-4]$/.test(k)) toneAnswer(+k); };
-  if ($('#toneCanvas')) {
-    const pad = setupToneCanvas($('#toneCanvas'), app.querySelector('.hw-solo .hw-tone-res'), t => {
-      if (t >= 1) toneAnswer(t); else toast('这道题要画 ˉ ˊ ˇ ˋ 里的一个哦');
-      setTimeout(() => pad.clear(), 900);
-    }, 150);
-  }
   toneQuestion();
 }
 function toneQuestion() {
@@ -2170,7 +1418,6 @@ function balloonGame(opts) {
   }
 
   keyHandler = onKey;
-  activeTargetKeysGetter = () => ({ buf: G.buf, keys: G.balloons.map(b => b.it.key) });
   $('#go').onclick = begin;
   cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); };
   drawHUD();
@@ -2458,7 +1705,6 @@ function duckGame(opts) {
   }
 
   keyHandler = onKey;
-  activeTargetKeysGetter = () => ({ buf: G.buf, keys: G.ducks.map(d => d.it.key) });
   $('#go').onclick = begin;
   cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); clearTimeout(houndTimer); };
   drawHUD();
@@ -2910,7 +2156,6 @@ function pacmanGame(opts) {
   }
 
   keyHandler = onKey;
-  activeTargetKeysGetter = () => ({ buf: G.buf, keys: G.beans.map(b => b.it.key) });
   $('#go').onclick = begin;
   cleanup = () => { G.running = false; clearInterval(G.ghostTimer); G.stepTimers.forEach(clearTimeout); };
   drawHUD();
@@ -3215,7 +2460,6 @@ function tankGame(opts) {
   }
 
   keyHandler = onKey;
-  activeTargetKeysGetter = () => ({ buf: G.buf, keys: G.tanks.map(t => t.it.key) });
   $('#go').onclick = begin;
   cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); };
   drawHUD();
@@ -3286,7 +2530,6 @@ function settingsModal() {
     </div>
     <div class="setting-row"><span>🐢 朗读速度</span><input type="range" id="sRate" min="0.5" max="1.2" step="0.1" value="${s.rate}"></div>
     <div class="setting-row"><span>🎈 气球/野鸭飞行速度</span>${speedSelectHtml('sGameSpeed')}</div>
-    <div class="setting-row"><span>✍️ 手写笔作答板（字母、声调分开写）</span><label class="switch"><input type="checkbox" id="sHw" ${s.handwrite ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>⌨️ 显示屏幕键盘</span><label class="switch"><input type="checkbox" id="sKb" ${s.showKb ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>✨ 键盘闪烁提示下一个键</span><label class="switch"><input type="checkbox" id="sKbHint" ${s.kbHint ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>👀 汉字闯关时显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="sPy" ${s.pyHint ? 'checked' : ''}><span></span></label></div>
@@ -3300,7 +2543,6 @@ function settingsModal() {
     s.sound = $('#sSound').checked; s.voiceEngine = $('#sVoice').value; s.rate = +$('#sRate').value;
     s.gameSpeed = $('#sGameSpeed').value; s.showKb = $('#sKb').checked;
     s.kbHint = $('#sKbHint').checked; s.pyHint = $('#sPy').checked; s.roundSize = +$('#sSize').value;
-    s.handwrite = $('#sHw').checked;
     persist(); m.classList.add('hidden');
   };
   $('#sClose').onclick = close;
