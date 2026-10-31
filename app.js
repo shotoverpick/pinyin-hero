@@ -3149,6 +3149,15 @@ function settingsModal() {
 $('#btnHome').onclick = () => go(homeScreen);
 $('#btnSettings').onclick = settingsModal;
 $('#starCount').onclick = () => go(stickerScreen);
+const switchBtn = $('#btnSwitchGame');
+if (switchBtn) {
+  switchBtn.onclick = e => {
+    if (window.top && window.top !== window) {
+      e.preventDefault();
+      window.top.postMessage('switch:math', '*');
+    }
+  };
+}
 updateStarCount();
 go(homeScreen);
 

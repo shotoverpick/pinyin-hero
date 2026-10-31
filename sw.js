@@ -1,7 +1,9 @@
-const CACHE_NAME = 'xiaoyongshi-v7';
+const CACHE_NAME = 'xiaoyongshi-v8';
 const ASSETS = [
   './',
   './index.html',
+  './all.html',
+  './combo.html',
   './style.css',
   './data.js',
   './app.js',

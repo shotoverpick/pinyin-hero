@@ -2894,6 +2894,15 @@ $('#btnHome').onclick = () => go(homeScreen);
 $('#btnLab').onclick = () => go(labScreen);
 $('#btnSettings').onclick = settingsModal;
 $('#starCount').onclick = () => go(stickerScreen);
+const switchBtn = $('#btnSwitchGame');
+if (switchBtn) {
+  switchBtn.onclick = e => {
+    if (window.top && window.top !== window) {
+      e.preventDefault();
+      window.top.postMessage('switch:pinyin', '*');
+    }
+  };
+}
 updateStarCount();
 go(homeScreen);
 

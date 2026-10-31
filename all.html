@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="一年级小勇士">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <title>一年级小勇士 · 拼音+数学二合一</title>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0; width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: #b8ecff;
+    }
+    .switch-bar {
+      height: 48px;
+      background: linear-gradient(90deg, #ff6b35 0%, #f7931e 48%, #339af0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+      position: relative;
+      z-index: 9999;
+    }
+    .sw-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 22px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      transition: all .18s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.18);
+    }
+    .sw-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-1px);
+    }
+    .sw-btn:active {
+      transform: translateY(1px);
+    }
+    .sw-btn.active {
+      background: #ffffff;
+      color: #d9480f;
+      box-shadow: 0 3px 10px rgba(0,0,0,.22);
+      transform: scale(1.04);
+      text-shadow: none;
+    }
+    .sw-btn.math.active {
+      color: #1971c2;
+    }
+    .game-frame {
+      width: 100%;
+      height: calc(100% - 48px);
+      border: none;
+      display: block;
+      background: #b8ecff;
+    }
+  </style>
+</head>
+<body>
+  <div class="switch-bar">
+    <button id="btnPinyin" class="sw-btn active" onclick="switchGame('pinyin')">🔤 语文 · 拼音小勇士</button>
+    <button id="btnMath" class="sw-btn math" onclick="switchGame('math')">🦸‍♂️ 数学 · 数学小勇士</button>
+  </div>
+  <iframe id="pinyinFrame" class="game-frame" src="index.html" allow="autoplay"></iframe>
+  <iframe id="mathFrame" class="game-frame" src="math.html" allow="autoplay" style="display:none"></iframe>
+
+  <script>
+    const pinyinFrame = document.getElementById('pinyinFrame');
+    const mathFrame = document.getElementById('mathFrame');
+    const btnPinyin = document.getElementById('btnPinyin');
+    const btnMath = document.getElementById('btnMath');
+
+    function switchGame(which) {
+      const isPinyin = which === 'pinyin';
+      btnPinyin.classList.toggle('active', isPinyin);
+      btnMath.classList.toggle('active', !isPinyin);
+      pinyinFrame.style.display = isPinyin ? 'block' : 'none';
+      mathFrame.style.display = isPinyin ? 'none' : 'block';
+      if (history.replaceState) history.replaceState(null, '', '#' + which);
+
+      // 切换标签时静音非活动游戏
+      try {
+        if (isPinyin && mathFrame.contentWindow) {
+          if (mathFrame.contentWindow.speechSynthesis) mathFrame.contentWindow.speechSynthesis.cancel();
+          const mathAudio = mathFrame.contentDocument.querySelector('audio');
+          if (mathAudio) mathAudio.pause();
+        } else if (!isPinyin && pinyinFrame.contentWindow) {
+          if (pinyinFrame.contentWindow.speechSynthesis) pinyinFrame.contentWindow.speechSynthesis.cancel();
+          const pyAudio = pinyinFrame.contentDocument.querySelector('audio');
+          if (pyAudio) pyAudio.pause();
+        }
+      } catch (e) {}
+    }
+
+    window.addEventListener('load', () => {
+      if (location.hash === '#math') switchGame('math');
+    });
+
+    // 接收子 iframe 内点击顶栏跳转时的事件，平滑原地切换
+    window.addEventListener('message', e => {
+      if (e.data === 'switch:math') switchGame('math');
+      if (e.data === 'switch:pinyin') switchGame('pinyin');
+    });
+
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
