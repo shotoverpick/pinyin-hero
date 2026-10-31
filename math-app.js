@@ -1,5 +1,5 @@
 /* 数学小勇士 —— 人教版一年级数学上册（2024新版）同步闯关与加减法游戏
- * 支持：键盘直接输入数字（0~20智能匹配）/ 屏幕一键盘点按 / 凑十法动态图解 / 真人语音播报
+ * 支持：键盘直接输入数字（0~20智能匹配）/ 屏幕一键盘点按 / 凑十法动态图解 / 统一神经网络TTS配音
  */
 (() => {
 'use strict';
@@ -8,7 +8,8 @@
 const SAVE_KEY = 'math-hero-v1';
 const DEFAULT_SETTINGS = {
   sound: true,
-  voiceEngine: 'human_zh',
+  voiceEngine: 'teacher',
+  voiceProfileVersion: 3,
   rate: 0.9,
   gameSpeed: 'slow',
   autoHint: true,
@@ -20,6 +21,7 @@ let save = loadSave();
 function loadSave() {
   try {
     const s = JSON.parse(localStorage.getItem(SAVE_KEY)) || {};
+    const settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}), voiceEngine: 'teacher', voiceProfileVersion: 3 };
     return {
       stars: s.stars || {},
       mistakes: s.mistakes || {},
@@ -28,7 +30,7 @@ function loadSave() {
       mazeBest: s.mazeBest || 0,
       rocketBest: s.rocketBest || 0,
       bonus: s.bonus || 0,
-      settings: { ...DEFAULT_SETTINGS, ...(s.settings || {}) }
+      settings
     };
   } catch (e) {
     return { stars: {}, mistakes: {}, balloonBest: 0, tankBest: 0, mazeBest: 0, rocketBest: 0, bonus: 0, settings: { ...DEFAULT_SETTINGS } };
@@ -71,40 +73,10 @@ function reduceMistake(key) {
 }
 
 // ======================= 语音与音效 =======================
-let zhVoice = null;
-function loadVoices() {
-  if (!('speechSynthesis' in window)) return;
-  const vs = speechSynthesis.getVoices();
-  zhVoice = vs.find(v => /zh[-_]CN/i.test(v.lang) && /Xiaoxiao|Yunxi|Premium|Enhanced|优化|增强|Siri/i.test(v.name))
-    || vs.find(v => /zh[-_]CN/i.test(v.lang) && /Tingting|婷婷|Lili|莉莉/i.test(v.name))
-    || vs.find(v => /zh[-_]CN/i.test(v.lang))
-    || vs.find(v => /^zh/i.test(v.lang)) || null;
-}
-if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
-
 function mathToSpeechText(str) {
-  return String(str || '')
-    .replace(/<[^>]+>/g, '')
-    .replace(/\+/g, '加')
-    .replace(/-/g, '减')
-    .replace(/=/g, '等于')
-    .replace(/>/g, '大于')
-    .replace(/</g, '小于')
-    .replace(/□|\?/g, '几')
-    .replace(/\s+/g, ' ');
+  return String(str || '').replace(/<[^>]+>/g, '').replace(/\+/g, '加').replace(/-/g, '减')
+    .replace(/=/g, '等于').replace(/>/g, '大于').replace(/</g, '小于').replace(/□|\?/g, '几').replace(/\s+/g, ' ');
 }
-
-let currentAudio = null;
-let sharedAudio = null;
-function ensureSharedAudio() {
-  if (!sharedAudio) {
-    sharedAudio = new Audio();
-    sharedAudio.referrerPolicy = 'no-referrer';
-    sharedAudio.playsInline = true;
-  }
-  return sharedAudio;
-}
-
 let actx = null;
 function ensureAudioContext() {
   const Ctx = window.AudioContext || window.webkitAudioContext;
@@ -123,144 +95,15 @@ function ensureAudioContext() {
   return actx;
 }
 
-let sharedAudioUnlocked = false;
-function keepAudioAlive() {
-  try {
-    const ctx = ensureAudioContext();
-    if (ctx && !keepAudioAlive._oscWarmed && ctx.state === 'running') {
-      keepAudioAlive._oscWarmed = true;
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      g.gain.value = 0.0001;
-      o.connect(g).connect(ctx.destination);
-      o.start(0);
-      o.stop(ctx.currentTime + 0.01);
-    }
-  } catch (e) {}
-  if (!sharedAudioUnlocked) {
-    sharedAudioUnlocked = true;
-    try {
-      const a = ensureSharedAudio();
-      a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-      const p = a.play();
-      if (p && p.catch) p.catch(() => {});
-    } catch (e) {}
-  }
-  if ('speechSynthesis' in window && speechSynthesis.paused) {
-    try { speechSynthesis.resume(); } catch (e) {}
-  }
-}
-['touchstart', 'pointerdown', 'mousedown', 'keydown'].forEach(ev =>
-  document.addEventListener(ev, keepAudioAlive, { passive: true })
-);
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) ensureAudioContext();
-});
-window.addEventListener('pageshow', () => ensureAudioContext());
-
-const activeUtterances = [];
-function speakLocal(text) {
-  if (!S().sound || !text || !('speechSynthesis' in window)) return;
-  try {
-    speechSynthesis.cancel();
-    if (speechSynthesis.paused) speechSynthesis.resume();
-    const u = new SpeechSynthesisUtterance(mathToSpeechText(text));
-    u.lang = 'zh-CN';
-    if (!zhVoice) loadVoices();
-    if (zhVoice) u.voice = zhVoice;
-    u.rate = S().rate || 0.9;
-    if (activeUtterances.length > 8) activeUtterances.shift();
-    activeUtterances.push(u);
-    const cleanupU = () => {
-      const idx = activeUtterances.indexOf(u);
-      if (idx !== -1) activeUtterances.splice(idx, 1);
-    };
-    u.onend = cleanupU;
-    u.onerror = cleanupU;
-    speechSynthesis.speak(u);
-    if (speechSynthesis.paused) speechSynthesis.resume();
-  } catch (e) {}
-}
-
-function getHumanTtsUrls(text, engine, rate) {
-  const clean = mathToSpeechText(text);
-  const q = encodeURIComponent(clean);
-  const spd = Math.max(2, Math.min(7, Math.round(rate * 5)));
-  const baiduUrl = `https://fanyi.baidu.com/gettts?lan=zh&text=${q}&spd=${spd}&source=web`;
-  const googleSpd = rate < 0.85 ? '0.6' : '1';
-  const googleUrl = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${q}&tl=zh-CN&client=tw-ob&ttsspeed=${googleSpd}`;
-  return engine === 'human_google' ? [googleUrl, baiduUrl] : [baiduUrl, googleUrl];
-}
-
-let speakSeq = 0;
-
-function stopAllSpeech() {
-  speakSeq++;
-  if (currentAudio) {
-    try {
-      currentAudio.onplaying = null;
-      currentAudio.onerror = null;
-      currentAudio.pause();
-    } catch (e) {}
-  }
-  if ('speechSynthesis' in window) {
-    try { speechSynthesis.cancel(); } catch (e) {}
-  }
-}
-
-// 标准真人人声播报：默认使用播音员甜美女声，绝不自动降级到机器音
+function stopAllSpeech() { window.TeacherVoice.stop(); }
 function speak(text) {
   if (!S().sound || !text) return;
-  const mySeq = ++speakSeq;
-  if (currentAudio) {
-    try {
-      currentAudio.onplaying = null;
-      currentAudio.onerror = null;
-      currentAudio.pause();
-    } catch (e) {}
-  }
-  if ('speechSynthesis' in window) {
-    try { speechSynthesis.cancel(); } catch (e) {}
-  }
-
-  const engine = S().voiceEngine || 'human_zh';
-  // 只有在设置里明确选了“本地离线语音”才使用系统合成
-  if (engine === 'local') {
-    speakLocal(text);
-    return;
-  }
-
-  const urls = getHumanTtsUrls(text, engine, S().rate);
-  let idx = 0;
-  function tryNext() {
-    if (mySeq !== speakSeq) return;
-    if (idx >= urls.length) {
-      // 网络TTS不可用时，自动优雅兜底至本地真人发音引擎，确保绝不静音
-      speakLocal(text);
-      return;
-    }
-    const audio = ensureSharedAudio();
-    audio.referrerPolicy = 'no-referrer';
-    audio.src = urls[idx++];
-    audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
-    currentAudio = audio;
-    audio.onerror = () => {
-      if (mySeq === speakSeq) {
-        if (idx < urls.length) tryNext();
-        else speakLocal(text);
-      }
-    };
-    const p = audio.play();
-    if (p && p.catch) {
-      p.catch(err => {
-        if (err && err.name === 'AbortError') return;
-        if (mySeq === speakSeq) {
-          if (idx < urls.length) tryNext();
-          else speakLocal(text);
-        }
-      });
-    }
-  }
-  tryNext();
+  window.TeacherVoice.speak(mathToSpeechText(text), {
+    enabled: () => S().sound,
+    rate: Math.max(0.7, Math.min(1.5, (S().rate || 0.9) / 0.9)),
+    onerror: () => toast('老师配音暂时无法播放，请再点一次 🔊'),
+    onmissing: () => toast('这句老师配音尚未准备好')
+  });
 }
 
 function beep(notes, type = 'sine', vol = 0.22) {
@@ -302,9 +145,7 @@ let cleanup = null;
 function go(render, ...args) {
   if (cleanup) { cleanup(); cleanup = null; }
   keyHandler = null;
-  speakSeq++;
-  if (currentAudio) { try { currentAudio.pause(); } catch (e) {} }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  stopAllSpeech();
   window.scrollTo(0, 0);
   render(...args);
 }
@@ -1372,7 +1213,7 @@ function homeScreen() {
       <button class="btn purple" data-go="mistakes">📒 错题本 ${mc ? `(${mc})` : ''}</button>
       <button class="btn blue" data-go="stickers">🏆 我的贴纸 (${stickerCount()}/${STICKERS.length})</button>
       <button class="btn gray" data-go="help">👨‍👩‍👦 家长说明</button>
-      <a class="btn teal" href="点击开始玩-拼音小勇士.html" style="text-decoration:none">🔤 去玩拼音小勇士</a>
+      <a class="btn teal" href="index.html" style="text-decoration:none">🔤 去玩拼音小勇士</a>
     </div>`;
 
   const modeAnnounce = {
@@ -2856,16 +2697,13 @@ function helpScreen() {
 
 function settingsModal() {
   const s = S();
-  const eng = s.voiceEngine || 'human_zh';
+  const eng = 'teacher';
   const m = $('#modal');
   m.innerHTML = `<div class="card">
     <h2 style="margin-top:0">⚙️ 设置 <span class="sub" style="font-size:14px">（修改后立即生效）</span></h2>
     <div class="setting-row"><span>🔊 声音和语音读题</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>🎙️ 配音音色</span>
-      <select id="sVoice">
-        <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·标准人声）</option>
-        <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·标准人声）</option>
-        <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 平板/电脑本地离线语音</option>
+      <select id="sVoice"><option value="teacher" selected>温柔女老师（统一 TTS 配音）</option>
       </select>
     </div>
     <div class="setting-row"><span>🐢 朗读语速</span><input type="range" id="sRate" min="0.6" max="1.2" step="0.1" value="${s.rate}"></div>

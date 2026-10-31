@@ -1,4 +1,4 @@
-const CACHE_NAME = 'xiaoyongshi-v12';
+const CACHE_NAME = 'xiaoyongshi-v16';
 const ASSETS = [
   './',
   './index.html',
@@ -6,14 +6,16 @@ const ASSETS = [
   './combo.html',
   './style.css',
   './data.js',
-  './key-audio-data.js',
-  './app.js',
+  './pinyin-audio-data.js?v=tts3',
+  './teacher-voice-data.js?v=tts3',
+  './teacher-voice-player.js?v=tts3',
+  './app.js?v=tts3',
   './hanzi-writer.min.js',
   './hanzi-data.js',
   './math.html',
   './math-style.css',
   './math-data.js',
-  './math-app.js',
+  './math-app.js?v=tts3',
   './manifest.json'
 ];
 

@@ -159,12 +159,15 @@ function letterItem(letter) {
 
 // ======================= 存档 =======================
 const SAVE_KEY = 'pinyin-hero-v1';
-const DEFAULT_SETTINGS = { sound: true, keyVoice: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
+const DEFAULT_SETTINGS = { sound: true, keyVoice: true, voiceEngine: 'teacher', voiceProfileVersion: 3, rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
 let save = loadSave();
 function loadSave() {
   try {
     const s = JSON.parse(localStorage.getItem(SAVE_KEY)) || {};
-    return { stars: s.stars || {}, mistakes: s.mistakes || {}, balloonBest: s.balloonBest || 0, duckBest: s.duckBest || 0, pacBest: s.pacBest || 0, tankBest: s.tankBest || 0, settings: { ...DEFAULT_SETTINGS, ...(s.settings || {}) }, bonus: s.bonus || 0 };
+    const settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
+    // 本次音色升级覆盖旧版自动/在线选择，保留学习进度及其他偏好。
+    settings.voiceEngine = 'teacher'; settings.voiceProfileVersion = 3;
+    return { stars: s.stars || {}, mistakes: s.mistakes || {}, balloonBest: s.balloonBest || 0, duckBest: s.duckBest || 0, pacBest: s.pacBest || 0, tankBest: s.tankBest || 0, settings, bonus: s.bonus || 0 };
   } catch (e) { return { stars: {}, mistakes: {}, balloonBest: 0, duckBest: 0, pacBest: 0, tankBest: 0, settings: { ...DEFAULT_SETTINGS }, bonus: 0 }; }
 }
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} updateStarCount(); }
@@ -186,28 +189,6 @@ function reduceMistake(item) {
 }
 
 // ======================= 声音与按键发音 =======================
-let zhVoice = null;
-function loadVoices() {
-  if (!('speechSynthesis' in window)) return;
-  const vs = speechSynthesis.getVoices();
-  zhVoice = vs.find(v => /zh[-_]CN/i.test(v.lang) && /Xiaoxiao|Yunxi|Premium|Enhanced|优化|增强|Siri/i.test(v.name))
-    || vs.find(v => /zh[-_]CN/i.test(v.lang) && /Tingting|婷婷|Lili|莉莉/i.test(v.name))
-    || vs.find(v => /zh[-_]CN/i.test(v.lang))
-    || vs.find(v => /^zh/i.test(v.lang)) || null;
-}
-if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
-
-let currentAudio = null;
-let sharedAudio = null;
-function ensureSharedAudio() {
-  if (!sharedAudio) {
-    sharedAudio = new Audio();
-    sharedAudio.referrerPolicy = 'no-referrer';
-    sharedAudio.playsInline = true;
-  }
-  return sharedAudio;
-}
-
 let actx = null;
 function ensureAudioContext() {
   const Ctx = window.AudioContext || window.webkitAudioContext;
@@ -227,93 +208,9 @@ function ensureAudioContext() {
   return actx;
 }
 
-// 持续保活监听器：每次触摸、点击、按键都检查并恢复 iPad Safari 音频上下文与语音引擎
-let sharedAudioUnlocked = false;
-function keepAudioAlive() {
-  try {
-    const ctx = ensureAudioContext();
-    if (ctx && !keepAudioAlive._oscWarmed && ctx.state === 'running') {
-      keepAudioAlive._oscWarmed = true;
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      g.gain.value = 0.0001;
-      o.connect(g).connect(ctx.destination);
-      o.start(0);
-      o.stop(ctx.currentTime + 0.01);
-    }
-  } catch (e) {}
-  if (!sharedAudioUnlocked) {
-    sharedAudioUnlocked = true;
-    try {
-      const a = ensureSharedAudio();
-      a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-      const p = a.play();
-      if (p && p.catch) p.catch(() => {});
-    } catch (e) {}
-  }
-  initKeyAudios();
-  if ('speechSynthesis' in window && speechSynthesis.paused) {
-    try { speechSynthesis.resume(); } catch (e) {}
-  }
-}
-['touchstart', 'pointerdown', 'mousedown', 'keydown'].forEach(ev =>
-  document.addEventListener(ev, keepAudioAlive, { passive: true })
-);
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) ensureAudioContext();
-});
-window.addEventListener('pageshow', () => ensureAudioContext());
-
-// 保存活跃的 SpeechSynthesisUtterance 引用，防止 Safari 垃圾回收导致朗读中途静默
-const activeUtterances = [];
-function speakLocal(text) {
-  if (!S().sound || !text || !('speechSynthesis' in window)) return;
-  try {
-    speechSynthesis.cancel();
-    if (speechSynthesis.paused) speechSynthesis.resume();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'zh-CN';
-    if (!zhVoice) loadVoices();
-    if (zhVoice) u.voice = zhVoice;
-    u.rate = S().rate || 0.8;
-    if (activeUtterances.length > 8) activeUtterances.shift();
-    activeUtterances.push(u);
-    const cleanupU = () => {
-      const idx = activeUtterances.indexOf(u);
-      if (idx !== -1) activeUtterances.splice(idx, 1);
-    };
-    u.onend = cleanupU;
-    u.onerror = cleanupU;
-    speechSynthesis.speak(u);
-    if (speechSynthesis.paused) speechSynthesis.resume();
-  } catch (e) {}
-}
-
-function getHumanTtsUrls(text, engine, rate) {
-  const q = encodeURIComponent(text);
-  const spd = Math.max(2, Math.min(7, Math.round(rate * 5)));
-  const baiduUrl = `https://fanyi.baidu.com/gettts?lan=zh&text=${q}&spd=${spd}&source=web`;
-  const googleSpd = rate < 0.85 ? '0.6' : '1';
-  const googleUrl = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${q}&tl=zh-CN&client=tw-ob&ttsspeed=${googleSpd}`;
-  return engine === 'human_google' ? [googleUrl, baiduUrl] : [baiduUrl, googleUrl];
-}
-
 let speakSeq = 0;
-
-function stopAllSpeech() {
-  speakSeq++;
-  if (currentAudio) {
-    try {
-      currentAudio.onplaying = null;
-      currentAudio.onerror = null;
-      currentAudio.pause();
-    } catch (e) {}
-  }
-  if ('speechSynthesis' in window) {
-    try { speechSynthesis.cancel(); } catch (e) {}
-  }
-}
-
-// ======================= 键盘按键与拼音标准真人发音 =======================
+function stopAllSpeech() { speakSeq++; window.TeacherVoice.stop(); }
+// ======================= 键盘按键与拼音统一TTS发音 =======================
 const KEY_SAY = {
   a: '啊', b: '玻', c: '雌', d: '得', e: '鹅', f: '佛', g: '哥', h: '喝',
   i: '衣', j: '鸡', k: '科', l: '勒', m: '摸', n: '讷', o: '喔', p: '坡',
@@ -334,141 +231,126 @@ const SAY_TO_KEY = {
   '1': '1', '2': '2', '3': '3', '4': '4', '0': '0', '5': '0'
 };
 
-const keyAudioBuffers = {};
-const keyAudioElements = {};
-let keyAudioInitialized = false;
+// 单一朗读通道：新的按键会停止上一段，避免快速输入时叠音。
+let speechWatchdog = null;
 
-function initKeyAudios() {
-  if (keyAudioInitialized || typeof window === 'undefined') return;
-  const data = window.KEY_AUDIO_DATA;
-  if (!data) return;
-  keyAudioInitialized = true;
-
-  const ctx = ensureAudioContext();
-  for (const k in data) {
-    const dataUri = data[k];
-    try {
-      const a = new Audio();
-      a.preload = 'auto';
-      a.src = dataUri;
-      keyAudioElements[k] = a;
-    } catch (e) {}
-
-    if (ctx && ctx.decodeAudioData) {
-      try {
-        const base64Str = dataUri.split(',')[1];
-        const binary = atob(base64Str);
-        const len = binary.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
-        ctx.decodeAudioData(bytes.buffer.slice(0), buf => {
-          keyAudioBuffers[k] = buf;
-        }, () => {});
-      } catch (e) {}
-    }
+function normalizePinyinInput(value) {
+  return String(value || '').toLowerCase().normalize('NFC')
+    .replace(/ɑ/g, 'a').replace(/ɡ/g, 'g').replace(/u:/g, 'ü').replace(/v/g, 'ü').normalize('NFC');
+}
+function pinyinRecordingKey(value, tone = null) {
+  const raw = normalizePinyinInput(value);
+  const numbered = raw.match(/^([a-zü]+)([0-5])$/);
+  const parsed = parsePinyin(numbered ? numbered[1] : raw);
+  const base = parsed.plain.replace(/ü/g, 'v');
+  const data = window.PINYIN_AUDIO_DATA || {};
+  const explicit = tone !== null || numbered || parsed.tone > 0;
+  if (explicit) {
+    const t = tone !== null ? tone : numbered ? +numbered[2] : parsed.tone;
+    // i、u、ü 单独成音节时，录音库按 yi、wu、yu 的规范拼写命名。
+    const spelledBase = ({i: 'yi', u: 'wu', v: 'yu', ve: 'yue', vn: 'yun'})[base] || base;
+    const key = spelledBase + (t === 5 ? 0 : t);
+    return data[key] ? key : null;
   }
+  if (data['unit:' + base]) return 'unit:' + base;
+  return data[base + '1'] ? base + '1' : null;
 }
 
-// 播放键盘按键标准真人发音（绝无机械音、绝无机器人音，0ms 快速响应）
+function playRecording(uri, fallback, options = {}) {
+  stopAllSpeech();
+  window.TeacherVoice.playSequence([{uri, type: options.type || 'pinyin'}], {
+    rate: options.rate || 1,
+    enabled: () => S().sound,
+    onerror: fallback
+  });
+}
+
+function speakPinyin(value, tone = null) {
+  if (!S().sound) return;
+  const key = pinyinRecordingKey(value, tone);
+  if (key) {
+    playRecording(window.PINYIN_AUDIO_DATA[key], () => {
+      toast('这段拼音录音暂时无法播放，请再点一次 🔊');
+    });
+    return;
+  }
+  // 没有录音时使用已知汉字帮助发音，不能将拉丁拼音交给系统念英文字母。
+  const parsed = parsePinyin(normalizePinyinInput(value));
+  const t = tone === null ? parsed.tone : tone;
+  const hit = SYL_SPEAK_MAP[parsed.plain + t];
+  const say = (hit && hit.speak) || EXTRA_SYL_SPEAK[parsed.plain + t]
+    || (LETTER_INFO[parsed.plain] || {}).say;
+  if (say) speak(say);
+  else toast('这个拼音暂时没有录音，请检查输入');
+}
+
 function playKeyVoice(k) {
   if (!S().sound || S().keyVoice === false) return;
-  const raw = (k || '').toString().toLowerCase();
-  const ch = SAY_TO_KEY[raw] || raw;
-  const normalizedKey = ch === '5' ? '0' : (ch === 'ü' ? 'v' : ch);
-
-  if (!keyAudioInitialized) initKeyAudios();
-
-  const ctx = ensureAudioContext();
-  const buf = keyAudioBuffers[normalizedKey] || keyAudioBuffers[ch];
-  if (ctx && buf && ctx.state === 'running') {
-    try {
-      const src = ctx.createBufferSource();
-      const gain = ctx.createGain();
-      gain.gain.value = 0.95;
-      src.buffer = buf;
-      src.connect(gain).connect(ctx.destination);
-      src.start(0);
-      return;
-    } catch (e) {}
+  const raw = String(k).toLowerCase();
+  const key = SAY_TO_KEY[raw] || raw;
+  if (/^[0-5]$/.test(key)) {
+    const normalized = key === '5' ? '0' : key;
+    speak(KEY_SAY[normalized]);
+    return;
   }
-
-  const audio = keyAudioElements[normalizedKey] || keyAudioElements[ch];
-  if (audio) {
-    try {
-      audio.currentTime = 0;
-      const p = audio.play();
-      if (p && p.catch) p.catch(() => {});
-      return;
-    } catch (e) {}
-  }
-
-  const say = KEY_SAY[ch] || KEY_SAY[normalizedKey];
-  if (say && say !== k) speak(say);
+  speakPinyin(key);
 }
 
-// 标准真人人声播报：默认使用播音员甜美女声，绝不自动降级到机器音
+// 读取实际已输入的组合；不偷用题目答案，错声调也按所选声调读。
+function playTypedPinyin(buffer, lastKey) {
+  if (!S().sound || S().keyVoice === false) return;
+  const raw = normalizePinyinInput(buffer);
+  if (pinyinRecordingKey(raw)) { speakPinyin(raw); return; }
+  // 拼写尚未完成时，优先读出已经组成的韵母，其次读本次字母。
+  const plain = raw.replace(/[0-5]$/, '');
+  const [, final] = splitSyl(plain);
+  if (!/[0-5]$/.test(raw) && pinyinRecordingKey(final)) speakPinyin(final);
+  else playKeyVoice(lastKey);
+}
+
+function speakItem(item) {
+  if (!item) return;
+  if (item.type === 'letter') speakPinyin(item.letter || item.plain);
+  else if (item.type === 'syl') speakPinyin(item.plain, item.tone);
+  else speak(item.speak || item.char);
+}
+
+// 中文讲解使用预生成的老师配音；混排拼音接回对应的教学录音。
+function teacherVoicePlan(text) {
+  const segments = [], missing = [];
+  const parts = String(text).trim().replace(/\s+/g, ' ')
+    .split(/([a-züɑɡāáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜ]+[0-5]?)/gi);
+  for (const part of parts) {
+    const value = part.trim();
+    if (!value) continue;
+    if (/[\u3400-\u9fff]/.test(value)) {
+      const plan = window.TeacherVoice.planText(value);
+      segments.push(...plan.segments); missing.push(...plan.missing);
+    } else if (/[a-züɑɡāáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜ]/i.test(value)) {
+      const key = pinyinRecordingKey(value);
+      if (key) segments.push({uri: window.PINYIN_AUDIO_DATA[key], type: 'pinyin'});
+      else missing.push(value);
+    }
+  }
+  return {segments, missing};
+}
+function speakTeacher(text) {
+  const plan = teacherVoicePlan(text);
+  if (plan.missing.length || !plan.segments.length) {
+    stopAllSpeech(); toast('这句老师配音尚未准备好'); return;
+  }
+  stopAllSpeech();
+  window.TeacherVoice.playSequence(plan.segments, {
+    enabled: () => S().sound,
+    rate: Math.max(0.7, Math.min(1.5, (S().rate || 0.8) / 0.8)),
+    onerror: () => toast('老师配音暂时无法播放，请再点一次 🔊')
+  });
+}
 function speak(text) {
   if (!S().sound || !text) return;
-  const trimmed = String(text).trim();
-
-  // 若为单个字母或声调，优先使用本地高保真央广播音员标准人声（0ms 极速响应，离线可用）
-  const directKey = SAY_TO_KEY[trimmed] || SAY_TO_KEY[trimmed.toLowerCase()];
-  if (directKey && window.KEY_AUDIO_DATA && window.KEY_AUDIO_DATA[directKey]) {
-    playKeyVoice(directKey);
-    return;
-  }
-
-  const mySeq = ++speakSeq;
-  if (currentAudio) {
-    try {
-      currentAudio.onplaying = null;
-      currentAudio.onerror = null;
-      currentAudio.pause();
-    } catch (e) {}
-  }
-  if ('speechSynthesis' in window) {
-    try { speechSynthesis.cancel(); } catch (e) {}
-  }
-
-  const engine = S().voiceEngine || 'human_zh';
-  // 只有在设置里明确选了“本地离线语音”才使用系统合成
-  if (engine === 'local') {
-    speakLocal(trimmed);
-    return;
-  }
-
-  const urls = getHumanTtsUrls(trimmed, engine, S().rate);
-  let idx = 0;
-  function tryNext() {
-    if (mySeq !== speakSeq) return;
-    if (idx >= urls.length) {
-      // 网络TTS不可用时，自动优雅兜底至本地真人发音引擎，确保绝不静音
-      speakLocal(trimmed);
-      return;
-    }
-    const audio = ensureSharedAudio();
-    audio.referrerPolicy = 'no-referrer';
-    audio.src = urls[idx++];
-    audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
-    currentAudio = audio;
-    audio.onerror = () => {
-      if (mySeq === speakSeq) {
-        if (idx < urls.length) tryNext();
-        else speakLocal(trimmed);
-      }
-    };
-    const p = audio.play();
-    if (p && p.catch) {
-      p.catch(err => {
-        if (err && err.name === 'AbortError') return;
-        if (mySeq === speakSeq) {
-          if (idx < urls.length) tryNext();
-          else speakLocal(trimmed);
-        }
-      });
-    }
-  }
-  tryNext();
+  const value = String(text).trim();
+  if (/^[a-züɑɡāáǎàōóǒòēéěèīíǐìūúǔùǖǘǚǜ]+[0-5]?$/i.test(value)) speakPinyin(value);
+  else speakTeacher(value);
 }
 
 function beep(notes, type = 'sine', vol = 0.22) {
@@ -818,18 +700,7 @@ function knownLetters(upto) {
 }
 
 function speakSyllable(sylStr) {
-  const p = parsePinyin(sylStr);
-  const k = p.plain + p.tone;
-  if (SYL_SPEAK_MAP[k]) {
-    speak(SYL_SPEAK_MAP[k].speak);
-    return;
-  }
-  if (EXTRA_SYL_SPEAK[k]) {
-    speak(EXTRA_SYL_SPEAK[k]);
-    return;
-  }
-  const info = LETTER_INFO[p.plain];
-  speak(info ? info.say : sylStr);
+  speakPinyin(sylStr);
 }
 
 function pinyinLessonScreen(i) {
@@ -927,13 +798,8 @@ function pinyinLessonScreen(i) {
   $('#back').onclick = () => { sfx.ok(); go(pinyinListScreen); };
   app.querySelectorAll('.letter-card').forEach(b => b.addEventListener('click', () => {
     const x = b.dataset.x;
-    const info = LETTER_INFO[x] || {};
     sfx.pop();
-    if (window.KEY_AUDIO_DATA && (window.KEY_AUDIO_DATA[x] || window.KEY_AUDIO_DATA[SAY_TO_KEY[x]])) {
-      playKeyVoice(x);
-    } else {
-      speak(info.say || x);
-    }
+    speakPinyin(x);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   app.querySelectorAll('.syl-pill').forEach(b => b.addEventListener('click', () => {
@@ -1229,7 +1095,7 @@ function charLessonScreen(id) {
     const it = writeItems[wi];
     sfx.ok();
     go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: wi, starKey: 'write:' + id, back });
-    if (it) speak(it.speak);
+    if (it) speakItem(it);
   }));
   if ($('#mWriteBox')) {
     $('#mWriteBox').onclick = () => {
@@ -1438,7 +1304,7 @@ function hanziWriteScreen(opts) {
     });
 
     startQuiz(totalStrokes, it);
-    setTimeout(() => speak(it.speak), 200);
+    setTimeout(() => speakItem(it), 200);
   }
 
   function startQuiz(totalStrokes, it) {
@@ -1506,7 +1372,7 @@ function hanziWriteScreen(opts) {
     const strokeData = (window.HANZI_STROKE_DATA || {})[it.char];
     $('#strokeStatus').className = 'hw-stroke-status';
     $('#strokeStatus').innerHTML = `🎬 正在演示「${it.char}」的标准笔顺…`;
-    speak(it.speak);
+    speakItem(it);
     writer.animateCharacter({
       onComplete: () => {
         setTimeout(() => {
@@ -1610,17 +1476,18 @@ function showQuestion() {
   q += `<button class="speak-btn" id="spk" title="再听一遍">🔊</button>
         <button class="hint-btn" id="hnt" title="小提示">💡</button>`;
   $('#q').innerHTML = q;
-  $('#spk').onclick = () => { sfx.key(); speak(it.speak); };
+  $('#spk').onclick = () => { sfx.key(); speakItem(it); };
   $('#hnt').onclick = () => { sfx.key(); R.reveal = true; updateAnswer(); };
-  $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
-  $('#q .bigletter')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
-  $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
+  $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
+  $('#q .bigletter')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
+  $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
   $('#fb').textContent = ''; $('#fb').className = 'feedback';
   $('#tip').innerHTML = R.requireTone
     ? `声调：<span class="k" style="color:var(--t1)">ˉ</span>一声 <span class="k" style="color:var(--t2)">ˊ</span>二声 <span class="k" style="color:var(--t3)">ˇ</span>三声 <span class="k" style="color:var(--t4)">ˋ</span>四声${it.tone === 0 ? '　（这个字读<b>轻声</b>，点 <span class="k">轻声</span>）' : ''}`
     : '';
   updateAnswer();
-  setTimeout(() => speak(it.speak), 250);
+  const questionSeq = speakSeq;
+  setTimeout(() => { if (questionSeq === speakSeq && R && R.items[R.idx] === it) speakItem(it); }, 250);
 }
 
 function updateAnswer() {
@@ -1651,7 +1518,7 @@ function roundKey(k) {
   if (/^[a-zü]$/.test(k)) {
     if (R.buf.length >= 8) return;
     R.buf += k === 'ü' ? 'v' : k;
-    playKeyVoice(k);
+    playTypedPinyin(R.buf, k);
     updateAnswer();
     if (!R.requireTone && (R.buf.length >= it.key.length || !it.key.startsWith(R.buf))) setTimeout(check, 150);
     return;
@@ -1659,7 +1526,7 @@ function roundKey(k) {
   if (/^[0-5]$/.test(k)) {
     if (!R.requireTone) return;
     R.tone = (k === '0' || k === '5') ? 0 : +k;
-    playKeyVoice(String(R.tone));
+    playTypedPinyin(R.buf + R.tone, String(R.tone));
     updateAnswer();
     if (R.buf) setTimeout(check, 220);
     return;
@@ -1690,7 +1557,8 @@ function check() {
     fb.className = 'feedback ok'; fb.textContent = '🎉 ' + praise();
     highlightKey(null);
     sfx.ok();
-    speak(it.speak);
+    if (it.type === 'char') speakPinyin(it.plain, it.tone);
+    else speakItem(it);
     setTimeout(() => { R.idx++; R.idx >= R.items.length ? finishRound() : showQuestion(); }, 1500);
     return;
   }
@@ -1701,7 +1569,7 @@ function check() {
   if (okL) {
     fb.innerHTML = '拼音对啦！👍 声调再想想，听一听 🔊';
     R.tone = null;
-    speak(it.speak);
+    speakItem(it);
   } else {
     fb.textContent = R.wrong >= 2 ? '没关系，看看提示，照着打一遍 💪' : '不对哦，再试一次 💪';
     R.buf = ''; R.tone = null;
@@ -1763,7 +1631,7 @@ function toneHomeScreen() {
   app.querySelectorAll('.tone-demo').forEach(b => b.addEventListener('click', () => {
     const t = +b.dataset.t;
     sfx.tone(t);
-    speak(demo.chars[t - 1]);
+    speakPinyin(demo.base, t);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   $('#tA').onclick = () => {
@@ -1816,11 +1684,12 @@ function toneQuestion() {
     <div class="tzg" style="cursor:pointer" title="点击听发音"><span class="hz">${it.char}</span></div>
     <div class="word">${it.word ? it.word.replace(it.char, `<b>${it.char}</b>`) : '&nbsp;'}</div>
     <button class="speak-btn" id="spk">🔊</button>`;
-  $('#spk').onclick = () => { sfx.key(); speak(it.speak); };
-  $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
-  $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
+  $('#spk').onclick = () => { sfx.key(); speakItem(it); };
+  $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
+  $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
   $('#fb').textContent = ''; $('#fb').className = 'feedback';
-  setTimeout(() => speak(it.speak), 250);
+  const questionSeq = speakSeq;
+  setTimeout(() => { if (questionSeq === speakSeq && R && R.items[R.idx] === it) speakItem(it); }, 250);
 }
 function toneAnswer(t) {
   if (R.locked) return;
@@ -1831,7 +1700,7 @@ function toneAnswer(t) {
     if (R.wrong === 0) R.firstTry++;
     $('#tpy').innerHTML = renderPy(it.plain, it.tone, `tone-color t${it.tone}`);
     fb.className = 'feedback ok'; fb.textContent = `🎉 ${praise()} 是${TONE_NAMES[t]}的第 ${t} 声！`;
-    sfx.ok(); speak(it.speak);
+    sfx.ok(); speakItem(it);
     setTimeout(() => { R.idx++; R.idx >= R.items.length ? finishToneRound() : toneQuestion(); }, 1500);
   } else {
     R.wrong++;
@@ -1839,7 +1708,7 @@ function toneAnswer(t) {
     fb.className = 'feedback bad';
     fb.textContent = R.wrong >= 2 ? `提示：它是「${TONE_NAMES[it.tone]}」哦` : '再听一听 👂';
     if (R.wrong === 2 && it.id) addMistake(it);
-    setTimeout(() => speak(it.speak), 300);
+    setTimeout(() => speakItem(it), 300);
   }
 }
 function finishToneRound() {
@@ -2025,7 +1894,7 @@ function balloonGame(opts) {
     setTimeout(() => { b.el.remove(); ft.remove(); }, 1200);
     G.score++;
     sfx.pop();
-    speak(b.it.char);
+    speakPinyin(b.it.plain, b.it.tone);
     // 越来越快（按所选速度档位温和递增）
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
@@ -2060,7 +1929,7 @@ function balloonGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    playKeyVoice(ch);
+    playTypedPinyin(G.buf, ch);
     const exact = matches.find(b => ans(b) === nb);
     if (exact && (needTone || matches.length === 1)) { pop(exact); markTargets(); return; }
     drawHUD(); markTargets();
@@ -2343,7 +2212,7 @@ function duckGame(opts) {
     G.score++;
     sfx.shot();
     popHound('🐶👍');
-    speak(d.it.char);
+    speakPinyin(d.it.plain, d.it.tone);
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
     G.buf = '';
@@ -2376,7 +2245,7 @@ function duckGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    playKeyVoice(ch);
+    playTypedPinyin(G.buf, ch);
     const exact = matches.find(d => answerOf(d.it) === nb);
     if (exact && (needTone || matches.length === 1)) { shoot(exact); markTargets(); return; }
     drawHUD(); markTargets();
@@ -2656,7 +2525,7 @@ function pacmanGame(opts) {
     G.score += bean.isSuper ? 8 : 5;
     G.wrongStreak = 0;
     sfx.ok();
-    speak(bean.it.char);
+    speakPinyin(bean.it.plain, bean.it.tone);
 
     const ft = document.createElement('div');
     ft.className = 'float-text';
@@ -2853,7 +2722,7 @@ function pacmanGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    playKeyVoice(ch);
+    playTypedPinyin(G.buf, ch);
     const exact = matches.find(b => answerOf(b.it) === nb);
     if (exact && (needTone || matches.length === 1)) { runToBean(exact); return; }
     drawHUD(); markTargets();
@@ -3148,7 +3017,7 @@ function tankGame(opts) {
     }, 180);
 
     G.score++;
-    speak(t.it.char);
+    speakPinyin(t.it.plain, t.it.tone);
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
     G.buf = '';
@@ -3187,7 +3056,7 @@ function tankGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    playKeyVoice(ch);
+    playTypedPinyin(G.buf, ch);
     const exact = matches.find(t => answerOf(t.it) === nb);
     if (exact && (needTone || matches.length === 1)) { fireAt(exact); markTargets(); return; }
     drawHUD(); markTargets();
@@ -3300,7 +3169,8 @@ function helpScreen() {
     <p>🈶 <b>请切换到英文输入法</b>（Mac 上按一下 Caps Lock，或 Ctrl+空格）。中文输入法下按键会被拦截。</p>
     <p>🎯 <b>推荐学习顺序</b>：拼音乐园（跟课本进度）→ 声调小精灵 → 汉字闯关（先“学一学”再闯关）→ 气球大作战巩固。</p>
     <p>💡 每题答错两次会出现提示，并且屏幕键盘会<b>闪烁提示下一个要按的键</b>，帮助孩子熟悉键盘。答错的字会进入<b>错题本</b>。</p>
-    <p>🔊 读音使用浏览器自带的中文朗读（Mac 建议用 Safari 或 Chrome，系统需有中文语音）。字母的读音用近似汉字代替，仅供参考，请以课本和老师为准。</p>
+    <p>🔊 拼音点读和键盘跟读使用内置 TTS 配音，可离线播放。连续输入会读出已组成的拼音；选声调后读带调音节。中文讲解默认使用内置的温柔女老师配音，由神经网络 TTS 合成。可在设置中试听并调节语速。</p>
+    <p class="sub">全部朗读统一使用女老师神经网络 TTS 合成配音。拼音配音来源和声调处理记录见项目 AUDIO_SOURCES.md。</p>
     <p>💾 进度保存在本机浏览器里。可在 ⚙️ 设置中调整题量、提示和朗读速度，或重置进度。</p>
     <p>⏰ 建议每次玩 15~20 分钟，注意保护眼睛哦！</p>
   </div>`;
@@ -3309,19 +3179,19 @@ function helpScreen() {
 // ======================= 设置 =======================
 function settingsModal() {
   const s = S();
-  const eng = s.voiceEngine || 'human_zh';
+  const eng = s.voiceEngine || 'teacher';
   const m = $('#modal');
   m.innerHTML = `<div class="card">
     <h2 style="margin-top:0">⚙️ 设置 <span class="sub" style="font-size:14px">（修改后立即生效）</span></h2>
     <div class="setting-row"><span>🔊 声音和朗读</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
-    <div class="setting-row"><span>🔤 按键标准真人发音</span><label class="switch"><input type="checkbox" id="sKeyVoice" ${s.keyVoice !== false ? 'checked' : ''}><span></span></label></div>
-    <div class="setting-row"><span>🎙️ 配音音色</span>
+    <div class="setting-row"><span>🔤 输入拼音跟读</span><label class="switch"><input type="checkbox" id="sKeyVoice" ${s.keyVoice !== false ? 'checked' : ''}><span></span></label></div>
+    <p class="sub">温柔女老师配音已内置，离线也能听。拼音组合和四声也使用同一女老师声线的合成配音。</p>
+    <div class="setting-row"><span>🎙️ 中文讲解语音</span>
       <select id="sVoice">
-        <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·标准人声）</option>
-        <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·标准人声）</option>
-        <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 平板/电脑本地离线语音</option>
+        <option value="teacher" ${eng === 'teacher' ? 'selected' : ''}>温柔女老师（内置配音·推荐）</option>
       </select>
     </div>
+    <div class="setting-row"><span>🔈 老师音色试听</span><button class="btn small green" id="sVoicePreview">听老师说话</button></div>
     <div class="setting-row"><span>🐢 朗读速度</span><input type="range" id="sRate" min="0.5" max="1.2" step="0.1" value="${s.rate}"></div>
     <div class="setting-row"><span>🎈 气球/野鸭飞行速度</span>${speedSelectHtml('sGameSpeed')}</div>
     <div class="setting-row"><span>⌨️ 显示屏幕键盘</span><label class="switch"><input type="checkbox" id="sKb" ${s.showKb ? 'checked' : ''}><span></span></label></div>
@@ -3355,6 +3225,10 @@ function settingsModal() {
   $('#sKeyVoice').onchange = () => {
     syncAllFromControls();
     if (s.sound && s.keyVoice) playKeyVoice('a');
+  };
+  $('#sVoicePreview').onclick = () => {
+    syncAllFromControls();
+    speak('小朋友你好，快来一起学拼音吧！');
   };
   $('#sVoice').onchange = () => {
     syncAllFromControls();

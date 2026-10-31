@@ -75,8 +75,8 @@
     <button id="btnPinyin" class="sw-btn active" onclick="switchGame('pinyin')">🔤 语文 · 拼音小勇士</button>
     <button id="btnMath" class="sw-btn math" onclick="switchGame('math')">🦸‍♂️ 数学 · 数学小勇士</button>
   </div>
-  <iframe id="pinyinFrame" class="game-frame" src="index.html" allow="autoplay"></iframe>
-  <iframe id="mathFrame" class="game-frame" src="math.html" allow="autoplay" style="display:none"></iframe>
+  <iframe id="pinyinFrame" class="game-frame" src="index.html?v=tts3" allow="autoplay"></iframe>
+  <iframe id="mathFrame" class="game-frame" src="math.html?v=tts3" allow="autoplay" style="display:none"></iframe>
 
   <script>
     const pinyinFrame = document.getElementById('pinyinFrame');
@@ -92,18 +92,10 @@
       mathFrame.style.display = isPinyin ? 'none' : 'block';
       if (history.replaceState) history.replaceState(null, '', '#' + which);
 
-      // 切换标签时静音非活动游戏
-      try {
-        if (isPinyin && mathFrame.contentWindow) {
-          if (mathFrame.contentWindow.speechSynthesis) mathFrame.contentWindow.speechSynthesis.cancel();
-          const mathAudio = mathFrame.contentDocument.querySelector('audio');
-          if (mathAudio) mathAudio.pause();
-        } else if (!isPinyin && pinyinFrame.contentWindow) {
-          if (pinyinFrame.contentWindow.speechSynthesis) pinyinFrame.contentWindow.speechSynthesis.cancel();
-          const pyAudio = pinyinFrame.contentDocument.querySelector('audio');
-          if (pyAudio) pyAudio.pause();
-        }
-      } catch (e) {}
+      // Audio 由共享配音播放器管理，不一定挂在 DOM 中。
+      const inactiveFrame = isPinyin ? mathFrame : pinyinFrame;
+      try { inactiveFrame.contentWindow.TeacherVoice?.stop(); } catch (e) {}
+
     }
 
     window.addEventListener('load', () => {

@@ -1,0 +1,6424 @@
+{
+  "a1": {
+    "text": "阿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "a2": {
+    "text": "阿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "a3": {
+    "text": "阿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "a4": {
+    "text": "阿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "a0": {
+    "text": "阿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "ai1": {
+    "text": "哀",
+    "method": "neural-tts"
+  },
+  "ai2": {
+    "text": "哀",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ai3": {
+    "text": "哀",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ai4": {
+    "text": "哀",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ai0": {
+    "text": "哀",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "an1": {
+    "text": "安",
+    "method": "neural-tts"
+  },
+  "an2": {
+    "text": "安",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "an3": {
+    "text": "安",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "an4": {
+    "text": "安",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "an0": {
+    "text": "安",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "ang1": {
+    "text": "昂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ang2": {
+    "text": "昂",
+    "method": "neural-tts"
+  },
+  "ang3": {
+    "text": "昂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ang4": {
+    "text": "昂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ang0": {
+    "text": "昂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "ao1": {
+    "text": "凹",
+    "method": "neural-tts"
+  },
+  "ao2": {
+    "text": "凹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ao3": {
+    "text": "凹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ao4": {
+    "text": "凹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ao0": {
+    "text": "凹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "ba1": {
+    "text": "八",
+    "method": "neural-tts"
+  },
+  "ba2": {
+    "text": "八",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ba3": {
+    "text": "把",
+    "method": "neural-tts"
+  },
+  "ba4": {
+    "text": "爸",
+    "method": "neural-tts"
+  },
+  "ba0": {
+    "text": "八",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bai1": {
+    "text": "白",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "bai2": {
+    "text": "白",
+    "method": "neural-tts"
+  },
+  "bai3": {
+    "text": "白",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "bai4": {
+    "text": "白",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bai0": {
+    "text": "白",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "ban1": {
+    "text": "班",
+    "method": "neural-tts"
+  },
+  "ban2": {
+    "text": "班",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ban3": {
+    "text": "班",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ban4": {
+    "text": "办",
+    "method": "neural-tts"
+  },
+  "ban0": {
+    "text": "班",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bang1": {
+    "text": "傍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "bang2": {
+    "text": "傍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bang3": {
+    "text": "傍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "bang4": {
+    "text": "傍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bang0": {
+    "text": "傍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bao1": {
+    "text": "包",
+    "method": "neural-tts"
+  },
+  "bao2": {
+    "text": "包",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bao3": {
+    "text": "宝",
+    "method": "neural-tts"
+  },
+  "bao4": {
+    "text": "包",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bao0": {
+    "text": "包",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bei1": {
+    "text": "北",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "bei2": {
+    "text": "北",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bei3": {
+    "text": "北",
+    "method": "neural-tts"
+  },
+  "bei4": {
+    "text": "贝",
+    "method": "neural-tts"
+  },
+  "bei0": {
+    "text": "北",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "ben1": {
+    "text": "本",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ben2": {
+    "text": "本",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ben3": {
+    "text": "本",
+    "method": "neural-tts"
+  },
+  "ben4": {
+    "text": "本",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ben0": {
+    "text": "本",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bi1": {
+    "text": "笔",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "bi2": {
+    "text": "笔",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bi3": {
+    "text": "笔",
+    "method": "neural-tts"
+  },
+  "bi4": {
+    "text": "笔",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bi0": {
+    "text": "笔",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bie1": {
+    "text": "別",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "bie2": {
+    "text": "別",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bie3": {
+    "text": "別",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "bie4": {
+    "text": "別",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bie0": {
+    "text": "別",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bing1": {
+    "text": "冰",
+    "method": "neural-tts"
+  },
+  "bing2": {
+    "text": "冰",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bing3": {
+    "text": "冰",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "bing4": {
+    "text": "冰",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bing0": {
+    "text": "冰",
+    "method": "neural-tts+pitch-contour",
+    "tone": 0,
+    "cutInitial": false
+  },
+  "bo1": {
+    "text": "玻",
+    "method": "neural-tts"
+  },
+  "bo2": {
+    "text": "玻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bo3": {
+    "text": "玻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "bo4": {
+    "text": "玻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "bu1": {
+    "text": "步",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "bu2": {
+    "text": "步",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "bu3": {
+    "text": "步",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "bu4": {
+    "text": "步",
+    "method": "neural-tts"
+  },
+  "ca1": {
+    "text": "嚓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ca2": {
+    "text": "嚓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ca3": {
+    "text": "嚓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ca4": {
+    "text": "嚓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "cai1": {
+    "text": "菜",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "cai2": {
+    "text": "才",
+    "method": "neural-tts"
+  },
+  "cai3": {
+    "text": "采",
+    "method": "neural-tts"
+  },
+  "cai4": {
+    "text": "菜",
+    "method": "neural-tts"
+  },
+  "can1": {
+    "text": "参",
+    "method": "neural-tts"
+  },
+  "can2": {
+    "text": "参",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "can3": {
+    "text": "参",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "can4": {
+    "text": "参",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "cao1": {
+    "text": "草",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "cao2": {
+    "text": "草",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "cao3": {
+    "text": "草",
+    "method": "neural-tts"
+  },
+  "cao4": {
+    "text": "草",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ce1": {
+    "text": "侧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ce2": {
+    "text": "侧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ce3": {
+    "text": "侧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ce4": {
+    "text": "侧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "cha1": {
+    "text": "侘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "cha2": {
+    "text": "侘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "cha3": {
+    "text": "侘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "cha4": {
+    "text": "侘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chang1": {
+    "text": "厂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "chang2": {
+    "text": "常",
+    "method": "neural-tts"
+  },
+  "chang3": {
+    "text": "厂",
+    "method": "neural-tts"
+  },
+  "chang4": {
+    "text": "厂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "che1": {
+    "text": "车",
+    "method": "neural-tts"
+  },
+  "che2": {
+    "text": "车",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "che3": {
+    "text": "车",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "che4": {
+    "text": "车",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chen1": {
+    "text": "尘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "chen2": {
+    "text": "尘",
+    "method": "neural-tts"
+  },
+  "chen3": {
+    "text": "尘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chen4": {
+    "text": "尘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chi1": {
+    "text": "吃",
+    "method": "neural-tts"
+  },
+  "chi2": {
+    "text": "尺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "chi3": {
+    "text": "尺",
+    "method": "neural-tts"
+  },
+  "chi4": {
+    "text": "尺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chong1": {
+    "text": "虫",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "chong2": {
+    "text": "虫",
+    "method": "neural-tts"
+  },
+  "chong3": {
+    "text": "虫",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chong4": {
+    "text": "虫",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chu1": {
+    "text": "出",
+    "method": "neural-tts"
+  },
+  "chu2": {
+    "text": "处",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "chu3": {
+    "text": "处",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chu4": {
+    "text": "处",
+    "method": "neural-tts"
+  },
+  "chuan1": {
+    "text": "川",
+    "method": "neural-tts"
+  },
+  "chuan2": {
+    "text": "船",
+    "method": "neural-tts"
+  },
+  "chuan3": {
+    "text": "川",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chuan4": {
+    "text": "川",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chuang1": {
+    "text": "傸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "chuang2": {
+    "text": "傸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "chuang3": {
+    "text": "傸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chuang4": {
+    "text": "傸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chui1": {
+    "text": "倕",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "chui2": {
+    "text": "倕",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "chui3": {
+    "text": "倕",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chui4": {
+    "text": "倕",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chun1": {
+    "text": "春",
+    "method": "neural-tts"
+  },
+  "chun2": {
+    "text": "春",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "chun3": {
+    "text": "春",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chun4": {
+    "text": "春",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "chuo1": {
+    "text": "嚽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "chuo2": {
+    "text": "嚽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "chuo3": {
+    "text": "嚽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "chuo4": {
+    "text": "嚽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ci1": {
+    "text": "词",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ci2": {
+    "text": "词",
+    "method": "neural-tts"
+  },
+  "ci3": {
+    "text": "词",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ci4": {
+    "text": "词",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "cong1": {
+    "text": "从",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "cong2": {
+    "text": "从",
+    "method": "neural-tts"
+  },
+  "cong3": {
+    "text": "从",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "cong4": {
+    "text": "从",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "cu1": {
+    "text": "促",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "cu2": {
+    "text": "促",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "cu3": {
+    "text": "促",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "cu4": {
+    "text": "促",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "cuo1": {
+    "text": "剉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "cuo2": {
+    "text": "剉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "cuo3": {
+    "text": "剉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "cuo4": {
+    "text": "剉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "da1": {
+    "text": "大",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "da2": {
+    "text": "答",
+    "method": "neural-tts"
+  },
+  "da3": {
+    "text": "打",
+    "method": "neural-tts"
+  },
+  "da4": {
+    "text": "大",
+    "method": "neural-tts"
+  },
+  "dan1": {
+    "text": "丹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "dan2": {
+    "text": "丹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "dan3": {
+    "text": "丹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "dan4": {
+    "text": "丹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "dao1": {
+    "text": "刀",
+    "method": "neural-tts"
+  },
+  "dao2": {
+    "text": "刀",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "dao3": {
+    "text": "刀",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "dao4": {
+    "text": "到",
+    "method": "neural-tts"
+  },
+  "de1": {
+    "text": "的",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "de2": {
+    "text": "得",
+    "method": "neural-tts"
+  },
+  "de3": {
+    "text": "的",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "de4": {
+    "text": "的",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "deng1": {
+    "text": "凳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "deng2": {
+    "text": "凳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "deng3": {
+    "text": "凳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "deng4": {
+    "text": "凳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "di1": {
+    "text": "地",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "di2": {
+    "text": "地",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "di3": {
+    "text": "地",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "di4": {
+    "text": "地",
+    "method": "neural-tts"
+  },
+  "dian1": {
+    "text": "点",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "dian2": {
+    "text": "点",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "dian3": {
+    "text": "点",
+    "method": "neural-tts"
+  },
+  "dian4": {
+    "text": "点",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "die1": {
+    "text": "叠",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "die2": {
+    "text": "叠",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "die3": {
+    "text": "叠",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "die4": {
+    "text": "叠",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "diu1": {
+    "text": "丟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "diu2": {
+    "text": "丟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "diu3": {
+    "text": "丟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "diu4": {
+    "text": "丟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "dong1": {
+    "text": "东",
+    "method": "neural-tts"
+  },
+  "dong2": {
+    "text": "东",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "dong3": {
+    "text": "东",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "dong4": {
+    "text": "东",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "du1": {
+    "text": "读",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "du2": {
+    "text": "读",
+    "method": "neural-tts"
+  },
+  "du3": {
+    "text": "读",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "du4": {
+    "text": "读",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "duan1": {
+    "text": "短",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "duan2": {
+    "text": "短",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "duan3": {
+    "text": "短",
+    "method": "neural-tts"
+  },
+  "duan4": {
+    "text": "短",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "dui1": {
+    "text": "对",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "dui2": {
+    "text": "对",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "dui3": {
+    "text": "对",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "dui4": {
+    "text": "对",
+    "method": "neural-tts"
+  },
+  "duo1": {
+    "text": "多",
+    "method": "neural-tts"
+  },
+  "duo2": {
+    "text": "多",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "duo3": {
+    "text": "多",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "duo4": {
+    "text": "多",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "e1": {
+    "text": "鹅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "e2": {
+    "text": "鹅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "e3": {
+    "text": "鹅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "e4": {
+    "text": "鹅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ei1": {
+    "text": "诶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ei2": {
+    "text": "诶",
+    "method": "neural-tts"
+  },
+  "ei3": {
+    "text": "诶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ei4": {
+    "text": "诶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "en1": {
+    "text": "恩",
+    "method": "neural-tts"
+  },
+  "en2": {
+    "text": "恩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "en3": {
+    "text": "恩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "en4": {
+    "text": "恩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "eng1": {
+    "text": "鞥",
+    "method": "neural-tts"
+  },
+  "eng2": {
+    "text": "鞥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "eng3": {
+    "text": "鞥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "eng4": {
+    "text": "鞥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "er1": {
+    "text": "二",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "er2": {
+    "text": "儿",
+    "method": "neural-tts"
+  },
+  "er3": {
+    "text": "耳",
+    "method": "neural-tts"
+  },
+  "er4": {
+    "text": "二",
+    "method": "neural-tts"
+  },
+  "fa1": {
+    "text": "法",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "fa2": {
+    "text": "法",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "fa3": {
+    "text": "法",
+    "method": "neural-tts"
+  },
+  "fa4": {
+    "text": "法",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "fan1": {
+    "text": "反",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "fan2": {
+    "text": "反",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "fan3": {
+    "text": "反",
+    "method": "neural-tts"
+  },
+  "fan4": {
+    "text": "反",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "fang1": {
+    "text": "方",
+    "method": "neural-tts"
+  },
+  "fang2": {
+    "text": "放",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "fang3": {
+    "text": "放",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "fang4": {
+    "text": "放",
+    "method": "neural-tts"
+  },
+  "fei1": {
+    "text": "飞",
+    "method": "neural-tts"
+  },
+  "fei2": {
+    "text": "飞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "fei3": {
+    "text": "飞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "fei4": {
+    "text": "飞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "feng1": {
+    "text": "风",
+    "method": "neural-tts"
+  },
+  "feng2": {
+    "text": "风",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "feng3": {
+    "text": "风",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "feng4": {
+    "text": "风",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "fo1": {
+    "text": "仏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "fo2": {
+    "text": "仏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "fo3": {
+    "text": "仏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "fo4": {
+    "text": "仏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "fu1": {
+    "text": "佛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "fu2": {
+    "text": "佛",
+    "method": "neural-tts"
+  },
+  "fu3": {
+    "text": "佛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "fu4": {
+    "text": "佛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ga1": {
+    "text": "伽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ga2": {
+    "text": "伽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ga3": {
+    "text": "伽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ga4": {
+    "text": "伽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "gao1": {
+    "text": "高",
+    "method": "neural-tts"
+  },
+  "gao2": {
+    "text": "高",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "gao3": {
+    "text": "高",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "gao4": {
+    "text": "高",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ge1": {
+    "text": "哥",
+    "method": "neural-tts"
+  },
+  "ge2": {
+    "text": "哥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ge3": {
+    "text": "哥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ge4": {
+    "text": "个",
+    "method": "neural-tts"
+  },
+  "gei1": {
+    "text": "給",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "gei2": {
+    "text": "給",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "gei3": {
+    "text": "給",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "gei4": {
+    "text": "給",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "geng1": {
+    "text": "更",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "geng2": {
+    "text": "更",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "geng3": {
+    "text": "更",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "geng4": {
+    "text": "更",
+    "method": "neural-tts"
+  },
+  "gong1": {
+    "text": "工",
+    "method": "neural-tts"
+  },
+  "gong2": {
+    "text": "工",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "gong3": {
+    "text": "工",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "gong4": {
+    "text": "工",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "gou1": {
+    "text": "狗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "gou2": {
+    "text": "狗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "gou3": {
+    "text": "狗",
+    "method": "neural-tts"
+  },
+  "gou4": {
+    "text": "狗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "gu1": {
+    "text": "估",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "gu2": {
+    "text": "估",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "gu3": {
+    "text": "估",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "gu4": {
+    "text": "估",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "gua1": {
+    "text": "瓜",
+    "method": "neural-tts"
+  },
+  "gua2": {
+    "text": "瓜",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "gua3": {
+    "text": "瓜",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "gua4": {
+    "text": "瓜",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "guai1": {
+    "text": "乖",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "guai2": {
+    "text": "乖",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "guai3": {
+    "text": "乖",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "guai4": {
+    "text": "乖",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "guan1": {
+    "text": "关",
+    "method": "neural-tts"
+  },
+  "guan2": {
+    "text": "关",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "guan3": {
+    "text": "关",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "guan4": {
+    "text": "关",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "guo1": {
+    "text": "果",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "guo2": {
+    "text": "国",
+    "method": "neural-tts"
+  },
+  "guo3": {
+    "text": "果",
+    "method": "neural-tts"
+  },
+  "guo4": {
+    "text": "果",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ha1": {
+    "text": "哈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ha2": {
+    "text": "哈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ha3": {
+    "text": "哈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ha4": {
+    "text": "哈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "hao1": {
+    "text": "好",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "hao2": {
+    "text": "好",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "hao3": {
+    "text": "好",
+    "method": "neural-tts"
+  },
+  "hao4": {
+    "text": "好",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "he1": {
+    "text": "喝",
+    "method": "neural-tts"
+  },
+  "he2": {
+    "text": "禾",
+    "method": "neural-tts"
+  },
+  "he3": {
+    "text": "禾",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "he4": {
+    "text": "禾",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "hei1": {
+    "text": "黑",
+    "method": "neural-tts"
+  },
+  "hei2": {
+    "text": "黑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "hei3": {
+    "text": "黑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "hei4": {
+    "text": "黑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "heng1": {
+    "text": "亨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "heng2": {
+    "text": "亨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "heng3": {
+    "text": "亨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "heng4": {
+    "text": "亨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "hong1": {
+    "text": "轰",
+    "method": "neural-tts"
+  },
+  "hong2": {
+    "text": "红",
+    "method": "neural-tts"
+  },
+  "hong3": {
+    "text": "红",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "hong4": {
+    "text": "红",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "hou1": {
+    "text": "后",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "hou2": {
+    "text": "后",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "hou3": {
+    "text": "后",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "hou4": {
+    "text": "后",
+    "method": "neural-tts"
+  },
+  "hu1": {
+    "text": "乎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "hu2": {
+    "text": "乎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "hu3": {
+    "text": "乎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "hu4": {
+    "text": "乎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "hua1": {
+    "text": "花",
+    "method": "neural-tts"
+  },
+  "hua2": {
+    "text": "画",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "hua3": {
+    "text": "画",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "hua4": {
+    "text": "画",
+    "method": "neural-tts"
+  },
+  "huai1": {
+    "text": "咶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "huai2": {
+    "text": "咶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "huai3": {
+    "text": "咶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "huai4": {
+    "text": "咶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "huan1": {
+    "text": "唤",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "huan2": {
+    "text": "唤",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "huan3": {
+    "text": "唤",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "huan4": {
+    "text": "唤",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "huang1": {
+    "text": "黄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "huang2": {
+    "text": "黄",
+    "method": "neural-tts"
+  },
+  "huang3": {
+    "text": "黄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "huang4": {
+    "text": "黄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "hui1": {
+    "text": "会",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "hui2": {
+    "text": "回",
+    "method": "neural-tts"
+  },
+  "hui3": {
+    "text": "会",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "hui4": {
+    "text": "会",
+    "method": "neural-tts"
+  },
+  "huo1": {
+    "text": "火",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "huo2": {
+    "text": "火",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "huo3": {
+    "text": "火",
+    "method": "neural-tts"
+  },
+  "huo4": {
+    "text": "火",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ji1": {
+    "text": "积",
+    "method": "neural-tts"
+  },
+  "ji2": {
+    "text": "级",
+    "method": "neural-tts"
+  },
+  "ji3": {
+    "text": "几",
+    "method": "neural-tts"
+  },
+  "ji4": {
+    "text": "级",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jia1": {
+    "text": "家",
+    "method": "neural-tts"
+  },
+  "jia2": {
+    "text": "家",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jia3": {
+    "text": "家",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jia4": {
+    "text": "家",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jian1": {
+    "text": "间",
+    "method": "neural-tts"
+  },
+  "jian2": {
+    "text": "间",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jian3": {
+    "text": "间",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jian4": {
+    "text": "见",
+    "method": "neural-tts"
+  },
+  "jiang1": {
+    "text": "江",
+    "method": "neural-tts"
+  },
+  "jiang2": {
+    "text": "江",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jiang3": {
+    "text": "江",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jiang4": {
+    "text": "江",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jie1": {
+    "text": "姐",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "jie2": {
+    "text": "姐",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jie3": {
+    "text": "姐",
+    "method": "neural-tts"
+  },
+  "jie4": {
+    "text": "姐",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jin1": {
+    "text": "今",
+    "method": "neural-tts"
+  },
+  "jin2": {
+    "text": "今",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jin3": {
+    "text": "今",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jin4": {
+    "text": "进",
+    "method": "neural-tts"
+  },
+  "jing1": {
+    "text": "丼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "jing2": {
+    "text": "丼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jing3": {
+    "text": "丼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jing4": {
+    "text": "丼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jiu1": {
+    "text": "九",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "jiu2": {
+    "text": "九",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jiu3": {
+    "text": "九",
+    "method": "neural-tts"
+  },
+  "jiu4": {
+    "text": "就",
+    "method": "neural-tts"
+  },
+  "ju1": {
+    "text": "句",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ju2": {
+    "text": "句",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ju3": {
+    "text": "句",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "juan1": {
+    "text": "倦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "juan2": {
+    "text": "倦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "juan3": {
+    "text": "倦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "juan4": {
+    "text": "倦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jue1": {
+    "text": "亅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "jue2": {
+    "text": "亅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jue3": {
+    "text": "亅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jue4": {
+    "text": "亅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "jun1": {
+    "text": "俊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "jun2": {
+    "text": "俊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "jun3": {
+    "text": "俊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "jun4": {
+    "text": "俊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ka1": {
+    "text": "佧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ka2": {
+    "text": "佧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ka3": {
+    "text": "佧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ka4": {
+    "text": "佧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kai1": {
+    "text": "开",
+    "method": "neural-tts"
+  },
+  "kai2": {
+    "text": "开",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kai3": {
+    "text": "开",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kai4": {
+    "text": "开",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kan1": {
+    "text": "看",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "kan2": {
+    "text": "看",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kan3": {
+    "text": "看",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kan4": {
+    "text": "看",
+    "method": "neural-tts"
+  },
+  "ke1": {
+    "text": "科",
+    "method": "neural-tts"
+  },
+  "ke2": {
+    "text": "可",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ke3": {
+    "text": "可",
+    "method": "neural-tts"
+  },
+  "ke4": {
+    "text": "课",
+    "method": "neural-tts"
+  },
+  "ken1": {
+    "text": "啃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ken2": {
+    "text": "啃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ken3": {
+    "text": "啃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ken4": {
+    "text": "啃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kong1": {
+    "text": "空",
+    "method": "neural-tts"
+  },
+  "kong2": {
+    "text": "空",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kong3": {
+    "text": "空",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kong4": {
+    "text": "空",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kou1": {
+    "text": "口",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "kou2": {
+    "text": "口",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kou3": {
+    "text": "口",
+    "method": "neural-tts"
+  },
+  "kou4": {
+    "text": "口",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ku1": {
+    "text": "俈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ku2": {
+    "text": "俈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ku3": {
+    "text": "俈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ku4": {
+    "text": "俈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kua1": {
+    "text": "侉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "kua2": {
+    "text": "侉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kua3": {
+    "text": "侉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kua4": {
+    "text": "侉",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kuai1": {
+    "text": "侩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "kuai2": {
+    "text": "侩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kuai3": {
+    "text": "侩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kuai4": {
+    "text": "侩",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kuan1": {
+    "text": "宽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "kuan2": {
+    "text": "宽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kuan3": {
+    "text": "宽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kuan4": {
+    "text": "宽",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "kuo1": {
+    "text": "廓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "kuo2": {
+    "text": "廓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "kuo3": {
+    "text": "廓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "kuo4": {
+    "text": "廓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "la1": {
+    "text": "剌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "la2": {
+    "text": "剌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "la3": {
+    "text": "剌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "la4": {
+    "text": "剌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "lai1": {
+    "text": "来",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lai2": {
+    "text": "来",
+    "method": "neural-tts"
+  },
+  "lai3": {
+    "text": "来",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lai4": {
+    "text": "来",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "lan1": {
+    "text": "蓝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lan2": {
+    "text": "蓝",
+    "method": "neural-tts"
+  },
+  "lan3": {
+    "text": "蓝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lan4": {
+    "text": "蓝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "lao1": {
+    "text": "老",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lao2": {
+    "text": "老",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "lao3": {
+    "text": "老",
+    "method": "neural-tts"
+  },
+  "lao4": {
+    "text": "老",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "le1": {
+    "text": "了",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "le2": {
+    "text": "了",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "le3": {
+    "text": "了",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "le4": {
+    "text": "了",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "li1": {
+    "text": "力",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "li2": {
+    "text": "力",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "li3": {
+    "text": "里",
+    "method": "neural-tts"
+  },
+  "li4": {
+    "text": "力",
+    "method": "neural-tts"
+  },
+  "lian1": {
+    "text": "莲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lian2": {
+    "text": "莲",
+    "method": "neural-tts"
+  },
+  "lian3": {
+    "text": "莲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lian4": {
+    "text": "莲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "liang1": {
+    "text": "两",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "liang2": {
+    "text": "两",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "liang3": {
+    "text": "两",
+    "method": "neural-tts"
+  },
+  "liang4": {
+    "text": "两",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "lin1": {
+    "text": "林",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lin2": {
+    "text": "林",
+    "method": "neural-tts"
+  },
+  "lin3": {
+    "text": "林",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lin4": {
+    "text": "林",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "liu1": {
+    "text": "六",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "liu2": {
+    "text": "流",
+    "method": "neural-tts"
+  },
+  "liu3": {
+    "text": "柳",
+    "method": "neural-tts"
+  },
+  "liu4": {
+    "text": "六",
+    "method": "neural-tts"
+  },
+  "lou1": {
+    "text": "偻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lou2": {
+    "text": "偻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "lou3": {
+    "text": "偻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lou4": {
+    "text": "偻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "lu1": {
+    "text": "路",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lu2": {
+    "text": "路",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "lu3": {
+    "text": "路",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lu4": {
+    "text": "路",
+    "method": "neural-tts"
+  },
+  "lun1": {
+    "text": "仑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lun2": {
+    "text": "仑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "lun3": {
+    "text": "仑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lun4": {
+    "text": "仑",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "luo1": {
+    "text": "倮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "luo2": {
+    "text": "倮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "luo3": {
+    "text": "倮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "luo4": {
+    "text": "倮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "lv1": {
+    "text": "绿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lv2": {
+    "text": "绿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "lv3": {
+    "text": "绿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lv4": {
+    "text": "绿",
+    "method": "neural-tts"
+  },
+  "lve1": {
+    "text": "圙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "lve2": {
+    "text": "圙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "lve3": {
+    "text": "圙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "lve4": {
+    "text": "圙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ma1": {
+    "text": "妈",
+    "method": "neural-tts"
+  },
+  "ma2": {
+    "text": "妈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ma3": {
+    "text": "马",
+    "method": "neural-tts"
+  },
+  "ma4": {
+    "text": "妈",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "me1": {
+    "text": "么",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "me2": {
+    "text": "么",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "me3": {
+    "text": "么",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "me4": {
+    "text": "么",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "mei1": {
+    "text": "美",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "mei2": {
+    "text": "没",
+    "method": "neural-tts"
+  },
+  "mei3": {
+    "text": "美",
+    "method": "neural-tts"
+  },
+  "mei4": {
+    "text": "妹",
+    "method": "neural-tts"
+  },
+  "men1": {
+    "text": "们",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "men2": {
+    "text": "门",
+    "method": "neural-tts"
+  },
+  "men3": {
+    "text": "们",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "men4": {
+    "text": "们",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "mi1": {
+    "text": "侎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "mi2": {
+    "text": "侎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "mi3": {
+    "text": "侎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "mi4": {
+    "text": "侎",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ming1": {
+    "text": "名",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ming2": {
+    "text": "名",
+    "method": "neural-tts"
+  },
+  "ming3": {
+    "text": "名",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ming4": {
+    "text": "名",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "mo1": {
+    "text": "摸",
+    "method": "neural-tts"
+  },
+  "mo2": {
+    "text": "摸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "mo3": {
+    "text": "摸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "mo4": {
+    "text": "摸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "mu1": {
+    "text": "目",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "mu2": {
+    "text": "目",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "mu3": {
+    "text": "目",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "mu4": {
+    "text": "目",
+    "method": "neural-tts"
+  },
+  "na1": {
+    "text": "乸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "na2": {
+    "text": "乸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "na3": {
+    "text": "乸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "na4": {
+    "text": "乸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "nai1": {
+    "text": "奶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nai2": {
+    "text": "奶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "nai3": {
+    "text": "奶",
+    "method": "neural-tts"
+  },
+  "nai4": {
+    "text": "奶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "nan1": {
+    "text": "南",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nan2": {
+    "text": "南",
+    "method": "neural-tts"
+  },
+  "nan3": {
+    "text": "南",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "nan4": {
+    "text": "南",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ne1": {
+    "text": "讷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ne2": {
+    "text": "讷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ne3": {
+    "text": "讷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ne4": {
+    "text": "讷",
+    "method": "neural-tts"
+  },
+  "nei1": {
+    "text": "内",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nei2": {
+    "text": "内",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "nei3": {
+    "text": "内",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "nei4": {
+    "text": "内",
+    "method": "neural-tts"
+  },
+  "neng1": {
+    "text": "能",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "neng2": {
+    "text": "能",
+    "method": "neural-tts"
+  },
+  "neng3": {
+    "text": "能",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "neng4": {
+    "text": "能",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ni1": {
+    "text": "你",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ni2": {
+    "text": "你",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ni3": {
+    "text": "你",
+    "method": "neural-tts"
+  },
+  "ni4": {
+    "text": "你",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "nian1": {
+    "text": "年",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nian2": {
+    "text": "年",
+    "method": "neural-tts"
+  },
+  "nian3": {
+    "text": "年",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "nian4": {
+    "text": "年",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "niao1": {
+    "text": "鸟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "niao2": {
+    "text": "鸟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "niao3": {
+    "text": "鸟",
+    "method": "neural-tts"
+  },
+  "niao4": {
+    "text": "鸟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "niu1": {
+    "text": "牛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "niu2": {
+    "text": "牛",
+    "method": "neural-tts"
+  },
+  "niu3": {
+    "text": "牛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "niu4": {
+    "text": "牛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "nu1": {
+    "text": "伮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nu2": {
+    "text": "伮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "nu3": {
+    "text": "伮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "nu4": {
+    "text": "伮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "nv1": {
+    "text": "女",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nv2": {
+    "text": "女",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "nv3": {
+    "text": "女",
+    "method": "neural-tts"
+  },
+  "nv4": {
+    "text": "女",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "nve1": {
+    "text": "疟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "nve2": {
+    "text": "疟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "nve3": {
+    "text": "疟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "nve4": {
+    "text": "疟",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "o1": {
+    "text": "哦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "o2": {
+    "text": "哦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "o3": {
+    "text": "哦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "o4": {
+    "text": "哦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ou1": {
+    "text": "欧",
+    "method": "neural-tts"
+  },
+  "ou2": {
+    "text": "欧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ou3": {
+    "text": "欧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ou4": {
+    "text": "欧",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pa1": {
+    "text": "啪",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pa2": {
+    "text": "啪",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pa3": {
+    "text": "啪",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pa4": {
+    "text": "啪",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pang1": {
+    "text": "乓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pang2": {
+    "text": "乓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pang3": {
+    "text": "乓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pang4": {
+    "text": "乓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pei1": {
+    "text": "伂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pei2": {
+    "text": "伂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pei3": {
+    "text": "伂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pei4": {
+    "text": "伂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "peng1": {
+    "text": "朋",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "peng2": {
+    "text": "朋",
+    "method": "neural-tts"
+  },
+  "peng3": {
+    "text": "朋",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "peng4": {
+    "text": "朋",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pi1": {
+    "text": "皮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pi2": {
+    "text": "皮",
+    "method": "neural-tts"
+  },
+  "pi3": {
+    "text": "皮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pi4": {
+    "text": "皮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pian1": {
+    "text": "片",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pian2": {
+    "text": "片",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pian3": {
+    "text": "片",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pian4": {
+    "text": "片",
+    "method": "neural-tts"
+  },
+  "piao1": {
+    "text": "僄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "piao2": {
+    "text": "僄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "piao3": {
+    "text": "僄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "piao4": {
+    "text": "僄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pie1": {
+    "text": "丿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pie2": {
+    "text": "丿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pie3": {
+    "text": "丿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pie4": {
+    "text": "丿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pin1": {
+    "text": "拼",
+    "method": "neural-tts"
+  },
+  "pin2": {
+    "text": "拼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pin3": {
+    "text": "拼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pin4": {
+    "text": "拼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ping1": {
+    "text": "乒",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ping2": {
+    "text": "乒",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ping3": {
+    "text": "乒",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ping4": {
+    "text": "乒",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "po1": {
+    "text": "坡",
+    "method": "neural-tts"
+  },
+  "po2": {
+    "text": "坡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "po3": {
+    "text": "坡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "po4": {
+    "text": "坡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "pu1": {
+    "text": "仆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "pu2": {
+    "text": "仆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "pu3": {
+    "text": "仆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "pu4": {
+    "text": "仆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qi1": {
+    "text": "七",
+    "method": "neural-tts"
+  },
+  "qi2": {
+    "text": "棋",
+    "method": "neural-tts"
+  },
+  "qi3": {
+    "text": "起",
+    "method": "neural-tts"
+  },
+  "qi4": {
+    "text": "气",
+    "method": "neural-tts"
+  },
+  "qia1": {
+    "text": "冾",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qia2": {
+    "text": "冾",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qia3": {
+    "text": "冾",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qia4": {
+    "text": "冾",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qian1": {
+    "text": "前",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qian2": {
+    "text": "前",
+    "method": "neural-tts"
+  },
+  "qian3": {
+    "text": "前",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qian4": {
+    "text": "前",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qiang1": {
+    "text": "丬",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qiang2": {
+    "text": "丬",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qiang3": {
+    "text": "丬",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qiang4": {
+    "text": "丬",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qiao1": {
+    "text": "桥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qiao2": {
+    "text": "桥",
+    "method": "neural-tts"
+  },
+  "qiao3": {
+    "text": "桥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qiao4": {
+    "text": "桥",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qie1": {
+    "text": "且",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qie2": {
+    "text": "且",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qie3": {
+    "text": "且",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qie4": {
+    "text": "且",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qin1": {
+    "text": "亲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qin2": {
+    "text": "亲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qin3": {
+    "text": "亲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qin4": {
+    "text": "亲",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qing1": {
+    "text": "青",
+    "method": "neural-tts"
+  },
+  "qing2": {
+    "text": "青",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qing3": {
+    "text": "青",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qing4": {
+    "text": "青",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qiong1": {
+    "text": "儝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qiong2": {
+    "text": "儝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qiong3": {
+    "text": "儝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qiong4": {
+    "text": "儝",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qiu1": {
+    "text": "秋",
+    "method": "neural-tts"
+  },
+  "qiu2": {
+    "text": "秋",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qiu3": {
+    "text": "秋",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qiu4": {
+    "text": "秋",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qu1": {
+    "text": "去",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qu2": {
+    "text": "去",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qu3": {
+    "text": "去",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qu4": {
+    "text": "去",
+    "method": "neural-tts"
+  },
+  "quan1": {
+    "text": "佺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "quan2": {
+    "text": "佺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "quan3": {
+    "text": "佺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "quan4": {
+    "text": "佺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "que1": {
+    "text": "却",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "que2": {
+    "text": "却",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "que3": {
+    "text": "却",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "que4": {
+    "text": "却",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "qun1": {
+    "text": "囷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "qun2": {
+    "text": "囷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "qun3": {
+    "text": "囷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "qun4": {
+    "text": "囷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "rao1": {
+    "text": "娆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "rao2": {
+    "text": "娆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "rao3": {
+    "text": "娆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "rao4": {
+    "text": "娆",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "re1": {
+    "text": "惹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "re2": {
+    "text": "惹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "re3": {
+    "text": "惹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "re4": {
+    "text": "惹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ren1": {
+    "text": "人",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ren2": {
+    "text": "人",
+    "method": "neural-tts"
+  },
+  "ren3": {
+    "text": "人",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ren4": {
+    "text": "人",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "reng1": {
+    "text": "仍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "reng2": {
+    "text": "仍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "reng3": {
+    "text": "仍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "reng4": {
+    "text": "仍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ri1": {
+    "text": "日",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ri2": {
+    "text": "日",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ri3": {
+    "text": "日",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ri4": {
+    "text": "日",
+    "method": "neural-tts"
+  },
+  "rou1": {
+    "text": "厹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "rou2": {
+    "text": "厹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "rou3": {
+    "text": "厹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "rou4": {
+    "text": "厹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ru1": {
+    "text": "乳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ru2": {
+    "text": "乳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ru3": {
+    "text": "乳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ru4": {
+    "text": "乳",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "rui1": {
+    "text": "叡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "rui2": {
+    "text": "叡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "rui3": {
+    "text": "叡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "rui4": {
+    "text": "叡",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ruo1": {
+    "text": "偌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ruo2": {
+    "text": "偌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ruo3": {
+    "text": "偌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ruo4": {
+    "text": "偌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "sa1": {
+    "text": "仨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "sa2": {
+    "text": "仨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "sa3": {
+    "text": "仨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "sa4": {
+    "text": "仨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "san1": {
+    "text": "三",
+    "method": "neural-tts"
+  },
+  "san2": {
+    "text": "三",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "san3": {
+    "text": "伞",
+    "method": "neural-tts"
+  },
+  "san4": {
+    "text": "三",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "se1": {
+    "text": "色",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "se2": {
+    "text": "色",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "se3": {
+    "text": "色",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "se4": {
+    "text": "色",
+    "method": "neural-tts"
+  },
+  "sen1": {
+    "text": "森",
+    "method": "neural-tts"
+  },
+  "sen2": {
+    "text": "森",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "sen3": {
+    "text": "森",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "sen4": {
+    "text": "森",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "sha1": {
+    "text": "乷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "sha2": {
+    "text": "乷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "sha3": {
+    "text": "乷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "sha4": {
+    "text": "乷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shan1": {
+    "text": "山",
+    "method": "neural-tts"
+  },
+  "shan2": {
+    "text": "山",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shan3": {
+    "text": "闪",
+    "method": "neural-tts"
+  },
+  "shan4": {
+    "text": "山",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shang1": {
+    "text": "上",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "shang2": {
+    "text": "上",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shang3": {
+    "text": "上",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "shang4": {
+    "text": "上",
+    "method": "neural-tts"
+  },
+  "shao1": {
+    "text": "少",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "shao2": {
+    "text": "少",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shao3": {
+    "text": "少",
+    "method": "neural-tts"
+  },
+  "shao4": {
+    "text": "少",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "she1": {
+    "text": "佘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "she2": {
+    "text": "佘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "she3": {
+    "text": "佘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "she4": {
+    "text": "佘",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "sheng1": {
+    "text": "升",
+    "method": "neural-tts"
+  },
+  "sheng2": {
+    "text": "升",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "sheng3": {
+    "text": "升",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "sheng4": {
+    "text": "升",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shi1": {
+    "text": "师",
+    "method": "neural-tts"
+  },
+  "shi2": {
+    "text": "十",
+    "method": "neural-tts"
+  },
+  "shi3": {
+    "text": "十",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "shi4": {
+    "text": "是",
+    "method": "neural-tts"
+  },
+  "shou1": {
+    "text": "手",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "shou2": {
+    "text": "手",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shou3": {
+    "text": "手",
+    "method": "neural-tts"
+  },
+  "shou4": {
+    "text": "手",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shu1": {
+    "text": "书",
+    "method": "neural-tts"
+  },
+  "shu2": {
+    "text": "书",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shu3": {
+    "text": "书",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "shu4": {
+    "text": "数",
+    "method": "neural-tts"
+  },
+  "shuang1": {
+    "text": "双",
+    "method": "neural-tts"
+  },
+  "shuang2": {
+    "text": "双",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shuang3": {
+    "text": "双",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "shuang4": {
+    "text": "双",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shui1": {
+    "text": "水",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "shui2": {
+    "text": "谁",
+    "method": "neural-tts"
+  },
+  "shui3": {
+    "text": "水",
+    "method": "neural-tts"
+  },
+  "shui4": {
+    "text": "水",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shun1": {
+    "text": "吮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "shun2": {
+    "text": "吮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shun3": {
+    "text": "吮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "shun4": {
+    "text": "吮",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "shuo1": {
+    "text": "说",
+    "method": "neural-tts"
+  },
+  "shuo2": {
+    "text": "说",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "shuo3": {
+    "text": "说",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "shuo4": {
+    "text": "说",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "si1": {
+    "text": "思",
+    "method": "neural-tts"
+  },
+  "si2": {
+    "text": "四",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "si3": {
+    "text": "四",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "si4": {
+    "text": "四",
+    "method": "neural-tts"
+  },
+  "song1": {
+    "text": "倯",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "song2": {
+    "text": "倯",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "song3": {
+    "text": "倯",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "song4": {
+    "text": "倯",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "su1": {
+    "text": "俗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "su2": {
+    "text": "俗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "su3": {
+    "text": "俗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "su4": {
+    "text": "俗",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "suo1": {
+    "text": "乺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "suo2": {
+    "text": "乺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "suo3": {
+    "text": "乺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "suo4": {
+    "text": "乺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ta1": {
+    "text": "他",
+    "method": "neural-tts"
+  },
+  "ta2": {
+    "text": "他",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ta3": {
+    "text": "他",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ta4": {
+    "text": "他",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tan1": {
+    "text": "倓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tan2": {
+    "text": "倓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "tan3": {
+    "text": "倓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tan4": {
+    "text": "倓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tao1": {
+    "text": "桃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tao2": {
+    "text": "桃",
+    "method": "neural-tts"
+  },
+  "tao3": {
+    "text": "桃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tao4": {
+    "text": "桃",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "te1": {
+    "text": "特",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "te2": {
+    "text": "特",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "te3": {
+    "text": "特",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "te4": {
+    "text": "特",
+    "method": "neural-tts"
+  },
+  "ti1": {
+    "text": "体",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ti2": {
+    "text": "体",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ti3": {
+    "text": "体",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ti4": {
+    "text": "体",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tian1": {
+    "text": "天",
+    "method": "neural-tts"
+  },
+  "tian2": {
+    "text": "田",
+    "method": "neural-tts"
+  },
+  "tian3": {
+    "text": "天",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tian4": {
+    "text": "天",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tiao1": {
+    "text": "条",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tiao2": {
+    "text": "条",
+    "method": "neural-tts"
+  },
+  "tiao3": {
+    "text": "条",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tiao4": {
+    "text": "条",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ting1": {
+    "text": "亭",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ting2": {
+    "text": "亭",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ting3": {
+    "text": "亭",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ting4": {
+    "text": "亭",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tou1": {
+    "text": "头",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tou2": {
+    "text": "头",
+    "method": "neural-tts"
+  },
+  "tou3": {
+    "text": "头",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tou4": {
+    "text": "头",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tu1": {
+    "text": "土",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tu2": {
+    "text": "土",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "tu3": {
+    "text": "土",
+    "method": "neural-tts"
+  },
+  "tu4": {
+    "text": "兔",
+    "method": "neural-tts"
+  },
+  "tui1": {
+    "text": "侻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tui2": {
+    "text": "侻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "tui3": {
+    "text": "侻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tui4": {
+    "text": "侻",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "tun1": {
+    "text": "吞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "tun2": {
+    "text": "吞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "tun3": {
+    "text": "吞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "tun4": {
+    "text": "吞",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "wa1": {
+    "text": "蛙",
+    "method": "neural-tts"
+  },
+  "wa2": {
+    "text": "蛙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "wa3": {
+    "text": "蛙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "wa4": {
+    "text": "蛙",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "wai1": {
+    "text": "外",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "wai2": {
+    "text": "外",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "wai3": {
+    "text": "外",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "wai4": {
+    "text": "外",
+    "method": "neural-tts"
+  },
+  "wan1": {
+    "text": "弯",
+    "method": "neural-tts"
+  },
+  "wan2": {
+    "text": "晚",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "wan3": {
+    "text": "晚",
+    "method": "neural-tts"
+  },
+  "wan4": {
+    "text": "晚",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "wang1": {
+    "text": "王",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "wang2": {
+    "text": "王",
+    "method": "neural-tts"
+  },
+  "wang3": {
+    "text": "王",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "wang4": {
+    "text": "王",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "wei1": {
+    "text": "威",
+    "method": "neural-tts"
+  },
+  "wei2": {
+    "text": "卫",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "wei3": {
+    "text": "尾",
+    "method": "neural-tts"
+  },
+  "wei4": {
+    "text": "卫",
+    "method": "neural-tts"
+  },
+  "wen1": {
+    "text": "温",
+    "method": "neural-tts"
+  },
+  "wen2": {
+    "text": "文",
+    "method": "neural-tts"
+  },
+  "wen3": {
+    "text": "文",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "wen4": {
+    "text": "问",
+    "method": "neural-tts"
+  },
+  "wo1": {
+    "text": "我",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "wo2": {
+    "text": "我",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "wo3": {
+    "text": "我",
+    "method": "neural-tts"
+  },
+  "wo4": {
+    "text": "我",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "wu1": {
+    "text": "乌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "wu2": {
+    "text": "五",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "wu3": {
+    "text": "五",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "wu4": {
+    "text": "五",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xi1": {
+    "text": "西",
+    "method": "neural-tts"
+  },
+  "xi2": {
+    "text": "西",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xi3": {
+    "text": "西",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xi4": {
+    "text": "戏",
+    "method": "neural-tts"
+  },
+  "xia1": {
+    "text": "下",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xia2": {
+    "text": "下",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xia3": {
+    "text": "下",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xia4": {
+    "text": "下",
+    "method": "neural-tts"
+  },
+  "xian1": {
+    "text": "先",
+    "method": "neural-tts"
+  },
+  "xian2": {
+    "text": "先",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xian3": {
+    "text": "先",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xian4": {
+    "text": "先",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xiang1": {
+    "text": "向",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xiang2": {
+    "text": "向",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xiang3": {
+    "text": "向",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xiang4": {
+    "text": "向",
+    "method": "neural-tts"
+  },
+  "xiao1": {
+    "text": "校",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xiao2": {
+    "text": "校",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xiao3": {
+    "text": "小",
+    "method": "neural-tts"
+  },
+  "xiao4": {
+    "text": "校",
+    "method": "neural-tts"
+  },
+  "xie1": {
+    "text": "写",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xie2": {
+    "text": "写",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xie3": {
+    "text": "写",
+    "method": "neural-tts"
+  },
+  "xie4": {
+    "text": "写",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xin1": {
+    "text": "心",
+    "method": "neural-tts"
+  },
+  "xin2": {
+    "text": "心",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xin3": {
+    "text": "心",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xin4": {
+    "text": "心",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xing1": {
+    "text": "星",
+    "method": "neural-tts"
+  },
+  "xing2": {
+    "text": "行",
+    "method": "neural-tts"
+  },
+  "xing3": {
+    "text": "姓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xing4": {
+    "text": "姓",
+    "method": "neural-tts"
+  },
+  "xiu1": {
+    "text": "休",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xiu2": {
+    "text": "休",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xiu3": {
+    "text": "休",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xiu4": {
+    "text": "休",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xu1": {
+    "text": "许",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xu2": {
+    "text": "许",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xu3": {
+    "text": "许",
+    "method": "neural-tts"
+  },
+  "xu4": {
+    "text": "许",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xuan1": {
+    "text": "儇",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xuan2": {
+    "text": "儇",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xuan3": {
+    "text": "儇",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xuan4": {
+    "text": "儇",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xue1": {
+    "text": "学",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xue2": {
+    "text": "学",
+    "method": "neural-tts"
+  },
+  "xue3": {
+    "text": "雪",
+    "method": "neural-tts"
+  },
+  "xue4": {
+    "text": "学",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "xun1": {
+    "text": "伨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "xun2": {
+    "text": "伨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "xun3": {
+    "text": "伨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "xun4": {
+    "text": "伨",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ya1": {
+    "text": "鸭",
+    "method": "neural-tts"
+  },
+  "ya2": {
+    "text": "牙",
+    "method": "neural-tts"
+  },
+  "ya3": {
+    "text": "鸭",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ya4": {
+    "text": "鸭",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "yang1": {
+    "text": "羊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "yang2": {
+    "text": "羊",
+    "method": "neural-tts"
+  },
+  "yang3": {
+    "text": "羊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yang4": {
+    "text": "羊",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "yao1": {
+    "text": "仸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "yao2": {
+    "text": "仸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "yao3": {
+    "text": "仸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yao4": {
+    "text": "仸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ye1": {
+    "text": "夜",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ye2": {
+    "text": "爷",
+    "method": "neural-tts"
+  },
+  "ye3": {
+    "text": "也",
+    "method": "neural-tts"
+  },
+  "ye4": {
+    "text": "夜",
+    "method": "neural-tts"
+  },
+  "yi1": {
+    "text": "一",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "yi2": {
+    "text": "一",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "yi3": {
+    "text": "一",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yi4": {
+    "text": "一",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "yin1": {
+    "text": "音",
+    "method": "neural-tts"
+  },
+  "yin2": {
+    "text": "音",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "yin3": {
+    "text": "音",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yin4": {
+    "text": "音",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ying1": {
+    "text": "英",
+    "method": "neural-tts"
+  },
+  "ying2": {
+    "text": "影",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ying3": {
+    "text": "影",
+    "method": "neural-tts"
+  },
+  "ying4": {
+    "text": "影",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "yong1": {
+    "text": "用",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "yong2": {
+    "text": "用",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "yong3": {
+    "text": "用",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yong4": {
+    "text": "用",
+    "method": "neural-tts"
+  },
+  "you1": {
+    "text": "优",
+    "method": "neural-tts"
+  },
+  "you2": {
+    "text": "右",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "you3": {
+    "text": "友",
+    "method": "neural-tts"
+  },
+  "you4": {
+    "text": "右",
+    "method": "neural-tts"
+  },
+  "yu1": {
+    "text": "迂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "yu2": {
+    "text": "鱼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "yu3": {
+    "text": "语",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yu4": {
+    "text": "鱼",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "yuan1": {
+    "text": "原",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "yuan2": {
+    "text": "原",
+    "method": "neural-tts"
+  },
+  "yuan3": {
+    "text": "原",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yuan4": {
+    "text": "院",
+    "method": "neural-tts"
+  },
+  "yue1": {
+    "text": "约",
+    "method": "neural-tts"
+  },
+  "yue2": {
+    "text": "月",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "yue3": {
+    "text": "月",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yue4": {
+    "text": "月",
+    "method": "neural-tts"
+  },
+  "yun1": {
+    "text": "晕",
+    "method": "neural-tts"
+  },
+  "yun2": {
+    "text": "云",
+    "method": "neural-tts"
+  },
+  "yun3": {
+    "text": "云",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "yun4": {
+    "text": "云",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "za1": {
+    "text": "偺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "za2": {
+    "text": "偺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "za3": {
+    "text": "偺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "za4": {
+    "text": "偺",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zai1": {
+    "text": "在",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zai2": {
+    "text": "在",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zai3": {
+    "text": "在",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zai4": {
+    "text": "在",
+    "method": "neural-tts"
+  },
+  "zao1": {
+    "text": "早",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zao2": {
+    "text": "早",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zao3": {
+    "text": "早",
+    "method": "neural-tts"
+  },
+  "zao4": {
+    "text": "早",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "ze1": {
+    "text": "仄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "ze2": {
+    "text": "仄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "ze3": {
+    "text": "仄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "ze4": {
+    "text": "仄",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zha1": {
+    "text": "乍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zha2": {
+    "text": "乍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zha3": {
+    "text": "乍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zha4": {
+    "text": "乍",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zhan1": {
+    "text": "站",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhan2": {
+    "text": "站",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhan3": {
+    "text": "站",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhan4": {
+    "text": "站",
+    "method": "neural-tts"
+  },
+  "zhang1": {
+    "text": "长",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhang2": {
+    "text": "长",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhang3": {
+    "text": "长",
+    "method": "neural-tts"
+  },
+  "zhang4": {
+    "text": "长",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zhao1": {
+    "text": "找",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhao2": {
+    "text": "找",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhao3": {
+    "text": "找",
+    "method": "neural-tts"
+  },
+  "zhao4": {
+    "text": "找",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zhe1": {
+    "text": "这",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhe2": {
+    "text": "这",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhe3": {
+    "text": "这",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhe4": {
+    "text": "这",
+    "method": "neural-tts"
+  },
+  "zhen1": {
+    "text": "侦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhen2": {
+    "text": "侦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhen3": {
+    "text": "侦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhen4": {
+    "text": "侦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zheng1": {
+    "text": "正",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zheng2": {
+    "text": "正",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zheng3": {
+    "text": "正",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zheng4": {
+    "text": "正",
+    "method": "neural-tts"
+  },
+  "zhi1": {
+    "text": "知",
+    "method": "neural-tts"
+  },
+  "zhi2": {
+    "text": "纸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhi3": {
+    "text": "纸",
+    "method": "neural-tts"
+  },
+  "zhi4": {
+    "text": "纸",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zhong1": {
+    "text": "中",
+    "method": "neural-tts"
+  },
+  "zhong2": {
+    "text": "众",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhong3": {
+    "text": "众",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhong4": {
+    "text": "众",
+    "method": "neural-tts"
+  },
+  "zhu1": {
+    "text": "竹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhu2": {
+    "text": "竹",
+    "method": "neural-tts"
+  },
+  "zhu3": {
+    "text": "竹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhu4": {
+    "text": "竹",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zhua1": {
+    "text": "抓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zhua2": {
+    "text": "抓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhua3": {
+    "text": "抓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhua4": {
+    "text": "抓",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zhuo1": {
+    "text": "桌",
+    "method": "neural-tts"
+  },
+  "zhuo2": {
+    "text": "桌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zhuo3": {
+    "text": "桌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zhuo4": {
+    "text": "桌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zi1": {
+    "text": "资",
+    "method": "neural-tts"
+  },
+  "zi2": {
+    "text": "字",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zi3": {
+    "text": "字",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zi4": {
+    "text": "字",
+    "method": "neural-tts"
+  },
+  "zou1": {
+    "text": "奏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zou2": {
+    "text": "奏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zou3": {
+    "text": "奏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zou4": {
+    "text": "奏",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zu1": {
+    "text": "足",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zu2": {
+    "text": "足",
+    "method": "neural-tts"
+  },
+  "zu3": {
+    "text": "足",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zu4": {
+    "text": "足",
+    "method": "neural-tts+pitch-contour",
+    "tone": 4,
+    "cutInitial": false
+  },
+  "zui1": {
+    "text": "最",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zui2": {
+    "text": "最",
+    "method": "neural-tts+pitch-contour",
+    "tone": 2,
+    "cutInitial": false
+  },
+  "zui3": {
+    "text": "最",
+    "method": "neural-tts+pitch-contour",
+    "tone": 3,
+    "cutInitial": false
+  },
+  "zui4": {
+    "text": "最",
+    "method": "neural-tts"
+  },
+  "zuo1": {
+    "text": "坐",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "zuo2": {
+    "text": "昨",
+    "method": "neural-tts"
+  },
+  "zuo3": {
+    "text": "左",
+    "method": "neural-tts"
+  },
+  "zuo4": {
+    "text": "坐",
+    "method": "neural-tts"
+  },
+  "ju4": {
+    "text": "句",
+    "method": "neural-tts"
+  },
+  "unit:a": {
+    "text": "阿",
+    "method": "neural-tts"
+  },
+  "unit:o": {
+    "text": "哦",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:e": {
+    "text": "鹅",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:i": {
+    "text": "衣",
+    "method": "neural-tts"
+  },
+  "unit:u": {
+    "text": "乌",
+    "method": "neural-tts"
+  },
+  "unit:v": {
+    "text": "迂",
+    "method": "neural-tts"
+  },
+  "unit:b": {
+    "text": "玻",
+    "method": "neural-tts"
+  },
+  "unit:p": {
+    "text": "坡",
+    "method": "neural-tts"
+  },
+  "unit:m": {
+    "text": "摸",
+    "method": "neural-tts"
+  },
+  "unit:f": {
+    "text": "佛",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:d": {
+    "text": "得",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:t": {
+    "text": "特",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:n": {
+    "text": "讷",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:l": {
+    "text": "勒",
+    "method": "neural-tts"
+  },
+  "unit:g": {
+    "text": "哥",
+    "method": "neural-tts"
+  },
+  "unit:k": {
+    "text": "科",
+    "method": "neural-tts"
+  },
+  "unit:h": {
+    "text": "喝",
+    "method": "neural-tts"
+  },
+  "unit:j": {
+    "text": "鸡",
+    "method": "neural-tts"
+  },
+  "unit:q": {
+    "text": "七",
+    "method": "neural-tts"
+  },
+  "unit:x": {
+    "text": "西",
+    "method": "neural-tts"
+  },
+  "unit:z": {
+    "text": "资",
+    "method": "neural-tts"
+  },
+  "unit:c": {
+    "text": "雌",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:s": {
+    "text": "思",
+    "method": "neural-tts"
+  },
+  "unit:zh": {
+    "text": "知",
+    "method": "neural-tts"
+  },
+  "unit:ch": {
+    "text": "吃",
+    "method": "neural-tts"
+  },
+  "unit:sh": {
+    "text": "诗",
+    "method": "neural-tts"
+  },
+  "unit:r": {
+    "text": "日",
+    "method": "neural-tts"
+  },
+  "unit:y": {
+    "text": "衣",
+    "method": "neural-tts"
+  },
+  "unit:w": {
+    "text": "乌",
+    "method": "neural-tts"
+  },
+  "unit:ai": {
+    "text": "哀",
+    "method": "neural-tts"
+  },
+  "unit:ei": {
+    "text": "诶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:ui": {
+    "text": "威",
+    "method": "neural-tts"
+  },
+  "unit:ao": {
+    "text": "凹",
+    "method": "neural-tts"
+  },
+  "unit:ou": {
+    "text": "欧",
+    "method": "neural-tts"
+  },
+  "unit:iu": {
+    "text": "优",
+    "method": "neural-tts"
+  },
+  "unit:ie": {
+    "text": "耶",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:ve": {
+    "text": "约",
+    "method": "neural-tts"
+  },
+  "unit:er": {
+    "text": "儿",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:an": {
+    "text": "安",
+    "method": "neural-tts"
+  },
+  "unit:en": {
+    "text": "恩",
+    "method": "neural-tts"
+  },
+  "unit:in": {
+    "text": "因",
+    "method": "neural-tts"
+  },
+  "unit:un": {
+    "text": "温",
+    "method": "neural-tts"
+  },
+  "unit:vn": {
+    "text": "晕",
+    "method": "neural-tts"
+  },
+  "unit:ang": {
+    "text": "昂",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": false
+  },
+  "unit:eng": {
+    "text": "鞥",
+    "method": "neural-tts"
+  },
+  "unit:ing": {
+    "text": "英",
+    "method": "neural-tts"
+  },
+  "unit:ong": {
+    "text": "轰",
+    "method": "neural-tts+pitch-contour",
+    "tone": 1,
+    "cutInitial": true
+  }
+}
