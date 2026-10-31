@@ -159,7 +159,7 @@ function letterItem(letter) {
 
 // ======================= 存档 =======================
 const SAVE_KEY = 'pinyin-hero-v1';
-const DEFAULT_SETTINGS = { sound: true, keyVoice: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
+const DEFAULT_SETTINGS = { sound: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
 let save = loadSave();
 function loadSave() {
   try {
@@ -297,13 +297,9 @@ function getHumanTtsUrls(text, engine, rate) {
 }
 
 let speakSeq = 0;
-let speakTimer = null;
-let netTtsFailCount = 0;
-let netTtsFailResetAt = 0;
 
 function stopAllSpeech() {
   speakSeq++;
-  clearTimeout(speakTimer);
   if (currentAudio) {
     try {
       currentAudio.onplaying = null;
@@ -316,10 +312,10 @@ function stopAllSpeech() {
   }
 }
 
-function speak(text, timeoutMs = 850) {
+// 标准真人人声播报：默认使用播音员甜美女声，绝不自动降级到机器音
+function speak(text) {
   if (!S().sound || !text) return;
   const mySeq = ++speakSeq;
-  clearTimeout(speakTimer);
   if (currentAudio) {
     try {
       currentAudio.onplaying = null;
@@ -332,10 +328,8 @@ function speak(text, timeoutMs = 850) {
   }
 
   const engine = S().voiceEngine || 'human_zh';
-  if (netTtsFailCount >= 3 && Date.now() > netTtsFailResetAt) {
-    netTtsFailCount = 0;
-  }
-  if (engine === 'local' || netTtsFailCount >= 3) {
+  // 只有在设置里明确选了“本地离线语音”才使用系统合成
+  if (engine === 'local') {
     speakLocal(text);
     return;
   }
@@ -343,76 +337,24 @@ function speak(text, timeoutMs = 850) {
   const urls = getHumanTtsUrls(text, engine, S().rate);
   let idx = 0;
   function tryNext() {
-    if (mySeq !== speakSeq) return;
-    clearTimeout(speakTimer);
-    if (idx >= urls.length) {
-      netTtsFailCount++;
-      netTtsFailResetAt = Date.now() + 45000;
-      speakLocal(text);
-      return;
-    }
+    if (mySeq !== speakSeq || idx >= urls.length) return;
     const audio = ensureSharedAudio();
     audio.referrerPolicy = 'no-referrer';
-    audio.onplaying = null;
-    audio.onerror = null;
     audio.src = urls[idx++];
     audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
     currentAudio = audio;
-
-    let started = false;
-    audio.onplaying = () => {
-      started = true;
-      netTtsFailCount = 0;
-      clearTimeout(speakTimer);
-    };
     audio.onerror = () => {
-      if (mySeq !== speakSeq || started) return;
-      clearTimeout(speakTimer);
-      tryNext();
+      if (mySeq === speakSeq) tryNext();
     };
-    speakTimer = setTimeout(() => {
-      if (mySeq !== speakSeq || started) return;
-      try { audio.pause(); } catch (e) {}
-      tryNext();
-    }, timeoutMs);
-
-    try {
-      const p = audio.play();
-      if (p && p.catch) {
-        p.catch(() => {
-          if (mySeq !== speakSeq || started) return;
-          clearTimeout(speakTimer);
-          tryNext();
-        });
-      }
-    } catch (e) {
-      if (mySeq === speakSeq && !started) {
-        clearTimeout(speakTimer);
-        tryNext();
-      }
+    const p = audio.play();
+    if (p && p.catch) {
+      p.catch(err => {
+        if (err && err.name === 'AbortError') return;
+        if (mySeq === speakSeq) tryNext();
+      });
     }
   }
   tryNext();
-}
-
-// 26 个拼音字母键标准呼读音对照表（v 对应 ü）
-const KEY_LETTER_SAY = {
-  a: '阿', o: '喔', e: '鹅', i: '衣', u: '乌', v: '迂', 'ü': '迂',
-  b: '玻', p: '坡', m: '摸', f: '佛',
-  d: '得', t: '特', n: '讷', l: '勒',
-  g: '哥', k: '科', h: '喝',
-  j: '基', q: '欺', x: '希',
-  z: '资', c: '雌', s: '思', r: '日',
-  y: '衣', w: '乌'
-};
-
-function speakLetterKey(k) {
-  if (!S().sound || S().keyVoice === false) return;
-  const ch = (k || '').toLowerCase();
-  const say = KEY_LETTER_SAY[ch] || (LETTER_INFO[ch] && LETTER_INFO[ch].say);
-  if (!say) return;
-  // 字母按键使用更短的超时，确保连续打字时响应灵敏不卡顿
-  speak(say, 480);
 }
 
 function beep(notes, type = 'sine', vol = 0.22) {
@@ -1499,13 +1441,7 @@ function roundKey(k) {
     R.buf += k === 'ü' ? 'v' : k;
     sfx.key();
     updateAnswer();
-    const willCheckImmediately = !R.requireTone && (R.buf.length >= it.key.length || !it.key.startsWith(R.buf));
-    if (willCheckImmediately) {
-      if (!it.key.startsWith(R.buf)) speakLetterKey(k);
-      setTimeout(check, 150);
-    } else {
-      speakLetterKey(k);
-    }
+    if (!R.requireTone && (R.buf.length >= it.key.length || !it.key.startsWith(R.buf))) setTimeout(check, 150);
     return;
   }
   if (/^[0-5]$/.test(k)) {
@@ -1892,7 +1828,6 @@ function balloonGame(opts) {
     if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(b => ans(b) === nb);
     if (exact && (needTone || matches.length === 1)) { pop(exact); markTargets(); return; }
-    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -2198,7 +2133,6 @@ function duckGame(opts) {
     if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(d => answerOf(d.it) === nb);
     if (exact && (needTone || matches.length === 1)) { shoot(exact); markTargets(); return; }
-    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -2664,7 +2598,6 @@ function pacmanGame(opts) {
     if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(b => answerOf(b.it) === nb);
     if (exact && (needTone || matches.length === 1)) { runToBean(exact); return; }
-    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -2988,7 +2921,6 @@ function tankGame(opts) {
     if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(t => answerOf(t.it) === nb);
     if (exact && (needTone || matches.length === 1)) { fireAt(exact); markTargets(); return; }
-    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -3074,11 +3006,10 @@ function settingsModal() {
   m.innerHTML = `<div class="card">
     <h2 style="margin-top:0">⚙️ 设置 <span class="sub" style="font-size:14px">（修改后立即生效）</span></h2>
     <div class="setting-row"><span>🔊 声音和朗读</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
-    <div class="setting-row"><span>🔤 按拼音字母键时发声</span><label class="switch"><input type="checkbox" id="sKeyVoice" ${s.keyVoice !== false ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>🎙️ 配音音色</span>
       <select id="sVoice">
-        <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·需联网）</option>
-        <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·需联网）</option>
+        <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·标准人声）</option>
+        <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·标准人声）</option>
         <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 平板/电脑本地离线语音</option>
       </select>
     </div>
@@ -3096,7 +3027,6 @@ function settingsModal() {
 
   const syncAllFromControls = () => {
     s.sound = $('#sSound').checked;
-    s.keyVoice = $('#sKeyVoice').checked;
     s.voiceEngine = $('#sVoice').value;
     s.rate = +$('#sRate').value;
     s.gameSpeed = $('#sGameSpeed').value;
@@ -3112,12 +3042,7 @@ function settingsModal() {
     syncAllFromControls();
     if (s.sound) sfx.ok();
   };
-  $('#sKeyVoice').onchange = () => {
-    syncAllFromControls();
-    if (s.sound && s.keyVoice) { sfx.key(); speakLetterKey('a'); }
-  };
   $('#sVoice').onchange = () => {
-    netTtsFailCount = 0;
     syncAllFromControls();
     speak('小朋友你好，快来一起学拼音吧！');
   };

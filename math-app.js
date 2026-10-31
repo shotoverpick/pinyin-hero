@@ -192,13 +192,9 @@ function getHumanTtsUrls(text, engine, rate) {
 }
 
 let speakSeq = 0;
-let speakTimer = null;
-let netTtsFailCount = 0;
-let netTtsFailResetAt = 0;
 
 function stopAllSpeech() {
   speakSeq++;
-  clearTimeout(speakTimer);
   if (currentAudio) {
     try {
       currentAudio.onplaying = null;
@@ -211,10 +207,10 @@ function stopAllSpeech() {
   }
 }
 
-function speak(text, timeoutMs = 850) {
+// 标准真人人声播报：默认使用播音员甜美女声，绝不自动降级到机器音
+function speak(text) {
   if (!S().sound || !text) return;
   const mySeq = ++speakSeq;
-  clearTimeout(speakTimer);
   if (currentAudio) {
     try {
       currentAudio.onplaying = null;
@@ -227,63 +223,30 @@ function speak(text, timeoutMs = 850) {
   }
 
   const engine = S().voiceEngine || 'human_zh';
-  if (netTtsFailCount >= 3 && Date.now() > netTtsFailResetAt) {
-    netTtsFailCount = 0;
-  }
-  if (engine === 'local' || netTtsFailCount >= 3) {
+  // 只有在设置里明确选了“本地离线语音”才使用系统合成
+  if (engine === 'local') {
     speakLocal(text);
     return;
   }
+
   const urls = getHumanTtsUrls(text, engine, S().rate);
   let idx = 0;
   function tryNext() {
-    if (mySeq !== speakSeq) return;
-    clearTimeout(speakTimer);
-    if (idx >= urls.length) {
-      netTtsFailCount++;
-      netTtsFailResetAt = Date.now() + 45000;
-      speakLocal(text);
-      return;
-    }
+    if (mySeq !== speakSeq || idx >= urls.length) return;
     const audio = ensureSharedAudio();
     audio.referrerPolicy = 'no-referrer';
-    audio.onplaying = null;
-    audio.onerror = null;
     audio.src = urls[idx++];
     audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
     currentAudio = audio;
-
-    let started = false;
-    audio.onplaying = () => {
-      started = true;
-      netTtsFailCount = 0;
-      clearTimeout(speakTimer);
-    };
     audio.onerror = () => {
-      if (mySeq !== speakSeq || started) return;
-      clearTimeout(speakTimer);
-      tryNext();
+      if (mySeq === speakSeq) tryNext();
     };
-    speakTimer = setTimeout(() => {
-      if (mySeq !== speakSeq || started) return;
-      try { audio.pause(); } catch (e) {}
-      tryNext();
-    }, timeoutMs);
-
-    try {
-      const p = audio.play();
-      if (p && p.catch) {
-        p.catch(() => {
-          if (mySeq !== speakSeq || started) return;
-          clearTimeout(speakTimer);
-          tryNext();
-        });
-      }
-    } catch (e) {
-      if (mySeq === speakSeq && !started) {
-        clearTimeout(speakTimer);
-        tryNext();
-      }
+    const p = audio.play();
+    if (p && p.catch) {
+      p.catch(err => {
+        if (err && err.name === 'AbortError') return;
+        if (mySeq === speakSeq) tryNext();
+      });
     }
   }
   tryNext();
@@ -2834,8 +2797,8 @@ function settingsModal() {
     <div class="setting-row"><span>🔊 声音和语音读题</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>🎙️ 配音音色</span>
       <select id="sVoice">
-        <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·需联网）</option>
-        <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·需联网）</option>
+        <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·标准人声）</option>
+        <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·标准人声）</option>
         <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 平板/电脑本地离线语音</option>
       </select>
     </div>
@@ -2867,7 +2830,7 @@ function settingsModal() {
     persist();
   };
   $('#sSound').onchange = () => { syncAll(); if (s.sound) sfx.ok(); };
-  $('#sVoice').onchange = () => { netTtsFailCount = 0; syncAll(); speak('小朋友你好，我是聪聪，快来一起玩数学游戏吧！'); };
+  $('#sVoice').onchange = () => { syncAll(); speak('小朋友你好，我是聪聪，快来一起玩数学游戏吧！'); };
   $('#sRate').onchange = () => { syncAll(); speak('你好，小朋友'); };
   $('#sGameSpeed').onchange = syncAll;
   $('#sNumpad').onchange = syncAll;
