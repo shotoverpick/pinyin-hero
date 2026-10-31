@@ -1,4 +1,4 @@
-const CACHE_NAME = 'xiaoyongshi-v9';
+const CACHE_NAME = 'xiaoyongshi-v10';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const ASSETS = [
   './combo.html',
   './style.css',
   './data.js',
+  './key-audio-data.js',
   './app.js',
   './hanzi-writer.min.js',
   './hanzi-data.js',

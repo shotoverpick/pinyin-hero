@@ -159,7 +159,7 @@ function letterItem(letter) {
 
 // ======================= 存档 =======================
 const SAVE_KEY = 'pinyin-hero-v1';
-const DEFAULT_SETTINGS = { sound: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
+const DEFAULT_SETTINGS = { sound: true, keyVoice: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
 let save = loadSave();
 function loadSave() {
   try {
@@ -250,6 +250,7 @@ function keepAudioAlive() {
       if (p && p.catch) p.catch(() => {});
     } catch (e) {}
   }
+  initKeyAudios();
   if ('speechSynthesis' in window && speechSynthesis.paused) {
     try { speechSynthesis.resume(); } catch (e) {}
   }
@@ -398,6 +399,86 @@ const sfx = {
   waka: () => beep([[340, .05], [460, .06]], 'triangle', 0.14),
   win: () => beep([[523, .15], [659, .15], [784, .15], [1047, .4]], 'triangle', 0.26),
 };
+
+// ======================= 键盘按键标准真人发音 =======================
+const KEY_SAY = {
+  a: '啊', b: '玻', c: '雌', d: '得', e: '鹅', f: '佛', g: '哥', h: '喝',
+  i: '衣', j: '鸡', k: '科', l: '勒', m: '摸', n: '讷', o: '喔', p: '坡',
+  q: '七', r: '日', s: '思', t: '特', u: '乌', v: '迂', 'ü': '迂',
+  w: '乌', x: '西', y: '衣', z: '资',
+  '1': '一声', '2': '二声', '3': '三声', '4': '四声', '0': '轻声', '5': '轻声'
+};
+
+const keyAudioBuffers = {};
+const keyAudioElements = {};
+let keyAudioInitialized = false;
+
+function initKeyAudios() {
+  if (keyAudioInitialized || typeof window === 'undefined') return;
+  const data = window.KEY_AUDIO_DATA;
+  if (!data) return;
+  keyAudioInitialized = true;
+
+  const ctx = ensureAudioContext();
+  for (const k in data) {
+    const dataUri = data[k];
+    try {
+      const a = new Audio();
+      a.preload = 'auto';
+      a.src = dataUri;
+      keyAudioElements[k] = a;
+    } catch (e) {}
+
+    if (ctx && ctx.decodeAudioData) {
+      try {
+        const base64Str = dataUri.split(',')[1];
+        const binary = atob(base64Str);
+        const len = binary.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
+        ctx.decodeAudioData(bytes.buffer.slice(0), buf => {
+          keyAudioBuffers[k] = buf;
+        }, () => {});
+      } catch (e) {}
+    }
+  }
+}
+
+// 播放键盘按键标准真人发音（绝无机械音、绝无机器人音，0ms 快速响应）
+function playKeyVoice(k) {
+  if (!S().sound || S().keyVoice === false) return;
+  const ch = (k || '').toLowerCase();
+  const normalizedKey = ch === '5' ? '0' : (ch === 'ü' ? 'v' : ch);
+
+  if (!keyAudioInitialized) initKeyAudios();
+
+  const ctx = ensureAudioContext();
+  const buf = keyAudioBuffers[normalizedKey] || keyAudioBuffers[ch];
+  if (ctx && buf && ctx.state === 'running') {
+    try {
+      const src = ctx.createBufferSource();
+      const gain = ctx.createGain();
+      gain.gain.value = 0.95;
+      src.buffer = buf;
+      src.connect(gain).connect(ctx.destination);
+      src.start(0);
+      return;
+    } catch (e) {}
+  }
+
+  const audio = keyAudioElements[normalizedKey] || keyAudioElements[ch];
+  if (audio) {
+    try {
+      audio.currentTime = 0;
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => {});
+      return;
+    } catch (e) {}
+  }
+
+  const say = KEY_SAY[ch] || KEY_SAY[normalizedKey];
+  if (say) speak(say);
+}
 
 // ======================= 界面工具 =======================
 const $ = s => document.querySelector(s);
@@ -1439,7 +1520,7 @@ function roundKey(k) {
   if (/^[a-zü]$/.test(k)) {
     if (R.buf.length >= 8) return;
     R.buf += k === 'ü' ? 'v' : k;
-    sfx.key();
+    playKeyVoice(k);
     updateAnswer();
     if (!R.requireTone && (R.buf.length >= it.key.length || !it.key.startsWith(R.buf))) setTimeout(check, 150);
     return;
@@ -1447,7 +1528,7 @@ function roundKey(k) {
   if (/^[0-5]$/.test(k)) {
     if (!R.requireTone) return;
     R.tone = (k === '0' || k === '5') ? 0 : +k;
-    sfx.tone(R.tone);
+    playKeyVoice(String(R.tone));
     updateAnswer();
     if (R.buf) setTimeout(check, 220);
     return;
@@ -1825,7 +1906,7 @@ function balloonGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
+    playKeyVoice(ch);
     const exact = matches.find(b => ans(b) === nb);
     if (exact && (needTone || matches.length === 1)) { pop(exact); markTargets(); return; }
     drawHUD(); markTargets();
@@ -2130,7 +2211,7 @@ function duckGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
+    playKeyVoice(ch);
     const exact = matches.find(d => answerOf(d.it) === nb);
     if (exact && (needTone || matches.length === 1)) { shoot(exact); markTargets(); return; }
     drawHUD(); markTargets();
@@ -2595,7 +2676,7 @@ function pacmanGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
+    playKeyVoice(ch);
     const exact = matches.find(b => answerOf(b.it) === nb);
     if (exact && (needTone || matches.length === 1)) { runToBean(exact); return; }
     drawHUD(); markTargets();
@@ -2918,7 +2999,7 @@ function tankGame(opts) {
       G.buf = ''; drawHUD(); markTargets(); return;
     }
     G.buf = nb;
-    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
+    playKeyVoice(ch);
     const exact = matches.find(t => answerOf(t.it) === nb);
     if (exact && (needTone || matches.length === 1)) { fireAt(exact); markTargets(); return; }
     drawHUD(); markTargets();
@@ -3006,6 +3087,7 @@ function settingsModal() {
   m.innerHTML = `<div class="card">
     <h2 style="margin-top:0">⚙️ 设置 <span class="sub" style="font-size:14px">（修改后立即生效）</span></h2>
     <div class="setting-row"><span>🔊 声音和朗读</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
+    <div class="setting-row"><span>🔤 按键标准真人发音</span><label class="switch"><input type="checkbox" id="sKeyVoice" ${s.keyVoice !== false ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>🎙️ 配音音色</span>
       <select id="sVoice">
         <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·标准人声）</option>
@@ -3027,6 +3109,7 @@ function settingsModal() {
 
   const syncAllFromControls = () => {
     s.sound = $('#sSound').checked;
+    s.keyVoice = $('#sKeyVoice').checked;
     s.voiceEngine = $('#sVoice').value;
     s.rate = +$('#sRate').value;
     s.gameSpeed = $('#sGameSpeed').value;
@@ -3041,6 +3124,10 @@ function settingsModal() {
   $('#sSound').onchange = () => {
     syncAllFromControls();
     if (s.sound) sfx.ok();
+  };
+  $('#sKeyVoice').onchange = () => {
+    syncAllFromControls();
+    if (s.sound && s.keyVoice) playKeyVoice('a');
   };
   $('#sVoice').onchange = () => {
     syncAllFromControls();
