@@ -105,36 +105,80 @@ function ensureSharedAudio() {
   return sharedAudio;
 }
 
-// iPad / iOS Safari 首次触摸自动解锁音频上下文与语音播放器
-let audioUnlocked = false;
-function unlockMobileAudio() {
-  if (audioUnlocked) return;
-  audioUnlocked = true;
+let actx = null;
+function ensureAudioContext() {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return null;
   try {
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') actx.resume();
-    const o = actx.createOscillator(), g = actx.createGain();
-    g.gain.value = 0.0001;
-    o.connect(g).connect(actx.destination);
-    o.start(0); o.stop(0.01);
-  } catch (e) {}
-  try {
-    const a = ensureSharedAudio();
-    a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-    const p = a.play();
-    if (p && p.catch) p.catch(() => {});
-  } catch (e) {}
+    if (!actx || actx.state === 'closed') {
+      actx = new Ctx();
+    }
+    if (actx.state !== 'running') {
+      const p = actx.resume();
+      if (p && p.catch) p.catch(() => {});
+    }
+  } catch (e) {
+    actx = null;
+  }
+  return actx;
 }
-['touchstart', 'pointerdown', 'click'].forEach(ev => document.addEventListener(ev, unlockMobileAudio, { once: true, passive: true }));
 
+let sharedAudioUnlocked = false;
+function keepAudioAlive() {
+  try {
+    const ctx = ensureAudioContext();
+    if (ctx && !keepAudioAlive._oscWarmed && ctx.state === 'running') {
+      keepAudioAlive._oscWarmed = true;
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      g.gain.value = 0.0001;
+      o.connect(g).connect(ctx.destination);
+      o.start(0);
+      o.stop(ctx.currentTime + 0.01);
+    }
+  } catch (e) {}
+  if (!sharedAudioUnlocked) {
+    sharedAudioUnlocked = true;
+    try {
+      const a = ensureSharedAudio();
+      a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+      const p = a.play();
+      if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
+  }
+  if ('speechSynthesis' in window && speechSynthesis.paused) {
+    try { speechSynthesis.resume(); } catch (e) {}
+  }
+}
+['touchstart', 'pointerdown', 'mousedown', 'keydown'].forEach(ev =>
+  document.addEventListener(ev, keepAudioAlive, { passive: true })
+);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) ensureAudioContext();
+});
+window.addEventListener('pageshow', () => ensureAudioContext());
+
+const activeUtterances = [];
 function speakLocal(text) {
-  if (!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(mathToSpeechText(text));
-  u.lang = 'zh-CN';
-  if (zhVoice) u.voice = zhVoice;
-  u.rate = S().rate;
-  speechSynthesis.speak(u);
+  if (!S().sound || !text || !('speechSynthesis' in window)) return;
+  try {
+    speechSynthesis.cancel();
+    if (speechSynthesis.paused) speechSynthesis.resume();
+    const u = new SpeechSynthesisUtterance(mathToSpeechText(text));
+    u.lang = 'zh-CN';
+    if (!zhVoice) loadVoices();
+    if (zhVoice) u.voice = zhVoice;
+    u.rate = S().rate || 0.9;
+    if (activeUtterances.length > 8) activeUtterances.shift();
+    activeUtterances.push(u);
+    const cleanupU = () => {
+      const idx = activeUtterances.indexOf(u);
+      if (idx !== -1) activeUtterances.splice(idx, 1);
+    };
+    u.onend = cleanupU;
+    u.onerror = cleanupU;
+    speechSynthesis.speak(u);
+    if (speechSynthesis.paused) speechSynthesis.resume();
+  } catch (e) {}
 }
 
 function getHumanTtsUrls(text, engine, rate) {
@@ -148,16 +192,45 @@ function getHumanTtsUrls(text, engine, rate) {
 }
 
 let speakSeq = 0;
-function speak(text) {
+let speakTimer = null;
+let netTtsFailCount = 0;
+let netTtsFailResetAt = 0;
+
+function stopAllSpeech() {
+  speakSeq++;
+  clearTimeout(speakTimer);
+  if (currentAudio) {
+    try {
+      currentAudio.onplaying = null;
+      currentAudio.onerror = null;
+      currentAudio.pause();
+    } catch (e) {}
+  }
+  if ('speechSynthesis' in window) {
+    try { speechSynthesis.cancel(); } catch (e) {}
+  }
+}
+
+function speak(text, timeoutMs = 850) {
   if (!S().sound || !text) return;
   const mySeq = ++speakSeq;
+  clearTimeout(speakTimer);
   if (currentAudio) {
-    try { currentAudio.pause(); } catch (e) {}
+    try {
+      currentAudio.onplaying = null;
+      currentAudio.onerror = null;
+      currentAudio.pause();
+    } catch (e) {}
   }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  if ('speechSynthesis' in window) {
+    try { speechSynthesis.cancel(); } catch (e) {}
+  }
 
   const engine = S().voiceEngine || 'human_zh';
-  if (engine === 'local') {
+  if (netTtsFailCount >= 3 && Date.now() > netTtsFailResetAt) {
+    netTtsFailCount = 0;
+  }
+  if (engine === 'local' || netTtsFailCount >= 3) {
     speakLocal(text);
     return;
   }
@@ -165,53 +238,85 @@ function speak(text) {
   let idx = 0;
   function tryNext() {
     if (mySeq !== speakSeq) return;
+    clearTimeout(speakTimer);
     if (idx >= urls.length) {
+      netTtsFailCount++;
+      netTtsFailResetAt = Date.now() + 45000;
       speakLocal(text);
       return;
     }
     const audio = ensureSharedAudio();
     audio.referrerPolicy = 'no-referrer';
+    audio.onplaying = null;
+    audio.onerror = null;
     audio.src = urls[idx++];
     audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
     currentAudio = audio;
-    audio.onerror = () => { if (mySeq === speakSeq) tryNext(); };
-    const p = audio.play();
-    if (p && p.catch) {
-      p.catch(err => {
-        if (err && err.name === 'AbortError') return;
-        if (mySeq === speakSeq) tryNext();
-      });
+
+    let started = false;
+    audio.onplaying = () => {
+      started = true;
+      netTtsFailCount = 0;
+      clearTimeout(speakTimer);
+    };
+    audio.onerror = () => {
+      if (mySeq !== speakSeq || started) return;
+      clearTimeout(speakTimer);
+      tryNext();
+    };
+    speakTimer = setTimeout(() => {
+      if (mySeq !== speakSeq || started) return;
+      try { audio.pause(); } catch (e) {}
+      tryNext();
+    }, timeoutMs);
+
+    try {
+      const p = audio.play();
+      if (p && p.catch) {
+        p.catch(() => {
+          if (mySeq !== speakSeq || started) return;
+          clearTimeout(speakTimer);
+          tryNext();
+        });
+      }
+    } catch (e) {
+      if (mySeq === speakSeq && !started) {
+        clearTimeout(speakTimer);
+        tryNext();
+      }
     }
   }
   tryNext();
 }
 
-let actx = null;
-function beep(notes, type = 'sine', vol = 0.18) {
+function beep(notes, type = 'sine', vol = 0.22) {
   if (!S().sound) return;
   try {
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') actx.resume();
-    let t = actx.currentTime;
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    let t = Math.max(ctx.currentTime, 0) + 0.005;
     notes.forEach(([f, d]) => {
-      const o = actx.createOscillator(), g = actx.createGain();
+      const o = ctx.createOscillator(), g = ctx.createGain();
       o.type = type; o.frequency.value = f;
       g.gain.setValueAtTime(vol, t);
       g.gain.exponentialRampToValueAtTime(0.001, t + d);
-      o.connect(g).connect(actx.destination);
-      o.start(t); o.stop(t + d);
+      o.connect(g).connect(ctx.destination);
+      o.onended = () => { try { o.disconnect(); g.disconnect(); } catch (e) {} };
+      o.start(t); o.stop(t + d + 0.005);
       t += d * 0.8;
     });
-  } catch (e) {}
+  } catch (e) {
+    try { actx = null; } catch (e2) {}
+  }
 }
 const sfx = {
-  ok: () => beep([[587, .1], [784, .12], [1047, .24]], 'triangle'),
-  bad: () => beep([[220, .16], [175, .24]], 'square', .08),
-  key: () => beep([[960, .035]], 'sine', .06),
-  pop: () => beep([[620, .05], [940, .09]], 'triangle', .2),
-  cannon: () => beep([[140, .06], [75, .14], [520, .12]], 'sawtooth', .22),
-  step: () => beep([[523, .06], [659, .09]], 'triangle', .15),
-  win: () => beep([[523, .14], [659, .14], [784, .14], [1047, .38]], 'triangle'),
+  ok: () => beep([[587, .1], [784, .12], [1047, .24]], 'triangle', 0.25),
+  bad: () => beep([[220, .16], [175, .24]], 'square', 0.12),
+  key: () => beep([[587, .04], [880, .055]], 'triangle', 0.26),
+  pop: () => beep([[620, .05], [940, .09]], 'triangle', 0.24),
+  cannon: () => beep([[140, .06], [75, .14], [520, .12]], 'sawtooth', 0.24),
+  step: () => beep([[523, .06], [659, .09]], 'triangle', 0.18),
+  win: () => beep([[523, .14], [659, .14], [784, .14], [1047, .38]], 'triangle', 0.26),
 };
 
 // ======================= 通用工具 =======================
@@ -2725,13 +2830,13 @@ function settingsModal() {
   const eng = s.voiceEngine || 'human_zh';
   const m = $('#modal');
   m.innerHTML = `<div class="card">
-    <h2 style="margin-top:0">⚙️ 设置</h2>
+    <h2 style="margin-top:0">⚙️ 设置 <span class="sub" style="font-size:14px">（修改后立即生效）</span></h2>
     <div class="setting-row"><span>🔊 声音和语音读题</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>🎙️ 配音音色</span>
       <select id="sVoice">
         <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·需联网）</option>
         <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·需联网）</option>
-        <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 电脑本地离线语音</option>
+        <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 平板/电脑本地离线语音</option>
       </select>
     </div>
     <div class="setting-row"><span>🐢 朗读语速</span><input type="range" id="sRate" min="0.6" max="1.2" step="0.1" value="${s.rate}"></div>
@@ -2745,7 +2850,7 @@ function settingsModal() {
     </div>
   </div>`;
   m.classList.remove('hidden');
-  const close = () => {
+  const syncAll = () => {
     s.sound = $('#sSound').checked;
     s.voiceEngine = $('#sVoice').value;
     s.rate = +$('#sRate').value;
@@ -2753,11 +2858,26 @@ function settingsModal() {
     s.showNumpad = $('#sNumpad').checked;
     s.autoHint = $('#sHint').checked;
     s.roundSize = +$('#sSize').value;
+    if (!s.sound) stopAllSpeech();
+    const np = app.querySelector('.numpad');
+    if (np) np.style.display = s.showNumpad ? '' : 'none';
+    app.querySelectorAll('.spd-btn').forEach(b => {
+      if (b.dataset.spd === s.gameSpeed && !b.classList.contains('active')) b.click();
+    });
     persist();
+  };
+  $('#sSound').onchange = () => { syncAll(); if (s.sound) sfx.ok(); };
+  $('#sVoice').onchange = () => { netTtsFailCount = 0; syncAll(); speak('小朋友你好，我是聪聪，快来一起玩数学游戏吧！'); };
+  $('#sRate').onchange = () => { syncAll(); speak('你好，小朋友'); };
+  $('#sGameSpeed').onchange = syncAll;
+  $('#sNumpad').onchange = syncAll;
+  $('#sHint').onchange = syncAll;
+  $('#sSize').onchange = syncAll;
+  const close = () => {
+    syncAll();
     m.classList.add('hidden');
   };
   $('#sClose').onclick = close;
-  $('#sVoice').onchange = () => { s.voiceEngine = $('#sVoice').value; speak('小朋友你好，我是聪聪，快来一起玩数学游戏吧！'); };
   $('#sReset').onclick = () => {
     if (confirm('确定要清除所有星星、贴纸和错题记录吗？')) {
       save = { stars: {}, mistakes: {}, balloonBest: 0, tankBest: 0, mazeBest: 0, rocketBest: 0, bonus: 0, settings: s };

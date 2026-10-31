@@ -159,7 +159,7 @@ function letterItem(letter) {
 
 // ======================= 存档 =======================
 const SAVE_KEY = 'pinyin-hero-v1';
-const DEFAULT_SETTINGS = { sound: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
+const DEFAULT_SETTINGS = { sound: true, keyVoice: true, voiceEngine: 'human_zh', rate: 0.8, gameSpeed: 'slow', kbHint: true, pyHint: false, roundSize: 10, showKb: true };
 let save = loadSave();
 function loadSave() {
   try {
@@ -185,7 +185,7 @@ function reduceMistake(item) {
   persist();
 }
 
-// ======================= 声音 =======================
+// ======================= 声音与按键发音 =======================
 let zhVoice = null;
 function loadVoices() {
   if (!('speechSynthesis' in window)) return;
@@ -208,40 +208,87 @@ function ensureSharedAudio() {
   return sharedAudio;
 }
 
-// iPad / iOS Safari 首次触摸自动解锁音频上下文与语音播放器
-let audioUnlocked = false;
-function unlockMobileAudio() {
-  if (audioUnlocked) return;
-  audioUnlocked = true;
+let actx = null;
+function ensureAudioContext() {
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return null;
   try {
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') actx.resume();
-    const o = actx.createOscillator(), g = actx.createGain();
-    g.gain.value = 0.0001;
-    o.connect(g).connect(actx.destination);
-    o.start(0); o.stop(0.01);
-  } catch (e) {}
-  try {
-    const a = ensureSharedAudio();
-    a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-    const p = a.play();
-    if (p && p.catch) p.catch(() => {});
-  } catch (e) {}
+    if (!actx || actx.state === 'closed') {
+      actx = new Ctx();
+    }
+    // iPadOS Safari 常在播放语音/切后台后进入 'interrupted' 或 'suspended' 状态，必须在每次交互时唤醒
+    if (actx.state !== 'running') {
+      const p = actx.resume();
+      if (p && p.catch) p.catch(() => {});
+    }
+  } catch (e) {
+    actx = null;
+  }
+  return actx;
 }
-['touchstart', 'pointerdown', 'click'].forEach(ev => document.addEventListener(ev, unlockMobileAudio, { once: true, passive: true }));
 
+// 持续保活监听器：每次触摸、点击、按键都检查并恢复 iPad Safari 音频上下文与语音引擎
+let sharedAudioUnlocked = false;
+function keepAudioAlive() {
+  try {
+    const ctx = ensureAudioContext();
+    if (ctx && !keepAudioAlive._oscWarmed && ctx.state === 'running') {
+      keepAudioAlive._oscWarmed = true;
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      g.gain.value = 0.0001;
+      o.connect(g).connect(ctx.destination);
+      o.start(0);
+      o.stop(ctx.currentTime + 0.01);
+    }
+  } catch (e) {}
+  if (!sharedAudioUnlocked) {
+    sharedAudioUnlocked = true;
+    try {
+      const a = ensureSharedAudio();
+      a.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+      const p = a.play();
+      if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
+  }
+  if ('speechSynthesis' in window && speechSynthesis.paused) {
+    try { speechSynthesis.resume(); } catch (e) {}
+  }
+}
+['touchstart', 'pointerdown', 'mousedown', 'keydown'].forEach(ev =>
+  document.addEventListener(ev, keepAudioAlive, { passive: true })
+);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) ensureAudioContext();
+});
+window.addEventListener('pageshow', () => ensureAudioContext());
+
+// 保存活跃的 SpeechSynthesisUtterance 引用，防止 Safari 垃圾回收导致朗读中途静默
+const activeUtterances = [];
 function speakLocal(text) {
-  if (!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'zh-CN'; if (zhVoice) u.voice = zhVoice;
-  u.rate = S().rate;
-  speechSynthesis.speak(u);
+  if (!S().sound || !text || !('speechSynthesis' in window)) return;
+  try {
+    speechSynthesis.cancel();
+    if (speechSynthesis.paused) speechSynthesis.resume();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN';
+    if (!zhVoice) loadVoices();
+    if (zhVoice) u.voice = zhVoice;
+    u.rate = S().rate || 0.8;
+    if (activeUtterances.length > 8) activeUtterances.shift();
+    activeUtterances.push(u);
+    const cleanupU = () => {
+      const idx = activeUtterances.indexOf(u);
+      if (idx !== -1) activeUtterances.splice(idx, 1);
+    };
+    u.onend = cleanupU;
+    u.onerror = cleanupU;
+    speechSynthesis.speak(u);
+    if (speechSynthesis.paused) speechSynthesis.resume();
+  } catch (e) {}
 }
 
 function getHumanTtsUrls(text, engine, rate) {
   const q = encodeURIComponent(text);
-  // 将 0.5~1.2 语速映射到百度 2~7
   const spd = Math.max(2, Math.min(7, Math.round(rate * 5)));
   const baiduUrl = `https://fanyi.baidu.com/gettts?lan=zh&text=${q}&spd=${spd}&source=web`;
   const googleSpd = rate < 0.85 ? '0.6' : '1';
@@ -250,16 +297,45 @@ function getHumanTtsUrls(text, engine, rate) {
 }
 
 let speakSeq = 0;
-function speak(text) {
+let speakTimer = null;
+let netTtsFailCount = 0;
+let netTtsFailResetAt = 0;
+
+function stopAllSpeech() {
+  speakSeq++;
+  clearTimeout(speakTimer);
+  if (currentAudio) {
+    try {
+      currentAudio.onplaying = null;
+      currentAudio.onerror = null;
+      currentAudio.pause();
+    } catch (e) {}
+  }
+  if ('speechSynthesis' in window) {
+    try { speechSynthesis.cancel(); } catch (e) {}
+  }
+}
+
+function speak(text, timeoutMs = 850) {
   if (!S().sound || !text) return;
   const mySeq = ++speakSeq;
+  clearTimeout(speakTimer);
   if (currentAudio) {
-    try { currentAudio.pause(); } catch (e) {}
+    try {
+      currentAudio.onplaying = null;
+      currentAudio.onerror = null;
+      currentAudio.pause();
+    } catch (e) {}
   }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  if ('speechSynthesis' in window) {
+    try { speechSynthesis.cancel(); } catch (e) {}
+  }
 
   const engine = S().voiceEngine || 'human_zh';
-  if (engine === 'local') {
+  if (netTtsFailCount >= 3 && Date.now() > netTtsFailResetAt) {
+    netTtsFailCount = 0;
+  }
+  if (engine === 'local' || netTtsFailCount >= 3) {
     speakLocal(text);
     return;
   }
@@ -268,68 +344,131 @@ function speak(text) {
   let idx = 0;
   function tryNext() {
     if (mySeq !== speakSeq) return;
+    clearTimeout(speakTimer);
     if (idx >= urls.length) {
+      netTtsFailCount++;
+      netTtsFailResetAt = Date.now() + 45000;
       speakLocal(text);
       return;
     }
     const audio = ensureSharedAudio();
     audio.referrerPolicy = 'no-referrer';
+    audio.onplaying = null;
+    audio.onerror = null;
     audio.src = urls[idx++];
     audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
     currentAudio = audio;
-    audio.onerror = () => {
-      if (mySeq === speakSeq) tryNext();
+
+    let started = false;
+    audio.onplaying = () => {
+      started = true;
+      netTtsFailCount = 0;
+      clearTimeout(speakTimer);
     };
-    const p = audio.play();
-    if (p && p.catch) {
-      p.catch(err => {
-        if (err && err.name === 'AbortError') return;
-        if (mySeq === speakSeq) tryNext();
-      });
+    audio.onerror = () => {
+      if (mySeq !== speakSeq || started) return;
+      clearTimeout(speakTimer);
+      tryNext();
+    };
+    speakTimer = setTimeout(() => {
+      if (mySeq !== speakSeq || started) return;
+      try { audio.pause(); } catch (e) {}
+      tryNext();
+    }, timeoutMs);
+
+    try {
+      const p = audio.play();
+      if (p && p.catch) {
+        p.catch(() => {
+          if (mySeq !== speakSeq || started) return;
+          clearTimeout(speakTimer);
+          tryNext();
+        });
+      }
+    } catch (e) {
+      if (mySeq === speakSeq && !started) {
+        clearTimeout(speakTimer);
+        tryNext();
+      }
     }
   }
   tryNext();
 }
 
-let actx = null;
-function beep(notes, type = 'sine', vol = 0.18) {
+// 26 个拼音字母键标准呼读音对照表（v 对应 ü）
+const KEY_LETTER_SAY = {
+  a: '阿', o: '喔', e: '鹅', i: '衣', u: '乌', v: '迂', 'ü': '迂',
+  b: '玻', p: '坡', m: '摸', f: '佛',
+  d: '得', t: '特', n: '讷', l: '勒',
+  g: '哥', k: '科', h: '喝',
+  j: '基', q: '欺', x: '希',
+  z: '资', c: '雌', s: '思', r: '日',
+  y: '衣', w: '乌'
+};
+
+function speakLetterKey(k) {
+  if (!S().sound || S().keyVoice === false) return;
+  const ch = (k || '').toLowerCase();
+  const say = KEY_LETTER_SAY[ch] || (LETTER_INFO[ch] && LETTER_INFO[ch].say);
+  if (!say) return;
+  // 字母按键使用更短的超时，确保连续打字时响应灵敏不卡顿
+  speak(say, 480);
+}
+
+function beep(notes, type = 'sine', vol = 0.22) {
   if (!S().sound) return;
   try {
-    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') actx.resume();
-    let t = actx.currentTime;
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    let t = Math.max(ctx.currentTime, 0) + 0.005;
     notes.forEach(([f, d]) => {
-      const o = actx.createOscillator(), g = actx.createGain();
+      const o = ctx.createOscillator(), g = ctx.createGain();
       o.type = type; o.frequency.value = f;
-      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
-      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d);
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + d);
+      o.connect(g).connect(ctx.destination);
+      o.onended = () => { try { o.disconnect(); g.disconnect(); } catch (e) {} };
+      o.start(t);
+      o.stop(t + d + 0.005);
       t += d * 0.8;
     });
-  } catch (e) { /* ignore */ }
+  } catch (e) {
+    try { actx = null; } catch (e2) {}
+  }
 }
 const sfx = {
-  ok: () => beep([[784, .12], [1047, .25]], 'triangle'),
-  bad: () => beep([[220, .18], [180, .25]], 'square', .08),
-  key: () => beep([[1200, .03]], 'sine', .05),
-  pop: () => beep([[600, .05], [900, .08]], 'triangle', .2),
-  shot: () => beep([[180, .04], [90, .08], [620, .09]], 'sawtooth', .18),
-  cannon: () => beep([[140, .06], [75, .14], [520, .12]], 'sawtooth', .22),
-  quack: () => beep([[420, .07], [310, .11]], 'sawtooth', .12),
-  waka: () => beep([[340, .05], [460, .06]], 'triangle', .12),
-  win: () => beep([[523, .15], [659, .15], [784, .15], [1047, .4]], 'triangle'),
+  ok: () => beep([[784, .12], [1047, .25]], 'triangle', 0.25),
+  bad: () => beep([[220, .18], [180, .25]], 'square', 0.12),
+  key: () => beep([[587, .04], [880, .055]], 'triangle', 0.26),
+  del: () => beep([[440, .035], [330, .045]], 'triangle', 0.22),
+  tone: (t = 1) => {
+    const n = +t;
+    if (n === 1) beep([[784, .11]], 'triangle', 0.25);
+    else if (n === 2) beep([[587, .06], [880, .09]], 'triangle', 0.25);
+    else if (n === 3) beep([[659, .05], [494, .05], [784, .08]], 'triangle', 0.25);
+    else if (n === 4) beep([[988, .05], [523, .09]], 'triangle', 0.25);
+    else beep([[659, .05]], 'triangle', 0.22);
+  },
+  pop: () => beep([[600, .05], [900, .08]], 'triangle', 0.24),
+  shot: () => beep([[180, .04], [90, .08], [620, .09]], 'sawtooth', 0.20),
+  cannon: () => beep([[140, .06], [75, .14], [520, .12]], 'sawtooth', 0.24),
+  quack: () => beep([[420, .07], [310, .11]], 'sawtooth', 0.14),
+  waka: () => beep([[340, .05], [460, .06]], 'triangle', 0.14),
+  win: () => beep([[523, .15], [659, .15], [784, .15], [1047, .4]], 'triangle', 0.26),
 };
 
 // ======================= 界面工具 =======================
 const $ = s => document.querySelector(s);
 const app = $('#app');
-let keyHandler = null;     // 当前接收键盘输入的处理函数
-let cleanup = null;        // 离开页面时清理（定时器等）
+let keyHandler = null;        // 当前接收键盘输入的处理函数
+let cleanup = null;           // 离开页面时清理（定时器等）
+let onSettingsChange = null;  // 游戏进行中修改设置时的实时刷新回调
 
 function go(render, ...args) {
   if (cleanup) { cleanup(); cleanup = null; }
   keyHandler = null;
-  if (currentAudio) { try { currentAudio.pause(); } catch (e) {} currentAudio = null; }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  onSettingsChange = null;
+  stopAllSpeech();
   window.scrollTo(0, 0);
   render(...args);
 }
@@ -359,7 +498,7 @@ const praise = () => PRAISE[Math.floor(Math.random() * PRAISE.length)];
 const TONE_SVG = {
   1: '<svg viewBox="0 0 40 20"><path d="M5 10H35" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></svg>',
   2: '<svg viewBox="0 0 40 20"><path d="M12 17L28 3" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></svg>',
-  3: '<svg viewBox="0 0 40 20"><path d="M8 4L20 16L32 4" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
+  3: '<svg viewBox="0 0 40 20"><path d="M8 4L20 16L32 4" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></svg>',
   4: '<svg viewBox="0 0 40 20"><path d="M12 3L28 17" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/></svg>',
 };
 const TONE_NAMES = { 1: '一声平', 2: '二声扬', 3: '三声拐弯', 4: '四声降' };
@@ -413,11 +552,34 @@ function keyboardHtml(withTones = true) {
   return h + '</div>';
 }
 function bindKeyboard(root) {
-  root.querySelectorAll('.key').forEach(b => b.addEventListener('click', () => { if (keyHandler) keyHandler(b.dataset.k); }));
+  root.querySelectorAll('.key').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.k;
+    flashKey(k);
+    if (keyHandler) keyHandler(k);
+  }));
 }
 
 function inputPanelHtml(withTones = true) {
-  return S().showKb ? keyboardHtml(withTones) : '';
+  return `<div class="kb-mount" data-tones="${withTones ? '1' : '0'}">${S().showKb ? keyboardHtml(withTones) : ''}</div>`;
+}
+function syncKeyboardMount() {
+  const mount = app.querySelector('.kb-mount');
+  if (mount) {
+    const withTones = mount.dataset.tones === '1';
+    mount.innerHTML = S().showKb ? keyboardHtml(withTones) : '';
+    bindKeyboard(mount);
+  }
+  const kbCard = app.querySelector('.kb-card');
+  if (kbCard) {
+    kbCard.classList.toggle('hidden', !S().showKb);
+  }
+}
+function applySettingsLive() {
+  if (!S().sound) stopAllSpeech();
+  syncKeyboardMount();
+  if (typeof onSettingsChange === 'function') {
+    try { onSettingsChange(); } catch (e) {}
+  }
 }
 function highlightKey(k) {
   document.querySelectorAll('.key.next').forEach(e => e.classList.remove('next'));
@@ -959,12 +1121,13 @@ function charLessonScreen(id) {
   $('#mTank').onclick = () => go(tankGame, { pool: items, back });
 }
 
-// 一轮题目：不够的话循环补齐到至少 6 题
-function roundItems(items) {
+// 一轮题目：按设置的每轮题目数量生成（字数不够时自动循环补齐）
+function roundItems(items, targetSize = S().roundSize) {
+  if (!items || !items.length) return [];
+  const n = Math.max(1, targetSize || S().roundSize || 10);
   let out = shuffle(items);
-  const min = Math.min(S().roundSize, Math.max(6, items.length));
-  while (out.length < min) out = out.concat(shuffle(items));
-  return out.slice(0, Math.max(min, Math.min(items.length, S().roundSize)));
+  while (out.length < n) out = out.concat(shuffle(items));
+  return out.slice(0, n);
 }
 
 // ======================= 田字格手写笔练汉字（写字表 100 字 + 识字表 280 字） =======================
@@ -1218,8 +1381,27 @@ function hanziWriteScreen(opts) {
 // ======================= 打字闯关核心 =======================
 let R = null; // 当前回合
 
+function syncRoundSizeLive() {
+  if (!R || !R.items || !R.items.length || R.isReview) return;
+  const targetN = Math.max(R.idx + 1, S().roundSize || 10);
+  const pool = (R.sourcePool && R.sourcePool.length) ? R.sourcePool : R.items.slice();
+  if (R.items.length < targetN) {
+    while (R.items.length < targetN) {
+      R.items = R.items.concat(shuffle(pool));
+    }
+    R.items = R.items.slice(0, targetN);
+  } else if (R.items.length > targetN) {
+    R.items = R.items.slice(0, targetN);
+  }
+  const progEl = $('#prog'), pcEl = $('#pc');
+  if (progEl) progEl.style.width = (R.idx / R.items.length * 100) + '%';
+  if (pcEl) pcEl.textContent = `${R.idx + 1} / ${R.items.length}`;
+}
+
 function startRound(opts) {
-  R = { ...opts, idx: 0, firstTry: 0, buf: '', tone: null, wrong: 0, reveal: false, locked: false };
+  const sourcePool = (opts.pool && opts.pool.length) ? opts.pool.slice() : opts.items.slice();
+  const initialItems = opts.isReview ? opts.items.slice() : roundItems(sourcePool, S().roundSize);
+  R = { ...opts, sourcePool, items: initialItems, idx: 0, firstTry: 0, buf: '', tone: null, wrong: 0, reveal: false, locked: false };
   setTitle(opts.title);
   app.innerHTML = `
     <div class="play-wrap round-screen">
@@ -1236,13 +1418,17 @@ function startRound(opts) {
           <div class="tone-tip" id="tip"></div>
         </div>
       </div>
-      <div class="card kb-card">
+      <div class="card kb-card ${S().showKb ? '' : 'hidden'}">
         ${inputPanelHtml(opts.requireTone)}
       </div>
     </div>`;
   $('#quit').onclick = () => opts.back();
   bindKeyboard(app);
   keyHandler = roundKey;
+  onSettingsChange = () => {
+    syncRoundSizeLive();
+    updateAnswer();
+  };
   showQuestion();
 }
 
@@ -1284,14 +1470,19 @@ function showQuestion() {
 }
 
 function updateAnswer() {
+  if (!R || !R.items || !curItem()) return;
   const it = curItem();
   const ans = $('#ans');
-  ans.className = 'answer-box';
-  ans.innerHTML = (R.buf || R.tone ? renderPy(R.buf, R.tone) : '') + '<span class="cursor"></span>';
+  if (ans) {
+    ans.className = 'answer-box';
+    ans.innerHTML = (R.buf || R.tone ? renderPy(R.buf, R.tone) : '') + '<span class="cursor"></span>';
+  }
   const hp = $('#hintpy');
-  if (R.reveal && hp && it.type === 'char') hp.innerHTML = renderPy(it.plain, it.tone);
+  if (hp && it.type === 'char') {
+    hp.innerHTML = (S().pyHint || R.reveal) ? renderPy(it.plain, it.tone) : '';
+  }
   // 键盘提示：高亮下一个应该按的键
-  if (S().kbHint && (R.reveal || it.type === 'letter' || it.type === 'syl')) {
+  if (S().kbHint && (R.reveal || it.type === 'letter' || it.type === 'syl' || S().pyHint)) {
     let next = null;
     if (!it.key.startsWith(R.buf)) next = 'Backspace';
     else if (R.buf.length < it.key.length) next = it.key[R.buf.length];
@@ -1308,23 +1499,33 @@ function roundKey(k) {
     R.buf += k === 'ü' ? 'v' : k;
     sfx.key();
     updateAnswer();
-    if (!R.requireTone && (R.buf.length >= it.key.length || !it.key.startsWith(R.buf))) setTimeout(check, 150);
+    const willCheckImmediately = !R.requireTone && (R.buf.length >= it.key.length || !it.key.startsWith(R.buf));
+    if (willCheckImmediately) {
+      if (!it.key.startsWith(R.buf)) speakLetterKey(k);
+      setTimeout(check, 150);
+    } else {
+      speakLetterKey(k);
+    }
     return;
   }
   if (/^[0-5]$/.test(k)) {
     if (!R.requireTone) return;
     R.tone = (k === '0' || k === '5') ? 0 : +k;
-    sfx.key();
+    sfx.tone(R.tone);
     updateAnswer();
-    if (R.buf) setTimeout(check, 250);
+    if (R.buf) setTimeout(check, 220);
     return;
   }
   if (k === 'Backspace') {
+    sfx.del();
     if (R.tone !== null) R.tone = null; else R.buf = R.buf.slice(0, -1);
     updateAnswer();
     return;
   }
-  if (k === 'Enter' || k === ' ') { if (R.buf) check(); }
+  if (k === 'Enter' || k === ' ') {
+    sfx.key();
+    if (R.buf) check();
+  }
 }
 
 function check() {
@@ -1421,7 +1622,9 @@ function toneHomeScreen() {
 }
 
 function startToneRound(opts) {
-  R = { ...opts, idx: 0, firstTry: 0, wrong: 0, locked: false };
+  const sourcePool = (opts.pool && opts.pool.length) ? opts.pool.slice() : opts.items.slice();
+  const initialItems = roundItems(sourcePool, S().roundSize);
+  R = { ...opts, sourcePool, items: initialItems, idx: 0, firstTry: 0, wrong: 0, locked: false };
   setTitle(opts.title);
   app.innerHTML = `
     <div class="play-wrap">
@@ -1436,8 +1639,12 @@ function startToneRound(opts) {
       <p class="sub" style="text-align:center">听一听读音，点击上方对应的声调符号吧！</p>
     </div>`;
   $('#quit').onclick = () => opts.back();
-  app.querySelectorAll('.tone-btn').forEach(b => b.addEventListener('click', () => toneAnswer(+b.dataset.t)));
-  keyHandler = k => { if (/^[1-4]$/.test(k)) toneAnswer(+k); };
+  app.querySelectorAll('.tone-btn').forEach(b => b.addEventListener('click', () => {
+    sfx.tone(+b.dataset.t);
+    toneAnswer(+b.dataset.t);
+  }));
+  keyHandler = k => { if (/^[1-4]$/.test(k)) { sfx.tone(+k); toneAnswer(+k); } };
+  onSettingsChange = () => syncRoundSizeLive();
   toneQuestion();
 }
 function toneQuestion() {
@@ -1508,14 +1715,19 @@ function balloonSetupScreen() {
   h += `</div>
       <div class="setting-row"><span>🐢 气球上升速度</span>${speedSelectHtml('bSpeed')}</div>
       <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="bTone" checked><span></span></label></div>
-      <div class="setting-row" style="border:none"><span>👀 气球上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="bPy"><span></span></label></div>
+      <div class="setting-row" style="border:none"><span>👀 气球上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="bPy" ${S().pyHint ? 'checked' : ''}><span></span></label></div>
       <p class="sub">🏅 最高分：${save.balloonBest}</p>
       <div class="row center"><button class="btn pink" id="start">🚀 开始游戏</button></div>
     </div>`;
   app.innerHTML = h;
   $('#bSpeed').onchange = () => { S().gameSpeed = $('#bSpeed').value; persist(); };
+  $('#bPy').onchange = () => { S().pyHint = $('#bPy').checked; persist(); };
+  onSettingsChange = () => {
+    if ($('#bSpeed')) $('#bSpeed').value = S().gameSpeed || 'slow';
+    if ($('#bPy')) $('#bPy').checked = !!S().pyHint;
+  };
   $('#start').onclick = () => {
-    S().gameSpeed = $('#bSpeed').value; persist();
+    S().gameSpeed = $('#bSpeed').value; S().pyHint = $('#bPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
@@ -1527,7 +1739,7 @@ const BALLOON_COLORS = ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '
 
 function balloonGame(opts) {
   const needTone = opts.needTone !== false;
-  const showPy = !!opts.showPy;
+  let showPy = opts.showPy !== undefined ? !!opts.showPy : !!S().pyHint;
   setTitle('🎈 气球大作战');
   app.innerHTML = `
     <div class="hud">
@@ -1552,16 +1764,27 @@ function balloonGame(opts) {
   const stage = $('#stage');
   let preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).balloon;
   const G = { balloons: [], buf: '', score: 0, hearts: 5, running: false, last: 0, spawnT: 0, speed: preset.speed, interval: preset.interval, raf: 0, missed: [] };
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
-    S().gameSpeed = btn.dataset.spd; persist();
-    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b === btn));
+  function applyBalloonSpeed(spdKey) {
+    S().gameSpeed = spdKey; persist();
+    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b.dataset.spd === spdKey));
     const oldBase = preset.speed;
-    preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).balloon;
+    preset = (SPEED_PRESETS[spdKey] || SPEED_PRESETS.slow).balloon;
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
     const ratio = preset.speed / (oldBase || 1);
     G.balloons.forEach(b => { b.speed *= ratio; });
-  }));
+  }
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyBalloonSpeed(btn.dataset.spd)));
+  onSettingsChange = () => {
+    applyBalloonSpeed(S().gameSpeed || 'slow');
+    showPy = !!S().pyHint;
+    G.balloons.forEach(b => {
+      const body = b.el.querySelector('.body');
+      if (body) {
+        body.innerHTML = `${showPy ? `<div class="bp">${renderPy(b.it.plain, b.it.tone)}</div>` : ''}<div class="hz">${b.it.char}</div>`;
+      }
+    });
+  };
   const drawHUD = () => {
     $('#hearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(5 - G.hearts);
     $('#score').textContent = G.score;
@@ -1645,8 +1868,9 @@ function balloonGame(opts) {
 
   function onKey(k) {
     if (!G.running) { if (k === 'Enter' || k === ' ') begin(); return; }
-    if (k === 'Backspace') { G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
+    if (k === 'Backspace') { sfx.del(); G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
     if (k === 'Enter' || k === ' ') {
+      sfx.key();
       const hit = G.balloons.find(b => answerOf(b.it) === G.buf || (!needTone && b.it.key === G.buf));
       if (hit) pop(hit);
       return;
@@ -1664,9 +1888,11 @@ function balloonGame(opts) {
       if (/^[0-9]$/.test(ch)) { drawHUD(); return; } // 声调错了，保留字母重新选
       G.buf = ''; drawHUD(); markTargets(); return;
     }
-    G.buf = nb; sfx.key();
+    G.buf = nb;
+    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(b => ans(b) === nb);
     if (exact && (needTone || matches.length === 1)) { pop(exact); markTargets(); return; }
+    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -1707,14 +1933,19 @@ function duckSetupScreen() {
   h += `</div>
       <div class="setting-row"><span>🐢 野鸭飞行速度</span>${speedSelectHtml('dSpeed')}</div>
       <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="dTone" checked><span></span></label></div>
-      <div class="setting-row" style="border:none"><span>👀 野鸭木牌上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="dPy"><span></span></label></div>
+      <div class="setting-row" style="border:none"><span>👀 野鸭木牌上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="dPy" ${S().pyHint ? 'checked' : ''}><span></span></label></div>
       <p class="sub">🏅 最高分：${save.duckBest || 0}</p>
       <div class="row center"><button class="btn purple" id="start">🎯 开始狩猎</button></div>
     </div>`;
   app.innerHTML = h;
   $('#dSpeed').onchange = () => { S().gameSpeed = $('#dSpeed').value; persist(); };
+  $('#dPy').onchange = () => { S().pyHint = $('#dPy').checked; persist(); };
+  onSettingsChange = () => {
+    if ($('#dSpeed')) $('#dSpeed').value = S().gameSpeed || 'slow';
+    if ($('#dPy')) $('#dPy').checked = !!S().pyHint;
+  };
   $('#start').onclick = () => {
-    S().gameSpeed = $('#dSpeed').value; persist();
+    S().gameSpeed = $('#dSpeed').value; S().pyHint = $('#dPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
@@ -1755,7 +1986,7 @@ function duckSvg(theme) {
 
 function duckGame(opts) {
   const needTone = opts.needTone !== false;
-  const showPy = !!opts.showPy;
+  let showPy = opts.showPy !== undefined ? !!opts.showPy : !!S().pyHint;
   setTitle('🦆 打野鸭');
   app.innerHTML = `
     <div class="hud">
@@ -1796,16 +2027,27 @@ function duckGame(opts) {
 
   let preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).duck;
   const G = { ducks: [], buf: '', score: 0, hearts: 5, running: false, last: 0, spawnT: 0, speed: preset.speed, interval: preset.interval, raf: 0, missed: [] };
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
-    S().gameSpeed = btn.dataset.spd; persist();
-    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b === btn));
+  function applyDuckSpeed(spdKey) {
+    S().gameSpeed = spdKey; persist();
+    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b.dataset.spd === spdKey));
     const oldBase = preset.speed;
-    preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).duck;
+    preset = (SPEED_PRESETS[spdKey] || SPEED_PRESETS.slow).duck;
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
     const ratio = preset.speed / (oldBase || 1);
     G.ducks.forEach(d => { d.speed *= ratio; });
-  }));
+  }
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyDuckSpeed(btn.dataset.spd)));
+  onSettingsChange = () => {
+    applyDuckSpeed(S().gameSpeed || 'slow');
+    showPy = !!S().pyHint;
+    G.ducks.forEach(d => {
+      const sign = d.el.querySelector('.sign');
+      if (sign) {
+        sign.innerHTML = `${showPy ? `<div class="bp">${renderPy(d.it.plain, d.it.tone)}</div>` : ''}<div class="hz">${d.it.char}</div>`;
+      }
+    });
+  };
   const drawHUD = () => {
     $('#hearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(5 - G.hearts);
     $('#score').textContent = G.score;
@@ -1933,8 +2175,9 @@ function duckGame(opts) {
 
   function onKey(k) {
     if (!G.running) { if (k === 'Enter' || k === ' ') begin(); return; }
-    if (k === 'Backspace') { G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
+    if (k === 'Backspace') { sfx.del(); G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
     if (k === 'Enter' || k === ' ') {
+      sfx.key();
       const hit = G.ducks.find(d => answerOf(d.it) === G.buf || (!needTone && d.it.key === G.buf));
       if (hit) shoot(hit);
       return;
@@ -1951,9 +2194,11 @@ function duckGame(opts) {
       if (/^[0-9]$/.test(ch)) { drawHUD(); return; }
       G.buf = ''; drawHUD(); markTargets(); return;
     }
-    G.buf = nb; sfx.key();
+    G.buf = nb;
+    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(d => answerOf(d.it) === nb);
     if (exact && (needTone || matches.length === 1)) { shoot(exact); markTargets(); return; }
+    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -2028,14 +2273,19 @@ function pacmanSetupScreen() {
   h += `</div>
       <div class="setting-row"><span>👻 小幽灵移动速度</span>${speedSelectHtml('pSpeed')}</div>
       <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="pTone" checked><span></span></label></div>
-      <div class="setting-row" style="border:none"><span>👀 汉字豆上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="pPy"><span></span></label></div>
+      <div class="setting-row" style="border:none"><span>👀 汉字豆上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="pPy" ${S().pyHint ? 'checked' : ''}><span></span></label></div>
       <p class="sub">🏅 最高分：${save.pacBest || 0}</p>
       <div class="row center"><button class="btn orange" id="start">🟡 进入迷宫</button></div>
     </div>`;
   app.innerHTML = h;
   $('#pSpeed').onchange = () => { S().gameSpeed = $('#pSpeed').value; persist(); };
+  $('#pPy').onchange = () => { S().pyHint = $('#pPy').checked; persist(); };
+  onSettingsChange = () => {
+    if ($('#pSpeed')) $('#pSpeed').value = S().gameSpeed || 'slow';
+    if ($('#pPy')) $('#pPy').checked = !!S().pyHint;
+  };
   $('#start').onclick = () => {
-    S().gameSpeed = $('#pSpeed').value; persist();
+    S().gameSpeed = $('#pSpeed').value; S().pyHint = $('#pPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
@@ -2045,7 +2295,7 @@ function pacmanSetupScreen() {
 
 function pacmanGame(opts) {
   const needTone = opts.needTone !== false;
-  const showPy = !!opts.showPy;
+  let showPy = opts.showPy !== undefined ? !!opts.showPy : !!S().pyHint;
   setTitle('🟡 拼音吃豆人');
   app.innerHTML = `
     <div class="hud">
@@ -2361,13 +2611,21 @@ function pacmanGame(opts) {
     if (G.running) G.ghostTimer = setInterval(ghostStep, preset.ghostMs);
   }
 
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
-    S().gameSpeed = btn.dataset.spd; persist();
-    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b === btn));
-    preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).pac;
+  function applyPacSpeed(spdKey) {
+    S().gameSpeed = spdKey; persist();
+    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b.dataset.spd === spdKey));
+    preset = (SPEED_PRESETS[spdKey] || SPEED_PRESETS.slow).pac;
     syncGhostCount();
     restartGhostTimer();
-  }));
+  }
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyPacSpeed(btn.dataset.spd)));
+  onSettingsChange = () => {
+    applyPacSpeed(S().gameSpeed || 'slow');
+    showPy = !!S().pyHint;
+    G.beans.forEach(b => {
+      b.el.innerHTML = `${showPy ? `<div class="bp">${renderPy(b.it.plain, b.it.tone)}</div>` : ''}<div class="hz">${b.it.char}</div>`;
+    });
+  };
 
   function markTargets() {
     G.beans.forEach(b => b.el.classList.toggle('target', !!G.buf && answerOf(b.it).startsWith(G.buf)));
@@ -2376,8 +2634,9 @@ function pacmanGame(opts) {
   function onKey(k) {
     if (!G.running) { if (k === 'Enter' || k === ' ') begin(); return; }
     if (G.moving) return;
-    if (k === 'Backspace') { G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
+    if (k === 'Backspace') { sfx.del(); G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
     if (k === 'Enter' || k === ' ') {
+      sfx.key();
       const hit = G.beans.find(b => answerOf(b.it) === G.buf || (!needTone && b.it.key === G.buf));
       if (hit) runToBean(hit);
       return;
@@ -2401,9 +2660,11 @@ function pacmanGame(opts) {
       if (/^[0-9]$/.test(ch)) { drawHUD(); return; }
       G.buf = ''; drawHUD(); markTargets(); return;
     }
-    G.buf = nb; sfx.key();
+    G.buf = nb;
+    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(b => answerOf(b.it) === nb);
     if (exact && (needTone || matches.length === 1)) { runToBean(exact); return; }
+    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -2445,14 +2706,19 @@ function tankSetupScreen() {
   h += `</div>
       <div class="setting-row"><span>🐢 敌方坦克推进速度</span>${speedSelectHtml('tSpeed')}</div>
       <div class="setting-row"><span>🎵 要标声调符号（ˉ ˊ ˇ ˋ）</span><label class="switch"><input type="checkbox" id="tTone" checked><span></span></label></div>
-      <div class="setting-row" style="border:none"><span>👀 坦克装甲牌上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="tPy"><span></span></label></div>
+      <div class="setting-row" style="border:none"><span>👀 坦克装甲牌上显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="tPy" ${S().pyHint ? 'checked' : ''}><span></span></label></div>
       <p class="sub">🏅 最高分：${save.tankBest || 0}</p>
       <div class="row center"><button class="btn" style="background:#4d7c0f" id="start">🛡️ 保卫大本营</button></div>
     </div>`;
   app.innerHTML = h;
   $('#tSpeed').onchange = () => { S().gameSpeed = $('#tSpeed').value; persist(); };
+  $('#tPy').onchange = () => { S().pyHint = $('#tPy').checked; persist(); };
+  onSettingsChange = () => {
+    if ($('#tSpeed')) $('#tSpeed').value = S().gameSpeed || 'slow';
+    if ($('#tPy')) $('#tPy').checked = !!S().pyHint;
+  };
   $('#start').onclick = () => {
-    S().gameSpeed = $('#tSpeed').value; persist();
+    S().gameSpeed = $('#tSpeed').value; S().pyHint = $('#tPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
@@ -2504,7 +2770,7 @@ function heroTurretSvg() {
 
 function tankGame(opts) {
   const needTone = opts.needTone !== false;
-  const showPy = !!opts.showPy;
+  let showPy = opts.showPy !== undefined ? !!opts.showPy : !!S().pyHint;
   setTitle('🛡️ 坦克保卫战');
   app.innerHTML = `
     <div class="hud">
@@ -2546,16 +2812,27 @@ function tankGame(opts) {
   };
   const answerOf = it => needTone ? (it.tone ? it.key + it.tone : it.key + '0') : it.key;
 
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
-    S().gameSpeed = btn.dataset.spd; persist();
-    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b === btn));
+  function applyTankSpeed(spdKey) {
+    S().gameSpeed = spdKey; persist();
+    app.querySelectorAll('.spd-btn').forEach(b => b.classList.toggle('active', b.dataset.spd === spdKey));
     const oldBase = preset.speed;
-    preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).tank;
+    preset = (SPEED_PRESETS[spdKey] || SPEED_PRESETS.slow).tank;
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
     const ratio = preset.speed / (oldBase || 1);
     G.tanks.forEach(t => { t.speed *= ratio; });
-  }));
+  }
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyTankSpeed(btn.dataset.spd)));
+  onSettingsChange = () => {
+    applyTankSpeed(S().gameSpeed || 'slow');
+    showPy = !!S().pyHint;
+    G.tanks.forEach(t => {
+      const sign = t.el.querySelector('.sign');
+      if (sign) {
+        sign.innerHTML = `${showPy ? `<div class="bp">${renderPy(t.it.plain, t.it.tone)}</div>` : ''}<div class="hz">${t.it.char}</div>`;
+      }
+    });
+  };
 
   function spawn() {
     const W = stage.clientWidth;
@@ -2688,8 +2965,9 @@ function tankGame(opts) {
 
   function onKey(k) {
     if (!G.running) { if (k === 'Enter' || k === ' ') begin(); return; }
-    if (k === 'Backspace') { G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
+    if (k === 'Backspace') { sfx.del(); G.buf = G.buf.slice(0, -1); drawHUD(); markTargets(); return; }
     if (k === 'Enter' || k === ' ') {
+      sfx.key();
       const hit = G.tanks.find(t => answerOf(t.it) === G.buf || (!needTone && t.it.key === G.buf));
       if (hit) fireAt(hit);
       return;
@@ -2706,9 +2984,11 @@ function tankGame(opts) {
       if (/^[0-9]$/.test(ch)) { drawHUD(); return; }
       G.buf = ''; drawHUD(); markTargets(); return;
     }
-    G.buf = nb; sfx.key();
+    G.buf = nb;
+    if (/^[0-9]$/.test(ch)) sfx.tone(ch); else sfx.key();
     const exact = matches.find(t => answerOf(t.it) === nb);
     if (exact && (needTone || matches.length === 1)) { fireAt(exact); markTargets(); return; }
+    if (/^[a-z]$/.test(ch)) speakLetterKey(ch);
     drawHUD(); markTargets();
   }
 
@@ -2792,35 +3072,70 @@ function settingsModal() {
   const eng = s.voiceEngine || 'human_zh';
   const m = $('#modal');
   m.innerHTML = `<div class="card">
-    <h2 style="margin-top:0">⚙️ 设置</h2>
+    <h2 style="margin-top:0">⚙️ 设置 <span class="sub" style="font-size:14px">（修改后立即生效）</span></h2>
     <div class="setting-row"><span>🔊 声音和朗读</span><label class="switch"><input type="checkbox" id="sSound" ${s.sound ? 'checked' : ''}><span></span></label></div>
+    <div class="setting-row"><span>🔤 按拼音字母键时发声</span><label class="switch"><input type="checkbox" id="sKeyVoice" ${s.keyVoice !== false ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>🎙️ 配音音色</span>
       <select id="sVoice">
         <option value="human_zh" ${eng === 'human_zh' ? 'selected' : ''}>👩‍🏫 真人甜美女声（推荐·需联网）</option>
         <option value="human_google" ${eng === 'human_google' ? 'selected' : ''}>🎙️ 自然温柔女声（备选·需联网）</option>
-        <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 电脑本地离线语音</option>
+        <option value="local" ${eng === 'local' ? 'selected' : ''}>💻 平板/电脑本地离线语音</option>
       </select>
     </div>
     <div class="setting-row"><span>🐢 朗读速度</span><input type="range" id="sRate" min="0.5" max="1.2" step="0.1" value="${s.rate}"></div>
     <div class="setting-row"><span>🎈 气球/野鸭飞行速度</span>${speedSelectHtml('sGameSpeed')}</div>
     <div class="setting-row"><span>⌨️ 显示屏幕键盘</span><label class="switch"><input type="checkbox" id="sKb" ${s.showKb ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>✨ 键盘闪烁提示下一个键</span><label class="switch"><input type="checkbox" id="sKbHint" ${s.kbHint ? 'checked' : ''}><span></span></label></div>
-    <div class="setting-row"><span>👀 汉字闯关时显示拼音（简单模式）</span><label class="switch"><input type="checkbox" id="sPy" ${s.pyHint ? 'checked' : ''}><span></span></label></div>
+    <div class="setting-row"><span>👀 闯关时显示拼音提示（简单模式）</span><label class="switch"><input type="checkbox" id="sPy" ${s.pyHint ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>📝 每轮题目数量</span><select id="sSize">${[5, 8, 10, 15, 20].map(n => `<option ${n === s.roundSize ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
     <div class="row" style="margin-top:18px;justify-content:space-between">
       <button class="btn gray small" id="sReset">🗑️ 重置全部进度</button>
       <button class="btn green" id="sClose">好的</button>
     </div></div>`;
   m.classList.remove('hidden');
+
+  const syncAllFromControls = () => {
+    s.sound = $('#sSound').checked;
+    s.keyVoice = $('#sKeyVoice').checked;
+    s.voiceEngine = $('#sVoice').value;
+    s.rate = +$('#sRate').value;
+    s.gameSpeed = $('#sGameSpeed').value;
+    s.showKb = $('#sKb').checked;
+    s.kbHint = $('#sKbHint').checked;
+    s.pyHint = $('#sPy').checked;
+    s.roundSize = +$('#sSize').value;
+    persist();
+    applySettingsLive();
+  };
+
+  $('#sSound').onchange = () => {
+    syncAllFromControls();
+    if (s.sound) sfx.ok();
+  };
+  $('#sKeyVoice').onchange = () => {
+    syncAllFromControls();
+    if (s.sound && s.keyVoice) { sfx.key(); speakLetterKey('a'); }
+  };
+  $('#sVoice').onchange = () => {
+    netTtsFailCount = 0;
+    syncAllFromControls();
+    speak('小朋友你好，快来一起学拼音吧！');
+  };
+  $('#sRate').onchange = () => {
+    syncAllFromControls();
+    speak('你好，小朋友');
+  };
+  $('#sGameSpeed').onchange = syncAllFromControls;
+  $('#sKb').onchange = syncAllFromControls;
+  $('#sKbHint').onchange = syncAllFromControls;
+  $('#sPy').onchange = syncAllFromControls;
+  $('#sSize').onchange = syncAllFromControls;
+
   const close = () => {
-    s.sound = $('#sSound').checked; s.voiceEngine = $('#sVoice').value; s.rate = +$('#sRate').value;
-    s.gameSpeed = $('#sGameSpeed').value; s.showKb = $('#sKb').checked;
-    s.kbHint = $('#sKbHint').checked; s.pyHint = $('#sPy').checked; s.roundSize = +$('#sSize').value;
-    persist(); m.classList.add('hidden');
+    syncAllFromControls();
+    m.classList.add('hidden');
   };
   $('#sClose').onclick = close;
-  $('#sVoice').onchange = () => { s.voiceEngine = $('#sVoice').value; speak('小朋友你好，快来一起学拼音吧！'); };
-  $('#sRate').onchange = () => { s.rate = +$('#sRate').value; speak('你好，小朋友'); };
   $('#sReset').onclick = () => {
     if (confirm('确定要清除所有星星、贴纸和错题吗？')) {
       save = { stars: {}, mistakes: {}, balloonBest: 0, duckBest: 0, pacBest: 0, tankBest: 0, settings: s, bonus: 0 };

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'xiaoyongshi-v6';
+const CACHE_NAME = 'xiaoyongshi-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -31,15 +31,12 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      const fetchPromise = fetch(event.request).then(networkResp => {
-        if (networkResp && networkResp.status === 200) {
-          const clone = networkResp.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return networkResp;
-      }).catch(() => cached);
-      return cached || fetchPromise;
-    })
+    fetch(event.request).then(networkResp => {
+      if (networkResp && networkResp.status === 200) {
+        const clone = networkResp.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+      }
+      return networkResp;
+    }).catch(() => caches.match(event.request))
   );
 });
