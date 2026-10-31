@@ -232,20 +232,31 @@ function speak(text) {
   const urls = getHumanTtsUrls(text, engine, S().rate);
   let idx = 0;
   function tryNext() {
-    if (mySeq !== speakSeq || idx >= urls.length) return;
+    if (mySeq !== speakSeq) return;
+    if (idx >= urls.length) {
+      // 网络TTS不可用时，自动优雅兜底至本地真人发音引擎，确保绝不静音
+      speakLocal(text);
+      return;
+    }
     const audio = ensureSharedAudio();
     audio.referrerPolicy = 'no-referrer';
     audio.src = urls[idx++];
     audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
     currentAudio = audio;
     audio.onerror = () => {
-      if (mySeq === speakSeq) tryNext();
+      if (mySeq === speakSeq) {
+        if (idx < urls.length) tryNext();
+        else speakLocal(text);
+      }
     };
     const p = audio.play();
     if (p && p.catch) {
       p.catch(err => {
         if (err && err.name === 'AbortError') return;
-        if (mySeq === speakSeq) tryNext();
+        if (mySeq === speakSeq) {
+          if (idx < urls.length) tryNext();
+          else speakLocal(text);
+        }
       });
     }
   }
@@ -1364,7 +1375,20 @@ function homeScreen() {
       <a class="btn teal" href="点击开始玩-拼音小勇士.html" style="text-decoration:none">🔤 去玩拼音小勇士</a>
     </div>`;
 
+  const modeAnnounce = {
+    units: '课本同步闯关',
+    lab: '数学魔法教具箱',
+    balloon: '算式气球大作战',
+    tank: '坦克口算保卫战',
+    maze: '小猴算式走迷宫',
+    rocket: '火箭点火挑战赛',
+    mistakes: '错题本',
+    stickers: '我的贴纸',
+    help: '家长说明'
+  };
+
   app.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => {
+    const key = b.dataset.go;
     const m = {
       units: unitListScreen,
       lab: labScreen,
@@ -1376,7 +1400,9 @@ function homeScreen() {
       stickers: stickerScreen,
       help: helpScreen
     };
-    go(m[b.dataset.go]);
+    sfx.ok();
+    go(m[key]);
+    if (modeAnnounce[key]) speak(modeAnnounce[key]);
   }));
 }
 
@@ -1408,8 +1434,13 @@ function unitListScreen() {
     h += `</div></div>`;
   });
   app.innerHTML = h;
-  $('#backHome').onclick = () => go(homeScreen);
-  app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => go(lessonScreen, b.dataset.id)));
+  $('#backHome').onclick = () => { sfx.ok(); go(homeScreen); };
+  app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => {
+    const l = ALL_LESSONS.find(x => x.id === b.dataset.id);
+    sfx.ok();
+    go(lessonScreen, b.dataset.id);
+    if (l) speak(l.name);
+  }));
 }
 
 function lessonScreen(id) {
@@ -1431,9 +1462,10 @@ function lessonScreen(id) {
       </div>
     </div>`;
 
-  $('#backUnits').onclick = () => go(unitListScreen);
-  $('#btnOpenLab').onclick = () => go(labScreen);
+  $('#backUnits').onclick = () => { sfx.ok(); go(unitListScreen); };
+  $('#btnOpenLab').onclick = () => { sfx.ok(); go(labScreen); speak('数学魔法教具箱'); };
   $('#btnStartQuiz').onclick = () => {
+    sfx.ok();
     const questions = buildLessonQuestions(l, S().roundSize);
     go(startRound, {
       title: `闯关 · ${l.name}`,
@@ -1442,6 +1474,7 @@ function lessonScreen(id) {
       back: () => go(lessonScreen, id),
       again: () => go(lessonScreen, id)
     });
+    speak('开始本课闯关');
   };
 
   // 绑定讲台互动按钮
@@ -2736,10 +2769,15 @@ function mistakesScreen() {
       </div>`;
   }
   app.innerHTML = h;
-  $('#backHome').onclick = () => go(homeScreen);
-  app.querySelectorAll('.mistake-card').forEach(b => b.addEventListener('click', () => speak(b.dataset.say)));
+  $('#backHome').onclick = () => { sfx.ok(); go(homeScreen); };
+  app.querySelectorAll('.mistake-card').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
+    speak(b.dataset.say);
+    b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  }));
   if (list.length) {
     $('#btnPracticeMistakes').onclick = () => {
+      sfx.ok();
       const questions = list.slice(0, 12).map(m => generateQuestion(m.qType || 'calc_all_mix'));
       go(startRound, {
         title: '💪 错题专项巩固',
@@ -2748,23 +2786,51 @@ function mistakesScreen() {
         isReview: true,
         back: () => go(mistakesScreen)
       });
+      speak('错题专项巩固');
     };
     $('#btnClearMistakes').onclick = () => {
-      if (confirm('确定清空错题本吗？')) { save.mistakes = {}; persist(); go(mistakesScreen); }
+      sfx.del();
+      if (confirm('确定清空错题本吗？')) { save.mistakes = {}; persist(); go(mistakesScreen); toast('错题本已清空'); }
     };
   }
 }
+
+const MATH_STICKER_NAMES = [
+  '小金星', '闪耀之星', '礼花筒', '红气球', '小火箭',
+  '小狮子', '小老虎', '大熊猫', '独角兽', '七色彩虹',
+  '冠军奖杯', '金王冠', '蓝宝石', '闪亮爱心', '幸运四叶草',
+  '小花猫', '小黄狗', '小白兔', '红狐狸', '树袋熊',
+  '蓝海豚', '花蝴蝶', '粉红樱花', '大红苹果', '甜西瓜',
+  '红草莓', '甜筒冰淇淋', '生日蛋糕', '彩色糖果', '小吉他',
+  '游戏掌机', '太空飞碟'
+];
 
 function stickerScreen() {
   setTitle('🏆 我的贴纸');
   const n = stickerCount(), total = totalStars();
   app.innerHTML = `
-    <div class="screen-title"><button class="btn small gray" id="backHome">← 首页</button> 🏆 我的贴纸册 <span class="sub">每得到 5 颗 ⭐ 就能解锁一张新贴纸</span></div>
+    <div class="screen-title"><button class="btn small gray" id="backHome">← 首页</button> 🏆 我的贴纸册 <span class="sub">每得到 5 颗 ⭐ 就能解锁一张新贴纸（点贴纸听发音）</span></div>
     <div class="card" style="margin-bottom:16px;font-size:20px">
       你一共有 <b>${total}</b> 颗 ⭐，${n < STICKERS.length ? `再得 <b>${5 - total % 5}</b> 颗 ⭐ 就能拿到下一张贴纸啦！` : '全部 60 张贴纸都集齐啦！太厉害了！🎉'}
     </div>
-    <div class="sticker-book">${STICKERS.map((s, i) => `<div class="sticker ${i < n ? '' : 'locked'}">${i < n ? s : '❓'}</div>`).join('')}</div>`;
-  $('#backHome').onclick = () => go(homeScreen);
+    <div class="sticker-book">${STICKERS.map((s, i) => `<button type="button" class="sticker ${i < n ? '' : 'locked'}" data-i="${i}" style="cursor:pointer" title="${i < n ? '点击听发音' : '未解锁'}">${i < n ? s : '❓'}</button>`).join('')}</div>`;
+  $('#backHome').onclick = () => { sfx.ok(); go(homeScreen); };
+  app.querySelectorAll('.sticker').forEach(b => {
+    const i = +b.dataset.i;
+    b.addEventListener('click', () => {
+      if (i < n) {
+        sfx.win();
+        b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+        const name = MATH_STICKER_NAMES[i % MATH_STICKER_NAMES.length] || '神奇贴纸';
+        speak(name);
+        confetti(12);
+      } else {
+        sfx.bad();
+        toast('🔒 继续闯关赚星星，就能解锁这张贴纸啦！', 2000);
+        speak('继续加油赚星星哦！');
+      }
+    });
+  });
 }
 
 function helpScreen() {

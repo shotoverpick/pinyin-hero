@@ -1,4 +1,4 @@
-const CACHE_NAME = 'xiaoyongshi-v11';
+const CACHE_NAME = 'xiaoyongshi-v12';
 const ASSETS = [
   './',
   './index.html',

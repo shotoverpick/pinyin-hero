@@ -313,9 +313,111 @@ function stopAllSpeech() {
   }
 }
 
+// ======================= 键盘按键与拼音标准真人发音 =======================
+const KEY_SAY = {
+  a: '啊', b: '玻', c: '雌', d: '得', e: '鹅', f: '佛', g: '哥', h: '喝',
+  i: '衣', j: '鸡', k: '科', l: '勒', m: '摸', n: '讷', o: '喔', p: '坡',
+  q: '七', r: '日', s: '思', t: '特', u: '乌', v: '迂', 'ü': '迂',
+  w: '乌', x: '西', y: '衣', z: '资',
+  '1': '一声', '2': '二声', '3': '三声', '4': '四声', '0': '轻声', '5': '轻声'
+};
+
+const SAY_TO_KEY = {
+  a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', f: 'f', g: 'g', h: 'h',
+  i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p',
+  q: 'q', r: 'r', s: 's', t: 't', u: 'u', v: 'v', 'ü': 'v', w: 'w',
+  x: 'x', y: 'y', z: 'z',
+  '啊': 'a', '玻': 'b', '雌': 'c', '得': 'd', '鹅': 'e', '佛': 'f', '哥': 'g', '喝': 'h',
+  '衣': 'i', '鸡': 'j', '科': 'k', '勒': 'l', '摸': 'm', '讷': 'n', '喔': 'o', '坡': 'p',
+  '七': 'q', '日': 'r', '思': 's', '特': 't', '乌': 'u', '迂': 'v', '西': 'x', '资': 'z',
+  '一声': '1', '二声': '2', '三声': '3', '四声': '4', '轻声': '0',
+  '1': '1', '2': '2', '3': '3', '4': '4', '0': '0', '5': '0'
+};
+
+const keyAudioBuffers = {};
+const keyAudioElements = {};
+let keyAudioInitialized = false;
+
+function initKeyAudios() {
+  if (keyAudioInitialized || typeof window === 'undefined') return;
+  const data = window.KEY_AUDIO_DATA;
+  if (!data) return;
+  keyAudioInitialized = true;
+
+  const ctx = ensureAudioContext();
+  for (const k in data) {
+    const dataUri = data[k];
+    try {
+      const a = new Audio();
+      a.preload = 'auto';
+      a.src = dataUri;
+      keyAudioElements[k] = a;
+    } catch (e) {}
+
+    if (ctx && ctx.decodeAudioData) {
+      try {
+        const base64Str = dataUri.split(',')[1];
+        const binary = atob(base64Str);
+        const len = binary.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
+        ctx.decodeAudioData(bytes.buffer.slice(0), buf => {
+          keyAudioBuffers[k] = buf;
+        }, () => {});
+      } catch (e) {}
+    }
+  }
+}
+
+// 播放键盘按键标准真人发音（绝无机械音、绝无机器人音，0ms 快速响应）
+function playKeyVoice(k) {
+  if (!S().sound || S().keyVoice === false) return;
+  const raw = (k || '').toString().toLowerCase();
+  const ch = SAY_TO_KEY[raw] || raw;
+  const normalizedKey = ch === '5' ? '0' : (ch === 'ü' ? 'v' : ch);
+
+  if (!keyAudioInitialized) initKeyAudios();
+
+  const ctx = ensureAudioContext();
+  const buf = keyAudioBuffers[normalizedKey] || keyAudioBuffers[ch];
+  if (ctx && buf && ctx.state === 'running') {
+    try {
+      const src = ctx.createBufferSource();
+      const gain = ctx.createGain();
+      gain.gain.value = 0.95;
+      src.buffer = buf;
+      src.connect(gain).connect(ctx.destination);
+      src.start(0);
+      return;
+    } catch (e) {}
+  }
+
+  const audio = keyAudioElements[normalizedKey] || keyAudioElements[ch];
+  if (audio) {
+    try {
+      audio.currentTime = 0;
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => {});
+      return;
+    } catch (e) {}
+  }
+
+  const say = KEY_SAY[ch] || KEY_SAY[normalizedKey];
+  if (say && say !== k) speak(say);
+}
+
 // 标准真人人声播报：默认使用播音员甜美女声，绝不自动降级到机器音
 function speak(text) {
   if (!S().sound || !text) return;
+  const trimmed = String(text).trim();
+
+  // 若为单个字母或声调，优先使用本地高保真央广播音员标准人声（0ms 极速响应，离线可用）
+  const directKey = SAY_TO_KEY[trimmed] || SAY_TO_KEY[trimmed.toLowerCase()];
+  if (directKey && window.KEY_AUDIO_DATA && window.KEY_AUDIO_DATA[directKey]) {
+    playKeyVoice(directKey);
+    return;
+  }
+
   const mySeq = ++speakSeq;
   if (currentAudio) {
     try {
@@ -331,27 +433,38 @@ function speak(text) {
   const engine = S().voiceEngine || 'human_zh';
   // 只有在设置里明确选了“本地离线语音”才使用系统合成
   if (engine === 'local') {
-    speakLocal(text);
+    speakLocal(trimmed);
     return;
   }
 
-  const urls = getHumanTtsUrls(text, engine, S().rate);
+  const urls = getHumanTtsUrls(trimmed, engine, S().rate);
   let idx = 0;
   function tryNext() {
-    if (mySeq !== speakSeq || idx >= urls.length) return;
+    if (mySeq !== speakSeq) return;
+    if (idx >= urls.length) {
+      // 网络TTS不可用时，自动优雅兜底至本地真人发音引擎，确保绝不静音
+      speakLocal(trimmed);
+      return;
+    }
     const audio = ensureSharedAudio();
     audio.referrerPolicy = 'no-referrer';
     audio.src = urls[idx++];
     audio.playbackRate = engine === 'human_google' ? Math.max(0.75, Math.min(1.2, S().rate + 0.1)) : 1.0;
     currentAudio = audio;
     audio.onerror = () => {
-      if (mySeq === speakSeq) tryNext();
+      if (mySeq === speakSeq) {
+        if (idx < urls.length) tryNext();
+        else speakLocal(trimmed);
+      }
     };
     const p = audio.play();
     if (p && p.catch) {
       p.catch(err => {
         if (err && err.name === 'AbortError') return;
-        if (mySeq === speakSeq) tryNext();
+        if (mySeq === speakSeq) {
+          if (idx < urls.length) tryNext();
+          else speakLocal(trimmed);
+        }
       });
     }
   }
@@ -400,85 +513,7 @@ const sfx = {
   win: () => beep([[523, .15], [659, .15], [784, .15], [1047, .4]], 'triangle', 0.26),
 };
 
-// ======================= 键盘按键标准真人发音 =======================
-const KEY_SAY = {
-  a: '啊', b: '玻', c: '雌', d: '得', e: '鹅', f: '佛', g: '哥', h: '喝',
-  i: '衣', j: '鸡', k: '科', l: '勒', m: '摸', n: '讷', o: '喔', p: '坡',
-  q: '七', r: '日', s: '思', t: '特', u: '乌', v: '迂', 'ü': '迂',
-  w: '乌', x: '西', y: '衣', z: '资',
-  '1': '一声', '2': '二声', '3': '三声', '4': '四声', '0': '轻声', '5': '轻声'
-};
 
-const keyAudioBuffers = {};
-const keyAudioElements = {};
-let keyAudioInitialized = false;
-
-function initKeyAudios() {
-  if (keyAudioInitialized || typeof window === 'undefined') return;
-  const data = window.KEY_AUDIO_DATA;
-  if (!data) return;
-  keyAudioInitialized = true;
-
-  const ctx = ensureAudioContext();
-  for (const k in data) {
-    const dataUri = data[k];
-    try {
-      const a = new Audio();
-      a.preload = 'auto';
-      a.src = dataUri;
-      keyAudioElements[k] = a;
-    } catch (e) {}
-
-    if (ctx && ctx.decodeAudioData) {
-      try {
-        const base64Str = dataUri.split(',')[1];
-        const binary = atob(base64Str);
-        const len = binary.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
-        ctx.decodeAudioData(bytes.buffer.slice(0), buf => {
-          keyAudioBuffers[k] = buf;
-        }, () => {});
-      } catch (e) {}
-    }
-  }
-}
-
-// 播放键盘按键标准真人发音（绝无机械音、绝无机器人音，0ms 快速响应）
-function playKeyVoice(k) {
-  if (!S().sound || S().keyVoice === false) return;
-  const ch = (k || '').toLowerCase();
-  const normalizedKey = ch === '5' ? '0' : (ch === 'ü' ? 'v' : ch);
-
-  if (!keyAudioInitialized) initKeyAudios();
-
-  const ctx = ensureAudioContext();
-  const buf = keyAudioBuffers[normalizedKey] || keyAudioBuffers[ch];
-  if (ctx && buf && ctx.state === 'running') {
-    try {
-      const src = ctx.createBufferSource();
-      const gain = ctx.createGain();
-      gain.gain.value = 0.95;
-      src.buffer = buf;
-      src.connect(gain).connect(ctx.destination);
-      src.start(0);
-      return;
-    } catch (e) {}
-  }
-
-  const audio = keyAudioElements[normalizedKey] || keyAudioElements[ch];
-  if (audio) {
-    try {
-      audio.currentTime = 0;
-      const p = audio.play();
-      if (p && p.catch) p.catch(() => {});
-      return;
-    } catch (e) {}
-  }
-
-  const say = KEY_SAY[ch] || KEY_SAY[normalizedKey];
-  if (say) speak(say);
-}
 
 // ======================= 界面工具 =======================
 const $ = s => document.querySelector(s);
@@ -677,14 +712,36 @@ function homeScreen() {
       <button class="btn blue" data-go="stickers">🏆 我的贴纸 (${stickerCount()}/${STICKERS.length})</button>
       <button class="btn gray" data-go="help">👨‍👩‍👦 家长说明</button>
     </div>`;
+  const modeAnnounce = {
+    pinyin: '汉语拼音',
+    chars: '识字与阅读闯关',
+    write: '田字格写汉字',
+    tone: '声调小精灵',
+    balloon: '气球大作战',
+    duck: '打野鸭',
+    pacman: '拼音吃豆人',
+    tank: '坦克保卫战',
+    mistakes: '错题本',
+    stickers: '我的贴纸',
+    help: '家长说明'
+  };
   app.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => {
+    const key = b.dataset.go;
     const m = { pinyin: pinyinListScreen, tone: toneHomeScreen, chars: () => charListScreen('all'), write: hanziWriteListScreen, balloon: balloonSetupScreen, duck: duckSetupScreen, pacman: pacmanSetupScreen, tank: tankSetupScreen, mistakes: mistakesScreen, stickers: stickerScreen, help: helpScreen };
-    go(m[b.dataset.go]);
+    sfx.ok();
+    go(m[key]);
+    if (modeAnnounce[key]) speak(modeAnnounce[key]);
   }));
   app.querySelectorAll('[data-cat]').forEach(b => b.addEventListener('click', () => {
     const cat = b.dataset.cat;
-    if (cat === '汉语拼音') go(pinyinListScreen);
-    else go(charListScreen, cat);
+    sfx.ok();
+    if (cat === '汉语拼音') {
+      go(pinyinListScreen);
+      speak('汉语拼音栏目');
+    } else {
+      go(charListScreen, cat);
+      speak(cat + '栏目');
+    }
   }));
 }
 
@@ -734,10 +791,21 @@ function pinyinListScreen() {
   });
 
   app.innerHTML = h;
-  $('#goCharPy').onclick = () => go(charListScreen, '汉语拼音');
-  $('#goAllUnits').onclick = () => go(charListScreen, 'all');
-  app.querySelectorAll('.lesson-card[data-i]').forEach(b => b.addEventListener('click', () => go(pinyinLessonScreen, +b.dataset.i)));
-  app.querySelectorAll('.lesson-card[data-char-id]').forEach(b => b.addEventListener('click', () => go(charLessonScreen, b.dataset.charId)));
+  $('#goCharPy').onclick = () => { sfx.ok(); go(charListScreen, '汉语拼音'); speak('按识字表看生字'); };
+  $('#goAllUnits').onclick = () => { sfx.ok(); go(charListScreen, 'all'); speak('全部八个单元目录'); };
+  app.querySelectorAll('.lesson-card[data-i]').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i;
+    const l = PINYIN_LESSONS[i];
+    sfx.ok();
+    go(pinyinLessonScreen, i);
+    if (l) speak(i < 14 ? `第 ${i + 1} 课，${l.name}` : l.name);
+  }));
+  app.querySelectorAll('.lesson-card[data-char-id]').forEach(b => b.addEventListener('click', () => {
+    const yl = ALL_LESSONS.find(x => x.id === b.dataset.charId);
+    sfx.ok();
+    go(charLessonScreen, b.dataset.charId);
+    if (yl) speak(yl.name);
+  }));
 }
 
 function knownLetters(upto) {
@@ -856,41 +924,63 @@ function pinyinLessonScreen(i) {
     <p class="sub center" style="text-align:center;margin-top:12px">${renderPy('ü')} 在键盘上用 <b>v</b> 键来打哦！</p>`;
 
   app.innerHTML = h;
-  $('#back').onclick = () => go(pinyinListScreen);
+  $('#back').onclick = () => { sfx.ok(); go(pinyinListScreen); };
   app.querySelectorAll('.letter-card').forEach(b => b.addEventListener('click', () => {
-    const info = LETTER_INFO[b.dataset.x] || {};
-    speak(info.say || b.dataset.x);
+    const x = b.dataset.x;
+    const info = LETTER_INFO[x] || {};
+    sfx.pop();
+    if (window.KEY_AUDIO_DATA && (window.KEY_AUDIO_DATA[x] || window.KEY_AUDIO_DATA[SAY_TO_KEY[x]])) {
+      playKeyVoice(x);
+    } else {
+      speak(info.say || x);
+    }
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   app.querySelectorAll('.syl-pill').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
     speakSyllable(b.dataset.syl);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   app.querySelectorAll('.word-pill').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
     speak(b.dataset.word);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
-  app.querySelectorAll('.tb-line').forEach(el => el.addEventListener('click', () => speak(el.dataset.line)));
-  if ($('#readRhyme')) $('#readRhyme').onclick = () => speak(l.rhymeLines.join(' '));
-  if ($('#goCharLesson')) $('#goCharLesson').onclick = () => go(charLessonScreen, l.charLessonId);
+  app.querySelectorAll('.tb-line').forEach(el => el.addEventListener('click', () => {
+    sfx.pop();
+    speak(el.dataset.line);
+  }));
+  if ($('#readRhyme')) $('#readRhyme').onclick = () => { sfx.ok(); speak(l.rhymeLines.join(' ')); };
+  if ($('#goCharLesson')) $('#goCharLesson').onclick = () => {
+    sfx.ok();
+    go(charLessonScreen, l.charLessonId);
+    speak('本课生字闯关');
+  };
   app.querySelectorAll('.char-card[data-ci]').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
     speak(charItems[+b.dataset.ci].speak);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
 
   $('#m1').onclick = () => {
+    sfx.ok();
     const baseLetters = [...l.items, ...(l.zhengti || [])];
     let items = [...baseLetters, ...baseLetters];
     const prev = PINYIN_LESSONS.slice(0, i).flatMap(x => x.items);
     items = items.concat(shuffle(prev).slice(0, 4));
     go(startRound, { title: `找字母 · ${l.name}`, items: shuffle(items.map(letterItem)), requireTone: false, starKey: 'letter:' + l.id, back: () => go(pinyinLessonScreen, i) });
+    speak('找字母');
   };
   $('#m2').onclick = () => {
+    sfx.ok();
     go(startRound, { title: `课本音节打字 · ${l.name}`, items: sylItemsFor(i), requireTone: true, starKey: 'syl:' + l.id, back: () => go(pinyinLessonScreen, i), mode: 'syl' });
+    speak('课本音节打字');
   };
   if ($('#m3')) {
     $('#m3').onclick = () => {
+      sfx.ok();
       go(startRound, { title: `本课生字闯关 · ${l.name}`, items: roundItems(charItems), requireTone: true, starKey: 'char:' + l.charLessonId, back: () => go(pinyinLessonScreen, i) });
+      speak('生字闯关');
     };
   }
 }
@@ -996,13 +1086,19 @@ function charListScreen(filterCat) {
     h += '</div></div>';
   });
   app.innerHTML = h;
-  app.querySelectorAll('.cat-tab').forEach(b => b.addEventListener('click', () => go(charListScreen, b.dataset.f)));
+  app.querySelectorAll('.cat-tab').forEach(b => b.addEventListener('click', () => {
+    sfx.ok();
+    go(charListScreen, b.dataset.f);
+  }));
   app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => {
     const l = ALL_LESSONS.find(x => x.id === b.dataset.id);
+    sfx.ok();
     if (l && (!l.items || !l.items.length) && l.pinyinLessonIdx !== undefined) {
       go(pinyinLessonScreen, l.pinyinLessonIdx);
+      if (l) speak(l.name);
     } else {
       go(charLessonScreen, b.dataset.id);
+      if (l) speak(l.name);
     }
   }));
 }
@@ -1109,39 +1205,60 @@ function charLessonScreen(id) {
       <button class="btn" style="background:#4d7c0f" id="mTank">🛡️ 坦克大战</button>
     </div>`;
   app.innerHTML = h;
-  $('#back').onclick = () => go(charListScreen, currentCharFilter);
-  if ($('#goPyLesson')) $('#goPyLesson').onclick = () => go(pinyinLessonScreen, l.pinyinLessonIdx);
-  if ($('#readMainText')) $('#readMainText').onclick = () => speak(l.text.join(' '));
-  if ($('#readExtraText')) $('#readExtraText').onclick = () => speak(l.extraText.join(' '));
-  app.querySelectorAll('.tb-line').forEach(el => el.addEventListener('click', () => speak(el.dataset.line)));
+  $('#back').onclick = () => { sfx.ok(); go(charListScreen, currentCharFilter); };
+  if ($('#goPyLesson')) $('#goPyLesson').onclick = () => { sfx.ok(); go(pinyinLessonScreen, l.pinyinLessonIdx); speak('拼音乐园'); };
+  if ($('#readMainText')) $('#readMainText').onclick = () => { sfx.ok(); speak(l.text.join(' ')); };
+  if ($('#readExtraText')) $('#readExtraText').onclick = () => { sfx.ok(); speak(l.extraText.join(' ')); };
+  app.querySelectorAll('.tb-line').forEach(el => el.addEventListener('click', () => {
+    sfx.pop();
+    speak(el.dataset.line);
+  }));
   app.querySelectorAll('.word-pill').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
     speak(b.dataset.word);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   app.querySelectorAll('.char-card[data-i]').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
     speak(items[+b.dataset.i].speak);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   const back = () => go(charLessonScreen, id);
   app.querySelectorAll('.write-card[data-wi]').forEach(b => b.addEventListener('click', () => {
-    go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: +b.dataset.wi, starKey: 'write:' + id, back });
+    const wi = +b.dataset.wi;
+    const it = writeItems[wi];
+    sfx.ok();
+    go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: wi, starKey: 'write:' + id, back });
+    if (it) speak(it.speak);
   }));
   if ($('#mWriteBox')) {
-    $('#mWriteBox').onclick = () => go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: 0, starKey: 'write:' + id, back });
+    $('#mWriteBox').onclick = () => {
+      sfx.ok();
+      go(hanziWriteScreen, { title: `写字表描红 · ${l.name}`, items: writeItems, startIdx: 0, starKey: 'write:' + id, back });
+      speak('写字表描红');
+    };
   }
   $('#mWriteAll').onclick = () => {
+    sfx.ok();
     const pool = writeItems.length ? writeItems : items;
     go(hanziWriteScreen, { title: `田字格手写 · ${l.name}`, items: pool, startIdx: 0, starKey: 'write:' + id, back });
+    speak('田字格练字');
   };
-  $('#mType').onclick = () => go(startRound, { title: `打字闯关 · ${l.name}`, items: roundItems(items), requireTone: true, starKey: 'char:' + id, back });
+  $('#mType').onclick = () => {
+    sfx.ok();
+    go(startRound, { title: `打字闯关 · ${l.name}`, items: roundItems(items), requireTone: true, starKey: 'char:' + id, back });
+    speak('打字闯关');
+  };
   $('#mTone').onclick = () => {
+    sfx.ok();
     const t = items.filter(x => x.tone);
     go(startToneRound, { title: `声调练习 · ${l.name}`, items: roundItems(t), starKey: 'tone:' + id, back });
+    speak('声调练习');
   };
-  $('#mBalloon').onclick = () => go(balloonGame, { pool: items, back });
-  $('#mDuck').onclick = () => go(duckGame, { pool: items, back });
-  $('#mPac').onclick = () => go(pacmanGame, { pool: items, back });
-  $('#mTank').onclick = () => go(tankGame, { pool: items, back });
+  $('#mBalloon').onclick = () => { sfx.ok(); go(balloonGame, { pool: items, back }); speak('气球大作战'); };
+  $('#mDuck').onclick = () => { sfx.ok(); go(duckGame, { pool: items, back }); speak('打野鸭'); };
+  $('#mPac').onclick = () => { sfx.ok(); go(pacmanGame, { pool: items, back }); speak('拼音吃豆人'); };
+  $('#mTank').onclick = () => { sfx.ok(); go(tankGame, { pool: items, back }); speak('坦克保卫战'); };
 }
 
 // 一轮题目：按设置的每轮题目数量生成（字数不够时自动循环补齐）
@@ -1187,7 +1304,10 @@ function hanziWriteListScreen(scope) {
   });
 
   app.innerHTML = h;
-  app.querySelectorAll('.cat-tab').forEach(b => b.addEventListener('click', () => go(hanziWriteListScreen, b.dataset.s)));
+  app.querySelectorAll('.cat-tab').forEach(b => b.addEventListener('click', () => {
+    sfx.ok();
+    go(hanziWriteListScreen, b.dataset.s);
+  }));
   app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => {
     const l = ALL_LESSONS.find(x => x.id === b.dataset.id);
     if (!l) return;
@@ -1197,6 +1317,7 @@ function hanziWriteListScreen(scope) {
       return charItem(`${hz} ${py} ${found ? found.word : hz}`);
     });
     const pool = (currentWriteScope === 'write100' && writeItems.length) ? writeItems : LESSON_ITEMS[l.id];
+    sfx.ok();
     go(hanziWriteScreen, {
       title: `田字格手写 · ${l.name}`,
       items: pool,
@@ -1204,6 +1325,7 @@ function hanziWriteListScreen(scope) {
       starKey: 'write:' + l.id,
       back: () => go(hanziWriteListScreen, currentWriteScope)
     });
+    speak(l.name);
   }));
 }
 
@@ -1262,15 +1384,17 @@ function hanziWriteScreen(opts) {
       </div>
     </div>`;
 
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
 
   function renderStrip() {
     $('#charStrip').innerHTML = items.map((c, i) =>
       `<button type="button" class="strip-char ${i === idx ? 'active' : ''}" data-i="${i}">${c.char}</button>`
     ).join('');
     app.querySelectorAll('.strip-char').forEach(b => b.addEventListener('click', () => {
+      sfx.pop();
       idx = +b.dataset.i;
       loadChar();
+      speak(items[idx].speak);
     }));
   }
 
@@ -1360,14 +1484,16 @@ function hanziWriteScreen(opts) {
     });
   }
 
-  $('#spk').onclick = () => speak(items[idx].speak);
+  $('#spk').onclick = () => { sfx.key(); speak(items[idx].speak); };
   $('#modeTrace').onclick = () => {
+    sfx.key();
     showOutline = true;
     $('#modeTrace').classList.add('active');
     $('#modeDictate').classList.remove('active');
     if (writer) writer.showOutline();
   };
   $('#modeDictate').onclick = () => {
+    sfx.key();
     showOutline = false;
     $('#modeDictate').classList.add('active');
     $('#modeTrace').classList.remove('active');
@@ -1375,6 +1501,7 @@ function hanziWriteScreen(opts) {
   };
   $('#btnAnimate').onclick = () => {
     if (!writer) return;
+    sfx.ok();
     const it = items[idx];
     const strokeData = (window.HANZI_STROKE_DATA || {})[it.char];
     $('#strokeStatus').className = 'hw-stroke-status';
@@ -1392,11 +1519,12 @@ function hanziWriteScreen(opts) {
     });
   };
   $('#btnHint').onclick = () => {
+    sfx.key();
     if (writer && writer._quiz) writer._quiz._hanziWriter.highlightStroke(writer._quiz._currentStrokeIndex);
   };
-  $('#btnRedo').onclick = () => loadChar();
-  $('#prevChar').onclick = () => { if (idx > 0) { idx--; loadChar(); } };
-  $('#nextChar').onclick = () => { if (idx < items.length - 1) { idx++; loadChar(); } };
+  $('#btnRedo').onclick = () => { sfx.del(); loadChar(); };
+  $('#prevChar').onclick = () => { if (idx > 0) { sfx.key(); idx--; loadChar(); speak(items[idx].speak); } };
+  $('#nextChar').onclick = () => { if (idx < items.length - 1) { sfx.key(); idx++; loadChar(); speak(items[idx].speak); } };
 
   loadChar();
 }
@@ -1445,7 +1573,7 @@ function startRound(opts) {
         ${inputPanelHtml(opts.requireTone)}
       </div>
     </div>`;
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
   bindKeyboard(app);
   keyHandler = roundKey;
   onSettingsChange = () => {
@@ -1466,24 +1594,27 @@ function showQuestion() {
   if (it.type === 'char') {
     q = `<div class="prompt">点出这个字的<b>拼音字母</b>，再点<b>声调符号</b></div>
       <div class="hintpy" id="hintpy">${S().pyHint ? renderPy(it.plain, it.tone) : ''}</div>
-      <div class="tzg"><span class="hz">${it.char}</span></div>
+      <div class="tzg" style="cursor:pointer" title="点击听发音"><span class="hz">${it.char}</span></div>
       <div class="word">${it.word.replace(it.char, `<b>${it.char}</b>`)}</div>`;
   } else if (it.type === 'letter') {
     q = `<div class="prompt">在键盘上找到这${it.letter.length > 1 ? '几' : '个'}字母，打出来！</div>
       <div class="emoji-hint">${it.emoji}</div>
-      <div class="bigletter">${renderPy(it.letter)}</div>
+      <div class="bigletter" style="cursor:pointer" title="点击听发音">${renderPy(it.letter)}</div>
       <div class="hintpy" id="hintpy"></div>`;
   } else {
     q = `<div class="prompt">照着拼音点出字母，别忘了点<b>声调符号</b></div>
-      <div class="bigpy">${renderPy(it.plain, it.tone)}</div>
+      <div class="bigpy" style="cursor:pointer" title="点击听发音">${renderPy(it.plain, it.tone)}</div>
       <div class="word">${it.char ? `${it.char}（${it.word}）` : '&nbsp;'}</div>
       <div class="hintpy" id="hintpy" style="min-height:0"></div>`;
   }
   q += `<button class="speak-btn" id="spk" title="再听一遍">🔊</button>
         <button class="hint-btn" id="hnt" title="小提示">💡</button>`;
   $('#q').innerHTML = q;
-  $('#spk').onclick = () => speak(it.speak);
-  $('#hnt').onclick = () => { R.reveal = true; updateAnswer(); };
+  $('#spk').onclick = () => { sfx.key(); speak(it.speak); };
+  $('#hnt').onclick = () => { sfx.key(); R.reveal = true; updateAnswer(); };
+  $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
+  $('#q .bigletter')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
+  $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
   $('#fb').textContent = ''; $('#fb').className = 'feedback';
   $('#tip').innerHTML = R.requireTone
     ? `声调：<span class="k" style="color:var(--t1)">ˉ</span>一声 <span class="k" style="color:var(--t2)">ˊ</span>二声 <span class="k" style="color:var(--t3)">ˇ</span>三声 <span class="k" style="color:var(--t4)">ˋ</span>四声${it.tone === 0 ? '　（这个字读<b>轻声</b>，点 <span class="k">轻声</span>）' : ''}`
@@ -1629,13 +1760,24 @@ function toneHomeScreen() {
       <button class="btn blue" id="tB">📚 课本生字选声调</button>
     </div>`;
   app.innerHTML = h;
-  app.querySelectorAll('.tone-demo').forEach(b => b.addEventListener('click', () => speak(demo.chars[b.dataset.t - 1])));
+  app.querySelectorAll('.tone-demo').forEach(b => b.addEventListener('click', () => {
+    const t = +b.dataset.t;
+    sfx.tone(t);
+    speak(demo.chars[t - 1]);
+    b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  }));
   $('#tA').onclick = () => {
+    sfx.ok();
     const items = [];
     TONE_SETS.forEach(s => s.chars.forEach((c, i) => { if (c) items.push({ char: c, plain: s.base, tone: i + 1, key: s.base, speak: c, word: '' }); }));
     go(startToneRound, { title: '四声练一练', items: shuffle(items).slice(0, S().roundSize), starKey: 'tone:sets', back: () => go(toneHomeScreen) });
+    speak('四声练一练');
   };
-  $('#tB').onclick = () => go(charListScreen);
+  $('#tB').onclick = () => {
+    sfx.ok();
+    go(charListScreen);
+    speak('课本生字选声调');
+  };
 }
 
 function startToneRound(opts) {
@@ -1655,7 +1797,7 @@ function startToneRound(opts) {
       <div class="tone-btns">${[1, 2, 3, 4].map(t => `<button class="tone-btn t${t}" data-t="${t}">${TONE_SVG[t]}<div>${TONE_NAMES[t]}</div></button>`).join('')}</div>
       <p class="sub" style="text-align:center">听一听读音，点击上方对应的声调符号吧！</p>
     </div>`;
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
   app.querySelectorAll('.tone-btn').forEach(b => b.addEventListener('click', () => {
     sfx.tone(+b.dataset.t);
     toneAnswer(+b.dataset.t);
@@ -1670,11 +1812,13 @@ function toneQuestion() {
   $('#prog').style.width = (R.idx / R.items.length * 100) + '%';
   $('#pc').textContent = `${R.idx + 1} / ${R.items.length}`;
   $('#q').innerHTML = `<div class="prompt">听一听，这个字读第几声？</div>
-    <div class="bigpy" id="tpy">${renderPy(it.plain, '?')}</div>
-    <div class="tzg"><span class="hz">${it.char}</span></div>
+    <div class="bigpy" id="tpy" style="cursor:pointer" title="点击听发音">${renderPy(it.plain, '?')}</div>
+    <div class="tzg" style="cursor:pointer" title="点击听发音"><span class="hz">${it.char}</span></div>
     <div class="word">${it.word ? it.word.replace(it.char, `<b>${it.char}</b>`) : '&nbsp;'}</div>
     <button class="speak-btn" id="spk">🔊</button>`;
-  $('#spk').onclick = () => speak(it.speak);
+  $('#spk').onclick = () => { sfx.key(); speak(it.speak); };
+  $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
+  $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speak(it.speak); });
   $('#fb').textContent = ''; $('#fb').className = 'feedback';
   setTimeout(() => speak(it.speak), 250);
 }
@@ -1744,11 +1888,13 @@ function balloonSetupScreen() {
     if ($('#bPy')) $('#bPy').checked = !!S().pyHint;
   };
   $('#start').onclick = () => {
+    sfx.ok();
     S().gameSpeed = $('#bSpeed').value; S().pyHint = $('#bPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
     go(balloonGame, { pool, needTone: $('#bTone').checked, showPy: $('#bPy').checked, back: () => go(balloonSetupScreen) });
+    speak('气球大作战开始');
   };
 }
 
@@ -1776,7 +1922,7 @@ function balloonGame(opts) {
     </div>
     ${inputPanelHtml(needTone)}`;
   bindKeyboard(app);
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
 
   const stage = $('#stage');
   let preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).balloon;
@@ -1791,7 +1937,10 @@ function balloonGame(opts) {
     const ratio = preset.speed / (oldBase || 1);
     G.balloons.forEach(b => { b.speed *= ratio; });
   }
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyBalloonSpeed(btn.dataset.spd)));
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
+    sfx.key();
+    applyBalloonSpeed(btn.dataset.spd);
+  }));
   onSettingsChange = () => {
     applyBalloonSpeed(S().gameSpeed || 'slow');
     showPy = !!S().pyHint;
@@ -1830,6 +1979,11 @@ function balloonGame(opts) {
     el.style.transform = `translateY(${-b.y}px)`;
     el.style.bottom = '0';
     el.style.top = 'auto';
+    el.style.cursor = 'pointer';
+    el.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if (G.running) pop(b);
+    });
     stage.appendChild(el);
     G.balloons.push(b);
   }
@@ -1913,6 +2067,7 @@ function balloonGame(opts) {
   }
 
   function begin() {
+    sfx.ok();
     $('#ov').classList.add('hidden');
     G.running = true; G.last = 0; G.spawnT = 300;
     G.raf = requestAnimationFrame(frame);
@@ -1961,11 +2116,13 @@ function duckSetupScreen() {
     if ($('#dPy')) $('#dPy').checked = !!S().pyHint;
   };
   $('#start').onclick = () => {
+    sfx.ok();
     S().gameSpeed = $('#dSpeed').value; S().pyHint = $('#dPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
     go(duckGame, { pool, needTone: $('#dTone').checked, showPy: $('#dPy').checked, back: () => go(duckSetupScreen) });
+    speak('打野鸭开始');
   };
 }
 
@@ -2029,7 +2186,7 @@ function duckGame(opts) {
     </div>
     ${inputPanelHtml(needTone)}`;
   bindKeyboard(app);
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
 
   const stage = $('#stage');
   const hound = $('#hound');
@@ -2053,7 +2210,10 @@ function duckGame(opts) {
     const ratio = preset.speed / (oldBase || 1);
     G.ducks.forEach(d => { d.speed *= ratio; });
   }
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyDuckSpeed(btn.dataset.spd)));
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
+    sfx.key();
+    applyDuckSpeed(btn.dataset.spd);
+  }));
   onSettingsChange = () => {
     applyDuckSpeed(S().gameSpeed || 'slow');
     showPy = !!S().pyHint;
@@ -2112,6 +2272,11 @@ function duckGame(opts) {
       speed: G.speed * (0.85 + Math.random() * 0.35),
     };
     el.style.transform = `translate(${d.x}px, ${d.y}px)`;
+    el.style.cursor = 'pointer';
+    el.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if (G.running) shoot(d);
+    });
     stage.appendChild(el);
     G.ducks.push(d);
     sfx.quack();
@@ -2218,6 +2383,7 @@ function duckGame(opts) {
   }
 
   function begin() {
+    sfx.ok();
     $('#ov').classList.add('hidden');
     G.running = true; G.last = 0; G.spawnT = 250;
     G.raf = requestAnimationFrame(frame);
@@ -2300,11 +2466,13 @@ function pacmanSetupScreen() {
     if ($('#pPy')) $('#pPy').checked = !!S().pyHint;
   };
   $('#start').onclick = () => {
+    sfx.ok();
     S().gameSpeed = $('#pSpeed').value; S().pyHint = $('#pPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
     go(pacmanGame, { pool, needTone: $('#pTone').checked, showPy: $('#pPy').checked, back: () => go(pacmanSetupScreen) });
+    speak('拼音吃豆人开始');
   };
 }
 
@@ -2331,7 +2499,7 @@ function pacmanGame(opts) {
     </div>
     ${inputPanelHtml(needTone)}`;
   bindKeyboard(app);
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
 
   const gridEl = $('#grid');
   gridEl.style.gridTemplateColumns = `repeat(${PAC_COLS}, 1fr)`;
@@ -2447,8 +2615,14 @@ function pacmanGame(opts) {
     el.innerHTML = `${showPy ? `<div class="bp">${renderPy(cand.plain, cand.tone)}</div>` : ''}<div class="hz">${cand.char}</div>`;
     const dot = cells[r][c].querySelector('.pac-dot');
     if (dot) dot.style.display = 'none';
+    const bObj = { r, c, it: cand, el, isSuper };
+    el.style.cursor = 'pointer';
+    el.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if (G.running && !G.moving) runToBean(bObj);
+    });
     cells[r][c].appendChild(el);
-    G.beans.push({ r, c, it: cand, el, isSuper });
+    G.beans.push(bObj);
   }
 
   for (let i = 0; i < 5; i++) spawnBean();
@@ -2633,7 +2807,10 @@ function pacmanGame(opts) {
     syncGhostCount();
     restartGhostTimer();
   }
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyPacSpeed(btn.dataset.spd)));
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
+    sfx.key();
+    applyPacSpeed(btn.dataset.spd);
+  }));
   onSettingsChange = () => {
     applyPacSpeed(S().gameSpeed || 'slow');
     showPy = !!S().pyHint;
@@ -2683,6 +2860,7 @@ function pacmanGame(opts) {
   }
 
   function begin() {
+    sfx.ok();
     $('#ov').classList.add('hidden');
     G.running = true;
     restartGhostTimer();
@@ -2732,11 +2910,13 @@ function tankSetupScreen() {
     if ($('#tPy')) $('#tPy').checked = !!S().pyHint;
   };
   $('#start').onclick = () => {
+    sfx.ok();
     S().gameSpeed = $('#tSpeed').value; S().pyHint = $('#tPy').checked; persist();
     const sel = [...app.querySelectorAll('#units input:checked')].map(x => +x.value);
     if (!sel.length) { toast('请至少选一个单元哦'); return; }
     const pool = sel.flatMap(i => CHAR_UNITS[i].lessons.flatMap(l => LESSON_ITEMS[l.id]));
     go(tankGame, { pool, needTone: $('#tTone').checked, showPy: $('#tPy').checked, back: () => go(tankSetupScreen) });
+    speak('坦克保卫战开始');
   };
 }
 
@@ -2812,7 +2992,7 @@ function tankGame(opts) {
     </div>
     ${inputPanelHtml(needTone)}`;
   bindKeyboard(app);
-  $('#quit').onclick = () => opts.back();
+  $('#quit').onclick = () => { sfx.ok(); opts.back(); };
 
   const stage = $('#stage');
   const turretEl = $('#heroTurret');
@@ -2836,7 +3016,10 @@ function tankGame(opts) {
     const ratio = preset.speed / (oldBase || 1);
     G.tanks.forEach(t => { t.speed *= ratio; });
   }
-  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => applyTankSpeed(btn.dataset.spd)));
+  app.querySelectorAll('.spd-btn').forEach(btn => btn.addEventListener('click', () => {
+    sfx.key();
+    applyTankSpeed(btn.dataset.spd);
+  }));
   onSettingsChange = () => {
     applyTankSpeed(S().gameSpeed || 'slow');
     showPy = !!S().pyHint;
@@ -2876,6 +3059,11 @@ function tankGame(opts) {
 
     const t = { el, it: cand, lane, x, y: -125, speed: G.speed * (0.9 + Math.random() * 0.2) };
     el.style.transform = `translate(${t.x}px, ${t.y}px)`;
+    el.style.cursor = 'pointer';
+    el.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if (G.running) fireAt(t);
+    });
     stage.appendChild(el);
     G.tanks.push(t);
   }
@@ -3006,6 +3194,7 @@ function tankGame(opts) {
   }
 
   function begin() {
+    sfx.ok();
     $('#ov').classList.add('hidden');
     G.running = true; G.last = 0; G.spawnT = 250;
     G.raf = requestAnimationFrame(frame);
@@ -3047,20 +3236,58 @@ function mistakesScreen() {
     h += `</div><div class="row center" style="margin-top:24px"><button class="btn purple" id="practice">💪 练习错题</button><button class="btn gray small" id="clear">清空</button></div>`;
   }
   app.innerHTML = h;
-  app.querySelectorAll('.char-card').forEach(b => b.addEventListener('click', () => speak(charItem(b.dataset.s).speak)));
+  app.querySelectorAll('.char-card').forEach(b => b.addEventListener('click', () => {
+    sfx.pop();
+    speak(charItem(b.dataset.s).speak);
+    b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  }));
   if (list.length) {
-    $('#practice').onclick = () => go(startRound, { title: '练习错题', items: shuffle(list.map(([, m]) => charItem(m.s))).slice(0, 15), requireTone: true, starKey: null, isReview: true, back: () => go(mistakesScreen) });
-    $('#clear').onclick = () => { if (confirm('确定清空错题本吗？')) { save.mistakes = {}; persist(); go(mistakesScreen); } };
+    $('#practice').onclick = () => {
+      sfx.ok();
+      go(startRound, { title: '练习错题', items: shuffle(list.map(([, m]) => charItem(m.s))).slice(0, 15), requireTone: true, starKey: null, isReview: true, back: () => go(mistakesScreen) });
+      speak('练习错题');
+    };
+    $('#clear').onclick = () => {
+      sfx.del();
+      if (confirm('确定清空错题本吗？')) { save.mistakes = {}; persist(); go(mistakesScreen); toast('错题本已清空'); }
+    };
   }
 }
 
 // ======================= 贴纸 =======================
+const STICKER_NAMES = [
+  '小金星', '闪耀之星', '礼花筒', '红气球', '小火箭',
+  '小狮子', '小老虎', '大熊猫', '独角兽', '七色彩虹',
+  '冠军奖杯', '金王冠', '蓝宝石', '闪亮爱心', '幸运四叶草',
+  '小花猫', '小黄狗', '小白兔', '红狐狸', '树袋熊',
+  '蓝海豚', '花蝴蝶', '粉红樱花', '大红苹果', '甜西瓜',
+  '红草莓', '甜筒冰淇淋', '生日蛋糕', '彩色糖果', '小吉他',
+  '游戏掌机', '太空飞碟'
+];
+
 function stickerScreen() {
   setTitle('🏆 我的贴纸');
   const n = stickerCount(), total = totalStars();
-  app.innerHTML = `<div class="screen-title">🏆 我的贴纸 <span class="sub">每得到 5 颗 ⭐ 就能解锁一张新贴纸</span></div>
+  app.innerHTML = `<div class="screen-title">🏆 我的贴纸 <span class="sub">每得到 5 颗 ⭐ 就能解锁一张新贴纸（点贴纸听发音）</span></div>
     <div class="card" style="margin-bottom:16px;font-size:20px">你一共有 <b>${total}</b> 颗 ⭐，${n < STICKERS.length ? `再得 <b>${5 - total % 5}</b> 颗就能拿到下一张贴纸！` : '全部贴纸都集齐啦！🎉'}</div>
-    <div class="sticker-book">${STICKERS.map((s, i) => `<div class="sticker ${i < n ? '' : 'locked'}">${i < n ? s : '❓'}</div>`).join('')}</div>`;
+    <div class="sticker-book">${STICKERS.map((s, i) => `<button type="button" class="sticker ${i < n ? '' : 'locked'}" data-i="${i}" style="cursor:pointer" title="${i < n ? '点击听发音' : '未解锁'}">${i < n ? s : '❓'}</button>`).join('')}</div>`;
+
+  app.querySelectorAll('.sticker').forEach(b => {
+    const i = +b.dataset.i;
+    b.addEventListener('click', () => {
+      if (i < n) {
+        sfx.win();
+        b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+        const name = STICKER_NAMES[i] || '神奇贴纸';
+        speak(name);
+        confetti(12);
+      } else {
+        sfx.bad();
+        toast('🔒 继续闯关赚星星，就能解锁这张贴纸啦！', 2000);
+        speak('继续加油赚星星哦！');
+      }
+    });
+  });
 }
 
 // ======================= 家长说明 =======================
