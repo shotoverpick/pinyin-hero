@@ -8,7 +8,8 @@
   <meta name="apple-mobile-web-app-title" content="拼音小勇士">
   <link rel="manifest" href="manifest.json">
   <title>拼音小勇士 · 一年级拼音打字游戏</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=arcade2-tones1">
+  <link rel="stylesheet" href="designs/arcade-upgrade/arcade-upgrade.css?v=arcade2">
 </head>
 <body>
   <div class="sky">
@@ -34,7 +35,9 @@
   <script src="pinyin-audio-data.js?v=tts3"></script>
   <script src="teacher-voice-data.js?v=tts3"></script>
   <script src="teacher-voice-player.js?v=tts3"></script>
-  <script src="app.js?v=tts3"></script>
+  <script src="designs/arcade-upgrade/arcade-sound-data.js?v=real-sfx1"></script>
+  <script src="designs/arcade-upgrade/arcade-fx.js?v=real-sfx1"></script>
+  <script src="app.js?v=real-sfx1"></script>
   <script>
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});

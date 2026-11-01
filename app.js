@@ -387,10 +387,11 @@ const sfx = {
     else if (n === 4) beep([[988, .05], [523, .09]], 'triangle', 0.25);
     else beep([[659, .05]], 'triangle', 0.22);
   },
-  pop: () => beep([[600, .05], [900, .08]], 'triangle', 0.24),
-  shot: () => beep([[180, .04], [90, .08], [620, .09]], 'sawtooth', 0.20),
-  cannon: () => beep([[140, .06], [75, .14], [520, .12]], 'sawtooth', 0.24),
-  quack: () => beep([[420, .07], [310, .11]], 'sawtooth', 0.14),
+  pop: () => window.ArcadeFX?.sound('pop', S().sound),
+  balloonPop: () => window.ArcadeFX?.sound('balloon-pop', S().sound),
+  shot: () => window.ArcadeFX?.sound('shot', S().sound),
+  cannon: () => window.ArcadeFX?.sound('cannon', S().sound),
+  quack: () => window.ArcadeFX?.sound('quack', S().sound),
   waka: () => beep([[340, .05], [460, .06]], 'triangle', 0.14),
   win: () => beep([[523, .15], [659, .15], [784, .15], [1047, .4]], 'triangle', 0.26),
 };
@@ -409,6 +410,7 @@ function go(render, ...args) {
   keyHandler = null;
   onSettingsChange = null;
   stopAllSpeech();
+  window.ArcadeFX?.stop();
   window.scrollTo(0, 0);
   render(...args);
 }
@@ -469,28 +471,36 @@ function flashKey(k) {
 function keyboardHtml(withTones = true) {
   const rows = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
   let h = '<div class="kb">';
+  if (withTones) {
+    h += '<div class="kb-row tone-row" role="group" aria-label="选择拼音声调">';
+    [1, 2, 3, 4].forEach(t => {
+      const name = ['一声', '二声', '三声', '四声'][t - 1];
+      h += `<button class="key tone t${t}" data-k="${t}" title="${TONE_NAMES[t]}，数字键 ${t}" aria-label="${name}" aria-pressed="false"><span class="tone-svg-wrap">${TONE_SVG[t]}</span><span class="tone-name">${name}</span></button>`;
+    });
+    h += '<button class="key tone t0" data-k="0" title="轻声，数字键 0" aria-label="轻声" aria-pressed="false">轻声</button>';
+    h += '<button class="key wide ok" data-k="Enter">✓ 确定</button></div>';
+  }
   rows.forEach((r, ri) => {
     h += '<div class="kb-row">';
     [...r].forEach(c => {
       const pyChar = c === 'v' ? 'ü' : c;
       h += `<button class="key" data-k="${c}">${renderPy(pyChar)}</button>`;
     });
-    if (ri === 2) h += `<button class="key wide del" data-k="Backspace">⌫ 删除</button>`;
+    if (ri === 2) h += '<button class="key wide del" data-k="Backspace">⌫ 删除</button>';
     h += '</div>';
   });
-  if (withTones) {
-    h += '<div class="kb-row">';
-    [1, 2, 3, 4].forEach(t => {
-      h += `<button class="key tone t${t}" data-k="${t}" title="${TONE_NAMES[t]}"><span class="tone-svg-wrap">${TONE_SVG[t]}</span></button>`;
-    });
-    h += `<button class="key tone t0" data-k="0" title="轻声">轻声</button>`;
-    h += `<button class="key wide ok" data-k="Enter">✓ 确定</button>`;
-    h += '</div>';
-  } else {
-    h += `<div class="kb-row"><button class="key wide ok" data-k="Enter">✓ 确定</button></div>`;
-  }
+  if (!withTones) h += '<div class="kb-row"><button class="key wide ok" data-k="Enter">✓ 确定</button></div>';
   return h + '</div>';
 }
+function syncToneSelection(buffer, tone) {
+  const value = tone !== undefined ? tone : /[0-5]$/.test(buffer || '') ? +buffer.slice(-1) : null;
+  app.querySelectorAll('.key.tone').forEach(button => {
+    const selected = value !== null && +(button.dataset.k) === (value === 5 ? 0 : value);
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  });
+}
+
 function bindKeyboard(root) {
   root.querySelectorAll('.key').forEach(b => b.addEventListener('click', () => {
     const k = b.dataset.k;
@@ -515,6 +525,7 @@ function syncKeyboardMount() {
   }
 }
 function applySettingsLive() {
+  window.ArcadeFX?.setEnabled(S().sound);
   if (!S().sound) stopAllSpeech();
   syncKeyboardMount();
   if (typeof onSettingsChange === 'function') {
@@ -1493,6 +1504,7 @@ function showQuestion() {
 function updateAnswer() {
   if (!R || !R.items || !curItem()) return;
   const it = curItem();
+  syncToneSelection(R.buf, R.tone);
   const ans = $('#ans');
   if (ans) {
     ans.className = 'answer-box';
@@ -1824,6 +1836,7 @@ function balloonGame(opts) {
     $('#hearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(5 - G.hearts);
     $('#score').textContent = G.score;
     $('#typed').innerHTML = G.buf ? renderPy(G.buf.replace(/[0-5]$/, ''), /[1-4]$/.test(G.buf) ? +G.buf.slice(-1) : null) : '<span class="sub" style="font-size:18px">在这里显示你打的拼音</span>';
+    syncToneSelection(G.buf);
   };
   const answerOf = it => needTone ? it.key + it.tone : it.key;
 
@@ -1838,6 +1851,7 @@ function balloonGame(opts) {
     if (!cand) return;
     const el = document.createElement('div');
     el.className = 'balloon';
+    el.style.setProperty('--balloon-hue', Math.floor(Math.random() * 300) + 'deg');
     const color = BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)];
     el.innerHTML = `<div class="body" style="background:${color};border-color:${color}">${showPy ? `<div class="bp">${renderPy(cand.plain, cand.tone)}</div>` : ''}<div class="hz">${cand.char}</div></div><div class="string"></div>`;
     // 选择一个不和已有气球重叠的横向位置
@@ -1849,10 +1863,7 @@ function balloonGame(opts) {
     el.style.bottom = '0';
     el.style.top = 'auto';
     el.style.cursor = 'pointer';
-    el.addEventListener('pointerdown', e => {
-      e.stopPropagation();
-      if (G.running) pop(b);
-    });
+    window.ArcadeFX.bindHit(el, () => G.running && G.balloons.includes(b), () => pop(b));
     stage.appendChild(el);
     G.balloons.push(b);
   }
@@ -1861,12 +1872,14 @@ function balloonGame(opts) {
     if (!G.running) return;
     const dt = Math.min(0.05, (t - (G.last || t)) / 1000);
     G.last = t;
+    if (window.ArcadeFX?.frozen(stage, t)) { G.raf = requestAnimationFrame(frame); return; }
     G.spawnT -= dt * 1000;
     if (G.spawnT <= 0 && G.balloons.length < preset.maxCount) { spawn(); G.spawnT = G.interval; }
     const H = stage.clientHeight;
     for (const b of G.balloons.slice()) {
       b.y += b.speed * dt;
       b.el.style.transform = `translateY(${-b.y}px)`;
+      b.el.style.left = (b.x + Math.sin(b.y / 80 + b.x) * 7) + 'px';
       if (b.y > H + 10) escape(b);
     }
     G.raf = requestAnimationFrame(frame);
@@ -1893,11 +1906,13 @@ function balloonGame(opts) {
     stage.appendChild(ft);
     setTimeout(() => { b.el.remove(); ft.remove(); }, 1200);
     G.score++;
-    sfx.pop();
+    sfx.balloonPop();
+    window.ArcadeFX?.hit(stage, b.el, 'pop', G.score);
     speakPinyin(b.it.plain, b.it.tone);
     // 越来越快（按所选速度档位温和递增）
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
+    G.spawnT = Math.min(G.spawnT, 520);
     G.buf = '';
     drawHUD();
   }
@@ -1938,12 +1953,12 @@ function balloonGame(opts) {
   function begin() {
     sfx.ok();
     $('#ov').classList.add('hidden');
-    G.running = true; G.last = 0; G.spawnT = 300;
+    G.running = true; window.ArcadeFX?.start(stage, 'pop', S().sound); G.last = 0; G.spawnT = 300;
     G.raf = requestAnimationFrame(frame);
   }
 
   function gameOver() {
-    G.running = false;
+    G.running = false; window.ArcadeFX?.stop();
     cancelAnimationFrame(G.raf);
     if (G.score > save.balloonBest) save.balloonBest = G.score;
     const stars = G.score >= 30 ? 3 : G.score >= 15 ? 2 : G.score >= 5 ? 1 : 0;
@@ -1958,7 +1973,7 @@ function balloonGame(opts) {
 
   keyHandler = onKey;
   $('#go').onclick = begin;
-  cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); };
+  cleanup = () => { G.running = false; window.ArcadeFX?.stop(); cancelAnimationFrame(G.raf); };
   drawHUD();
 }
 
@@ -2003,27 +2018,7 @@ const DUCK_THEMES = [
 ];
 
 function duckSvg(theme) {
-  return `<svg class="duck-art" viewBox="0 0 120 75">
-    <!-- 尾巴 -->
-    <polygon points="8,36 24,30 22,46" fill="${theme.wing}"/>
-    <polygon points="10,43 24,38 22,50" fill="${theme.body}"/>
-    <!-- 身体 -->
-    <ellipse cx="52" cy="42" rx="33" ry="18" fill="${theme.body}"/>
-    <!-- 白色脖圈 -->
-    <path d="M74 28 Q82 32 86 27" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <!-- 头部 -->
-    <circle cx="85" cy="22" r="13" fill="${theme.head}"/>
-    <!-- 眼睛 -->
-    <circle cx="89" cy="19" r="3.2" fill="#fff"/>
-    <circle cx="90" cy="19" r="1.8" fill="#111"/>
-    <!-- 鸭嘴 -->
-    <path d="M96 19 L114 22 L96 27 Z" fill="${theme.beak}"/>
-    <!-- 翅膀（会扇动） -->
-    <g class="duck-wing">
-      <path d="M35 34 Q55 18 70 36 Q52 48 35 34 Z" fill="${theme.wing}"/>
-      <path d="M42 36 Q55 26 65 36" stroke="#fff" stroke-width="2" fill="none" opacity=".6"/>
-    </g>
-  </svg>`;
+  return window.ArcadeFX.duck();
 }
 
 function duckGame(opts) {
@@ -2097,6 +2092,7 @@ function duckGame(opts) {
     $('#hearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(5 - G.hearts);
     $('#score').textContent = G.score;
     $('#typed').innerHTML = G.buf ? renderPy(G.buf.replace(/[0-5]$/, ''), /[1-4]$/.test(G.buf) ? +G.buf.slice(-1) : null) : '<span class="sub" style="font-size:18px">打拼音瞄准野鸭 🎯</span>';
+    syncToneSelection(G.buf);
   };
   const answerOf = it => needTone ? (it.tone ? it.key + it.tone : it.key + '0') : it.key;
 
@@ -2142,10 +2138,7 @@ function duckGame(opts) {
     };
     el.style.transform = `translate(${d.x}px, ${d.y}px)`;
     el.style.cursor = 'pointer';
-    el.addEventListener('pointerdown', e => {
-      e.stopPropagation();
-      if (G.running) shoot(d);
-    });
+    window.ArcadeFX.bindHit(el, () => G.running && G.ducks.includes(d), () => shoot(d));
     stage.appendChild(el);
     G.ducks.push(d);
     sfx.quack();
@@ -2155,6 +2148,7 @@ function duckGame(opts) {
     if (!G.running) return;
     const dt = Math.min(0.05, (t - (G.last || t)) / 1000);
     G.last = t;
+    if (window.ArcadeFX?.frozen(stage, t)) { G.raf = requestAnimationFrame(frame); return; }
     G.spawnT -= dt * 1000;
     if (G.spawnT <= 0 && G.ducks.length < preset.maxCount) { spawn(); G.spawnT = G.interval; }
     const W = stage.clientWidth;
@@ -2163,6 +2157,7 @@ function duckGame(opts) {
       d.x += d.dir * d.speed * dt;
       d.y = d.baseY + Math.sin(d.age * d.freq + d.phase) * d.amp;
       d.el.style.transform = `translate(${d.x}px, ${d.y}px)`;
+      d.el.style.setProperty('--bank', (Math.cos(d.age * d.freq + d.phase) * 3.2) + 'deg');
       if ((d.dir === 1 && d.x > W + 20) || (d.dir === -1 && d.x < -140)) escape(d);
     }
     G.raf = requestAnimationFrame(frame);
@@ -2187,19 +2182,7 @@ function duckGame(opts) {
     d.el.classList.add('hit');
     stage.classList.remove('flash'); void stage.offsetWidth; stage.classList.add('flash');
 
-    // 飘出羽毛特效
-    for (let i = 0; i < 5; i++) {
-      const f = document.createElement('div');
-      f.className = 'feather';
-      f.textContent = i % 2 === 0 ? '🪶' : '✨';
-      f.style.left = (d.x + 55) + 'px';
-      f.style.top = (d.y + 30) + 'px';
-      f.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
-      f.style.setProperty('--dy', (Math.random() * 80 - 50) + 'px');
-      f.style.setProperty('--rot', (Math.random() * 360 - 180) + 'deg');
-      stage.appendChild(f);
-      setTimeout(() => f.remove(), 900);
-    }
+    window.ArcadeFX?.hit(stage, d.el, 'duck', G.score + 1);
 
     const ft = document.createElement('div');
     ft.className = 'float-text';
@@ -2215,6 +2198,7 @@ function duckGame(opts) {
     speakPinyin(d.it.plain, d.it.tone);
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
+    G.spawnT = Math.min(G.spawnT, 520);
     G.buf = '';
     drawHUD();
   }
@@ -2254,12 +2238,12 @@ function duckGame(opts) {
   function begin() {
     sfx.ok();
     $('#ov').classList.add('hidden');
-    G.running = true; G.last = 0; G.spawnT = 250;
+    G.running = true; window.ArcadeFX?.start(stage, 'duck', S().sound); G.last = 0; G.spawnT = 250;
     G.raf = requestAnimationFrame(frame);
   }
 
   function gameOver() {
-    G.running = false;
+    G.running = false; window.ArcadeFX?.stop();
     cancelAnimationFrame(G.raf);
     if (G.score > (save.duckBest || 0)) save.duckBest = G.score;
     const stars = G.score >= 25 ? 3 : G.score >= 12 ? 2 : G.score >= 5 ? 1 : 0;
@@ -2274,7 +2258,7 @@ function duckGame(opts) {
 
   keyHandler = onKey;
   $('#go').onclick = begin;
-  cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); clearTimeout(houndTimer); };
+  cleanup = () => { G.running = false; window.ArcadeFX?.stop(); cancelAnimationFrame(G.raf); clearTimeout(houndTimer); };
   drawHUD();
 }
 
@@ -2456,6 +2440,7 @@ function pacmanGame(opts) {
     $('#hearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(5 - G.hearts);
     $('#score').textContent = G.score;
     $('#typed').innerHTML = G.buf ? renderPy(G.buf.replace(/[0-5]$/, ''), /[1-4]$/.test(G.buf) ? +G.buf.slice(-1) : null) : '<span class="sub" style="font-size:18px">打汉字拼音，引导吃豆人去吃它！</span>';
+    syncToneSelection(G.buf);
   };
 
   function spawnBean() {
@@ -2736,7 +2721,7 @@ function pacmanGame(opts) {
   }
 
   function gameOver() {
-    G.running = false;
+    G.running = false; window.ArcadeFX?.stop();
     clearInterval(G.ghostTimer);
     G.stepTimers.forEach(clearTimeout);
     if (G.score > (save.pacBest || 0)) save.pacBest = G.score;
@@ -2752,7 +2737,7 @@ function pacmanGame(opts) {
 
   keyHandler = onKey;
   $('#go').onclick = begin;
-  cleanup = () => { G.running = false; clearInterval(G.ghostTimer); G.stepTimers.forEach(clearTimeout); };
+  cleanup = () => { G.running = false; window.ArcadeFX?.stop(); clearInterval(G.ghostTimer); G.stepTimers.forEach(clearTimeout); };
   drawHUD();
 }
 
@@ -2797,38 +2782,11 @@ const TANK_COLORS = [
 ];
 
 function enemyTankSvg(c) {
-  return `<svg class="tank-svg" viewBox="0 0 80 72">
-    <!-- 左右履带 -->
-    <rect x="6" y="8" width="14" height="48" rx="4" fill="#1f2937" stroke="#111827" stroke-width="2"/>
-    <line x1="6" y1="18" x2="20" y2="18" stroke="#4b5563" stroke-width="2"/>
-    <line x1="6" y1="28" x2="20" y2="28" stroke="#4b5563" stroke-width="2"/>
-    <line x1="6" y1="38" x2="20" y2="38" stroke="#4b5563" stroke-width="2"/>
-    <line x1="6" y1="48" x2="20" y2="48" stroke="#4b5563" stroke-width="2"/>
-    <rect x="60" y="8" width="14" height="48" rx="4" fill="#1f2937" stroke="#111827" stroke-width="2"/>
-    <line x1="60" y1="18" x2="74" y2="18" stroke="#4b5563" stroke-width="2"/>
-    <line x1="60" y1="28" x2="74" y2="28" stroke="#4b5563" stroke-width="2"/>
-    <line x1="60" y1="38" x2="74" y2="38" stroke="#4b5563" stroke-width="2"/>
-    <line x1="60" y1="48" x2="74" y2="48" stroke="#4b5563" stroke-width="2"/>
-    <!-- 车体 -->
-    <rect x="18" y="12" width="44" height="40" rx="6" fill="${c.hull}" stroke="#111827" stroke-width="2"/>
-    <!-- 炮管（朝下指向大本营） -->
-    <rect x="36" y="42" width="8" height="28" rx="3" fill="${c.barrel}" stroke="#111827" stroke-width="2"/>
-    <!-- 炮塔 -->
-    <circle cx="40" cy="32" r="14" fill="${c.turret}" stroke="#111827" stroke-width="2"/>
-    <circle cx="40" cy="32" r="5" fill="${c.barrel}"/>
-  </svg>`;
+  return window.ArcadeFX.tank(false);
 }
 
 function heroTurretSvg() {
-  return `<svg class="hero-turret" id="heroTurret" viewBox="0 0 70 70">
-    <!-- 我方金色坦克底盘与向上炮管 -->
-    <rect x="8" y="20" width="12" height="42" rx="4" fill="#374151"/>
-    <rect x="50" y="20" width="12" height="42" rx="4" fill="#374151"/>
-    <rect x="18" y="24" width="34" height="34" rx="6" fill="#eab308" stroke="#713f12" stroke-width="2"/>
-    <rect x="31" y="2" width="8" height="30" rx="3" fill="#fef08a" stroke="#713f12" stroke-width="2"/>
-    <circle cx="35" cy="38" r="13" fill="#ca8a04" stroke="#713f12" stroke-width="2"/>
-    <circle cx="35" cy="38" r="5" fill="#fef08a"/>
-  </svg>`;
+  return window.ArcadeFX.tank(true);
 }
 
 function tankGame(opts) {
@@ -2872,6 +2830,7 @@ function tankGame(opts) {
     $('#hearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(5 - G.hearts);
     $('#score').textContent = G.score;
     $('#typed').innerHTML = G.buf ? renderPy(G.buf.replace(/[0-5]$/, ''), /[1-4]$/.test(G.buf) ? +G.buf.slice(-1) : null) : '<span class="sub" style="font-size:18px">打拼音瞄准敌方坦克开炮 💥</span>';
+    syncToneSelection(G.buf);
   };
   const answerOf = it => needTone ? (it.tone ? it.key + it.tone : it.key + '0') : it.key;
 
@@ -2929,10 +2888,7 @@ function tankGame(opts) {
     const t = { el, it: cand, lane, x, y: -125, speed: G.speed * (0.9 + Math.random() * 0.2) };
     el.style.transform = `translate(${t.x}px, ${t.y}px)`;
     el.style.cursor = 'pointer';
-    el.addEventListener('pointerdown', e => {
-      e.stopPropagation();
-      if (G.running) fireAt(t);
-    });
+    window.ArcadeFX.bindHit(el, () => G.running && G.tanks.includes(t), () => fireAt(t));
     stage.appendChild(el);
     G.tanks.push(t);
   }
@@ -2941,6 +2897,7 @@ function tankGame(opts) {
     if (!G.running) return;
     const dt = Math.min(0.05, (ts - (G.last || ts)) / 1000);
     G.last = ts;
+    if (window.ArcadeFX?.frozen(stage, ts)) { G.raf = requestAnimationFrame(frame); return; }
     G.spawnT -= dt * 1000;
     if (G.spawnT <= 0 && G.tanks.length < preset.maxCount) { spawn(); G.spawnT = G.interval; }
     const H = stage.clientHeight;
@@ -2981,6 +2938,7 @@ function tankGame(opts) {
     t.el.classList.remove('target');
     const deg = aimTurretAt(t);
     sfx.cannon();
+    window.ArcadeFX?.recoil(stage);
 
     // 发射炮弹动画
     const W = stage.clientWidth, H = stage.clientHeight;
@@ -2997,6 +2955,7 @@ function tankGame(opts) {
     setTimeout(() => {
       shell.remove();
       t.el.classList.add('destroyed');
+      window.ArcadeFX?.hit(stage, t.el, 'tank', G.score);
       stage.classList.remove('boom-shake'); void stage.offsetWidth; stage.classList.add('boom-shake');
 
       const exp = document.createElement('div');
@@ -3020,6 +2979,7 @@ function tankGame(opts) {
     speakPinyin(t.it.plain, t.it.tone);
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
+    G.spawnT = Math.min(G.spawnT, 520);
     G.buf = '';
     drawHUD();
   }
@@ -3065,12 +3025,12 @@ function tankGame(opts) {
   function begin() {
     sfx.ok();
     $('#ov').classList.add('hidden');
-    G.running = true; G.last = 0; G.spawnT = 250;
+    G.running = true; window.ArcadeFX?.start(stage, 'tank', S().sound); G.last = 0; G.spawnT = 250;
     G.raf = requestAnimationFrame(frame);
   }
 
   function gameOver() {
-    G.running = false;
+    G.running = false; window.ArcadeFX?.stop();
     cancelAnimationFrame(G.raf);
     if (G.score > (save.tankBest || 0)) save.tankBest = G.score;
     const stars = G.score >= 25 ? 3 : G.score >= 12 ? 2 : G.score >= 5 ? 1 : 0;
@@ -3085,7 +3045,7 @@ function tankGame(opts) {
 
   keyHandler = onKey;
   $('#go').onclick = begin;
-  cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); };
+  cleanup = () => { G.running = false; window.ArcadeFX?.stop(); cancelAnimationFrame(G.raf); };
   drawHUD();
 }
 
@@ -3272,6 +3232,9 @@ if (switchBtn) {
   };
 }
 updateStarCount();
-go(homeScreen);
+const arcadePreview = new URLSearchParams(location.search).get('play');
+const previewGame = {duck: duckGame, tank: tankGame, balloon: balloonGame}[arcadePreview];
+if (previewGame) go(previewGame, {pool: ALL_CHAR_ITEMS.slice(0,40), needTone:true, showPy:true, back:()=>go(homeScreen)});
+else go(homeScreen);
 
 })();

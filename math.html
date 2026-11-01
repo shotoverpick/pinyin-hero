@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <title>数学小勇士 · 一年级数学闯关与加减法游戏</title>
   <link rel="stylesheet" href="math-style.css">
+  <link rel="stylesheet" href="designs/arcade-upgrade/arcade-upgrade.css?v=arcade2">
 </head>
 <body>
   <div class="sky">
@@ -33,7 +34,10 @@
   <script src="math-data.js"></script>
   <script src="teacher-voice-data.js?v=tts3"></script>
   <script src="teacher-voice-player.js?v=tts3"></script>
-  <script src="math-app.js?v=tts3"></script>
+  <script src="math-fast-voice-data.js?v=fast1"></script>
+  <script src="designs/arcade-upgrade/arcade-sound-data.js?v=real-sfx1"></script>
+  <script src="designs/arcade-upgrade/arcade-fx.js?v=real-sfx1"></script>
+  <script src="math-app.js?v=real-sfx1"></script>
   <script>
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
       navigator.serviceWorker.register('./sw.js').catch(() => {});

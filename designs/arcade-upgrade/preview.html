@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小勇士 · 游戏体验升级本地试玩</title><style>
+*{box-sizing:border-box}body{margin:0;background:#e9eee6;color:#263f34;font-family:-apple-system,"PingFang SC",sans-serif}.review-bar{min-height:118px;padding:16px 26px;display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fffdf4;border-bottom:1px solid #ced7c7;box-shadow:0 3px 15px #1c3c2b0c}h1{font-size:20px;margin:0 0 6px;letter-spacing:.02em}p{font-size:13px;margin:0;color:#75826d}.tabs{display:flex;flex-wrap:wrap;gap:8px}button{border:1px solid #c9d4c1;padding:10px 16px;background:#f6f8ef;border-radius:10px;color:#486044;font:700 14px inherit;cursor:pointer;min-height:44px}button.active{color:#fff;background:#42664e;border-color:#42664e;box-shadow:0 3px 0 #2c4936}iframe{display:block;width:100%;height:calc(100dvh - 118px);border:0;background:#c9e2e3}.voice-test{display:flex;gap:9px;align-items:center;margin-top:10px;font-size:12px;color:#71806c}.voice-test audio{height:30px;width:220px} @media(max-width:700px){.review-bar{padding:12px;align-items:flex-start;flex-direction:column;gap:10px}iframe{height:calc(100dvh - 178px)}h1{font-size:18px}.voice-test{display:none}button{padding:8px 12px}}
+</style></head><body>
+<header class="review-bar"><div><h1>小勇士 · 游戏体验升级</h1><p>本地试玩 · 等你确认后再上线</p><div class="voice-test"><span>1 + 1 = 2 · 1.12 秒</span><audio controls preload="metadata" src="../../试听-数学正常稍快语速.mp3"></audio></div></div><nav class="tabs" aria-label="试玩场景"><button class="active" data-game="duck">打野鸭</button><button data-game="tank">坦克保卫战</button><button data-game="balloon">气球大作战</button><button data-game="math">数学与语速</button></nav></header>
+<iframe id="reviewGame" title="可玩的游戏预览" src="../../index.html?play=duck" allow="autoplay"></iframe>
+<script>document.querySelectorAll('[data-game]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-game]').forEach(b=>b.classList.toggle('active',b===button));document.querySelector('#reviewGame').src=button.dataset.game==='math'?'../../math.html':'../../index.html?play='+button.dataset.game;}));window.addEventListener('message', event => {
+  const frame = document.querySelector('#reviewGame');
+  if (event.source !== frame.contentWindow) return;
+  const game = event.data === 'switch:math' ? 'math' : event.data === 'switch:pinyin' ? 'duck' : null;
+  if (game) document.querySelector('[data-game="' + game + '"]').click();
+});</script>
+</body></html>

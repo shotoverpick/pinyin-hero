@@ -1,0 +1,2437 @@
+{
+  "0加5等于5": {
+    "text": "零加五等于五",
+    "targetSeconds": 1.12,
+    "file": "9ba73e712566afcd4b920692f69e7cddac99765b604cbc43dfeafcf78e7fb853.mp3"
+  },
+  "0加3等于3": {
+    "text": "零加三等于三",
+    "targetSeconds": 1.12,
+    "file": "3c44c2b1a65d834902514f53c2f59d661dfad029ababc2ed7fc4e7452707cc32.mp3"
+  },
+  "0加7等于7": {
+    "text": "零加七等于七",
+    "targetSeconds": 1.12,
+    "file": "96f777c788b114b1b283dff9c390f9a2d55a8fc71311bf14535fd2a4a532fe1b.mp3"
+  },
+  "1加1等于2": {
+    "text": "一加一等于二",
+    "targetSeconds": 1.12,
+    "file": "01f7c5cf128193df190205d8cbd5e59c6703661fa954e7344fd259309c7619d1.mp3"
+  },
+  "0加1等于1": {
+    "text": "零加一等于一",
+    "targetSeconds": 1.12,
+    "file": "16ea8a46b0aafa8f13e534eca208139712ef65dc5ede3e6bbb40191ebca62389.mp3"
+  },
+  "0加0等于0": {
+    "text": "零加零等于零",
+    "targetSeconds": 1.12,
+    "file": "57e1ea2138738513b2aa7f63218dcbe9f2f28746c53de56298c3f60b29c586c2.mp3"
+  },
+  "0加4等于4": {
+    "text": "零加四等于四",
+    "targetSeconds": 1.12,
+    "file": "0f487e53796db41e0ce07b3780d91cfdfcd8e480031f2006b4128e5690e98102.mp3"
+  },
+  "0减0等于0": {
+    "text": "零减零等于零",
+    "targetSeconds": 1.12,
+    "file": "80bed109d3d171e48e6efcc82399f334cbb7fe4923ef49cc1d422801093c7e71.mp3"
+  },
+  "0加8等于8": {
+    "text": "零加八等于八",
+    "targetSeconds": 1.12,
+    "file": "2bbdc5d20eca794fc1d6da3871a9f772ef32d8baab93ba33a254bc4ec3aff9f8.mp3"
+  },
+  "0加11等于11": {
+    "text": "零加十一等于十一",
+    "targetSeconds": 1.493333,
+    "file": "3f5b0d44ce7fc01b037461b46506cb12f36bb19caab67826e1235a973e86ed2f.mp3"
+  },
+  "0加2等于2": {
+    "text": "零加二等于二",
+    "targetSeconds": 1.12,
+    "file": "031a46dabae6e4c2b2ac07cc6f55315d9b274eb042f54c50b57cd2f03e4f3a18.mp3"
+  },
+  "0加10等于10": {
+    "text": "零加十等于十",
+    "targetSeconds": 1.12,
+    "file": "f29d7827e17d8950c5aa4b88a814389fa874db2351f6a07fd38514b298c4e035.mp3"
+  },
+  "0加12等于12": {
+    "text": "零加十二等于十二",
+    "targetSeconds": 1.493333,
+    "file": "7b6feac9fcfb9c27394eadae53c1be272630145588e861de53e4de27c93075ac.mp3"
+  },
+  "0加9等于9": {
+    "text": "零加九等于九",
+    "targetSeconds": 1.12,
+    "file": "76a9b23ce7e14f604eda36109c731f4422bc791ce1f969c60cd19b0167fd1871.mp3"
+  },
+  "0加14等于14": {
+    "text": "零加十四等于十四",
+    "targetSeconds": 1.493333,
+    "file": "2bc9844b8de06eacb53ba50192a92540c1dabe0d89c20969378844a50092c2e1.mp3"
+  },
+  "0加6等于6": {
+    "text": "零加六等于六",
+    "targetSeconds": 1.12,
+    "file": "dd9a51776c5be72d86f67f1797d38c8c681a909e2d5a04522470eb1b4b715396.mp3"
+  },
+  "0加15等于15": {
+    "text": "零加十五等于十五",
+    "targetSeconds": 1.493333,
+    "file": "eeb83b5dfa9b843fa2fab174eed90b2edf8427234174b3ca8ea1b9539311db19.mp3"
+  },
+  "0加13等于13": {
+    "text": "零加十三等于十三",
+    "targetSeconds": 1.493333,
+    "file": "58b4a48afaada3d5a247a748097e0af4b371cb2ac6cef080de5b9bad29d5051b.mp3"
+  },
+  "0加16等于16": {
+    "text": "零加十六等于十六",
+    "targetSeconds": 1.493333,
+    "file": "bb8e2b3c636570f482961c4cc6d1000e45c4d54942f886554936e6ba093e6852.mp3"
+  },
+  "0加19等于19": {
+    "text": "零加十九等于十九",
+    "targetSeconds": 1.493333,
+    "file": "e9fe6aa5469e9cb7a5b0e0a4c0875e61a3c0fe762938be828d970b2d19a1c64b.mp3"
+  },
+  "0加17等于17": {
+    "text": "零加十七等于十七",
+    "targetSeconds": 1.493333,
+    "file": "309fbb423b1d5bd64d3427d0116d8699b2ae41a70d6b04153174d1be145f921c.mp3"
+  },
+  "1减0等于1": {
+    "text": "一减零等于一",
+    "targetSeconds": 1.12,
+    "file": "1782bdd4d07a16657fecb5150c4bea4b610592136b2128de6ef6173e85786bb9.mp3"
+  },
+  "1加0等于1": {
+    "text": "一加零等于一",
+    "targetSeconds": 1.12,
+    "file": "a13518a503f1ce86a3262fcfe5bd8c88affadde5cff9c303b529dc4d62573b2a.mp3"
+  },
+  "1减1等于0": {
+    "text": "一减一等于零",
+    "targetSeconds": 1.12,
+    "file": "57ba606749318c3008029aa4bc76e825aeaab8a687978916e370c4013d0af0bc.mp3"
+  },
+  "0加18等于18": {
+    "text": "零加十八等于十八",
+    "targetSeconds": 1.493333,
+    "file": "b24c686c7cda00902c68fb7e03d935f81e0433a4ae15308d9375f12dae070bc8.mp3"
+  },
+  "1加6等于7": {
+    "text": "一加六等于七",
+    "targetSeconds": 1.12,
+    "file": "c03e51bcbe3749c366f9243a35c650ea4cb66774d232b365b37ef843563689d8.mp3"
+  },
+  "1加3等于4": {
+    "text": "一加三等于四",
+    "targetSeconds": 1.12,
+    "file": "c23f5a80236565350921f942a0997fe959432ffc97dcf90e7b4846138bd2057d.mp3"
+  },
+  "1加7等于8": {
+    "text": "一加七等于八",
+    "targetSeconds": 1.12,
+    "file": "853bdb1f46cd439a13774d1a97da0161fbf755b23a0054d038c35bb21cd1cfb3.mp3"
+  },
+  "1加4等于5": {
+    "text": "一加四等于五",
+    "targetSeconds": 1.12,
+    "file": "4c03b9b9122c81d3e3dd6b79dc297940aa566e4abe3ee09dca5706a61a4a286d.mp3"
+  },
+  "0加20等于20": {
+    "text": "零加二十等于二十",
+    "targetSeconds": 1.493333,
+    "file": "e7390484d2c2dc8d672ef13a2388d060cbfddfa57673afef0e16b67149d745c4.mp3"
+  },
+  "1加9等于10": {
+    "text": "一加九等于十",
+    "targetSeconds": 1.12,
+    "file": "b0e77a3449a82e4b6fb44182af4eba66bac33acd15011ab74536179a043dda8c.mp3"
+  },
+  "1加8等于9": {
+    "text": "一加八等于九",
+    "targetSeconds": 1.12,
+    "file": "b1782a1aafdab52a4b3d6305667935905c2ff77818d065e91348d7832f594d60.mp3"
+  },
+  "1加11等于12": {
+    "text": "一加十一等于十二",
+    "targetSeconds": 1.493333,
+    "file": "ec006089118d8379509b37efe3504211d1999c728c69cc5d41e235d650e78cea.mp3"
+  },
+  "1加10等于11": {
+    "text": "一加十等于十一",
+    "targetSeconds": 1.306667,
+    "file": "baf07fc2102b3a3a13e4695e98f46b21f9743edc42ed995adacb087622563fba.mp3"
+  },
+  "1加12等于13": {
+    "text": "一加十二等于十三",
+    "targetSeconds": 1.493333,
+    "file": "8541e1fd411ebecf6681236d7d523055a64f887789f2b31d14f5bac87b1eb5f0.mp3"
+  },
+  "1加15等于16": {
+    "text": "一加十五等于十六",
+    "targetSeconds": 1.493333,
+    "file": "a9702c0e2594b478d6630d435a4301245cd72a86d244ece8bd2787593fe94a3a.mp3"
+  },
+  "1加18等于19": {
+    "text": "一加十八等于十九",
+    "targetSeconds": 1.493333,
+    "file": "bcfc9b5aeb7036ce0bc6177e5f89846450e7fb28aeec61ed977cbcef53e9e77c.mp3"
+  },
+  "1加16等于17": {
+    "text": "一加十六等于十七",
+    "targetSeconds": 1.493333,
+    "file": "0771fb55a13552f17fe3fed5f9f5ec3117097e6948e8b5ef824c6fc66a832e7a.mp3"
+  },
+  "1加19等于20": {
+    "text": "一加十九等于二十",
+    "targetSeconds": 1.493333,
+    "file": "748ecaddbe0b4e31b13b3da5e633ead51dc1c82bccd92da1d53377ae655f4ae6.mp3"
+  },
+  "1加17等于18": {
+    "text": "一加十七等于十八",
+    "targetSeconds": 1.493333,
+    "file": "7acd1aab05d90e7e48838a4ac36b94b36c3b9edff43a1b82c95d5f33a4fc0db5.mp3"
+  },
+  "2减0等于2": {
+    "text": "二减零等于二",
+    "targetSeconds": 1.12,
+    "file": "aeef3840456b20288993a886f22dd76d6286ee007dca539e80431994d645f336.mp3"
+  },
+  "1加13等于14": {
+    "text": "一加十三等于十四",
+    "targetSeconds": 1.493333,
+    "file": "c6b926f30a8f0ec04f3dd4c09b15c19f1aea8c3ed95434919e6359a18342eb75.mp3"
+  },
+  "2加0等于2": {
+    "text": "二加零等于二",
+    "targetSeconds": 1.12,
+    "file": "e4c841505d54359ec3bad2ab8340424e4f12c7bfcf4b7799440adbb596785d99.mp3"
+  },
+  "2减1等于1": {
+    "text": "二减一等于一",
+    "targetSeconds": 1.12,
+    "file": "211d15ef3c6596481f466813e37a174c265ab97512a5b7923bfe87a0f70baadf.mp3"
+  },
+  "2加3等于5": {
+    "text": "二加三等于五",
+    "targetSeconds": 1.12,
+    "file": "a1778504ff28d07303f547e8bac5bc8d1fa706003ec1c75baed9c9cbdf5661ec.mp3"
+  },
+  "2加4等于6": {
+    "text": "二加四等于六",
+    "targetSeconds": 1.12,
+    "file": "a1f78cc4f1f8904b26336d1cba95f4a0e9613f21740c12b94f4a86b07b42e59d.mp3"
+  },
+  "2加5等于7": {
+    "text": "二加五等于七",
+    "targetSeconds": 1.12,
+    "file": "c4af42309ac5e660bfd3fcd447d747aaa212f1e814963daa1e11f3999940e1cc.mp3"
+  },
+  "2减2等于0": {
+    "text": "二减二等于零",
+    "targetSeconds": 1.12,
+    "file": "a12a664f8b26b32adcd5cc419895f5ec9d4dcdd8037d26c9b074079be3ca837b.mp3"
+  },
+  "2加2等于4": {
+    "text": "二加二等于四",
+    "targetSeconds": 1.12,
+    "file": "5d1461917a673319d7df0ffa56378daddb23f1aa69ff329a3bdf7ff7e3aa3167.mp3"
+  },
+  "2加6等于8": {
+    "text": "二加六等于八",
+    "targetSeconds": 1.12,
+    "file": "c3f903200a031cd34a386fc0123fe35f43ccd7d95f48d086febecc101cb8dcaa.mp3"
+  },
+  "2加7等于9": {
+    "text": "二加七等于九",
+    "targetSeconds": 1.12,
+    "file": "556e182efdf647e3e33501e8175b4c90193bd3e09eb799b8736b49fb10d0296b.mp3"
+  },
+  "2加1等于3": {
+    "text": "二加一等于三",
+    "targetSeconds": 1.12,
+    "file": "3f8d5cdd4f19f511158c173bcae39afdea7539ac28d1000535c04f9d94ead26b.mp3"
+  },
+  "2加9等于11": {
+    "text": "二加九等于十一",
+    "targetSeconds": 1.306667,
+    "file": "8d0ef0fab4eed1337645dcf7bc41a1e00c5fd9a494f67835eb96df5d7a2cb2fb.mp3"
+  },
+  "2加10等于12": {
+    "text": "二加十等于十二",
+    "targetSeconds": 1.306667,
+    "file": "b5f58494684e400385ce28f74e0b3f35b1e68c24d6b0efe64f9f1c5cba3e2724.mp3"
+  },
+  "2加8等于10": {
+    "text": "二加八等于十",
+    "targetSeconds": 1.12,
+    "file": "27e3805d7743d65befde6b8f37360483ab09ae1ecc0796fc13a2d318cb6c2217.mp3"
+  },
+  "2加12等于14": {
+    "text": "二加十二等于十四",
+    "targetSeconds": 1.493333,
+    "file": "e62ae881619e4befc4b115f7cb3dfe2c2303cef25ef198200a69c67effb15daa.mp3"
+  },
+  "2加16等于18": {
+    "text": "二加十六等于十八",
+    "targetSeconds": 1.493333,
+    "file": "ba5b488f98e291fc1bbffae276b7548d69fcef1d149c840b5dcd09bfd432a036.mp3"
+  },
+  "2加17等于19": {
+    "text": "二加十七等于十九",
+    "targetSeconds": 1.493333,
+    "file": "211c8b3dbe600456ff7ee66608d9b3be6fbe765eb36429dfa68cc9cb64d37753.mp3"
+  },
+  "2加15等于17": {
+    "text": "二加十五等于十七",
+    "targetSeconds": 1.493333,
+    "file": "cf55ae0ce6a382626e88046515dd1a9b87e4dde90f11315874a26a2469d019a7.mp3"
+  },
+  "2加14等于16": {
+    "text": "二加十四等于十六",
+    "targetSeconds": 1.493333,
+    "file": "115025a81daf1cc930644f02d187a2851ea9ef1f353360c905d781f938ed416a.mp3"
+  },
+  "2加11等于13": {
+    "text": "二加十一等于十三",
+    "targetSeconds": 1.493333,
+    "file": "60297bed75df8935b63a552440cfefd9e33be305625ba67e6568fb358544c8c5.mp3"
+  },
+  "2加13等于15": {
+    "text": "二加十三等于十五",
+    "targetSeconds": 1.493333,
+    "file": "0aa6bcaa85108725855b60ed48bb52e31c7e31c4772b6f682f24fc23d6322534.mp3"
+  },
+  "1加5等于6": {
+    "text": "一加五等于六",
+    "targetSeconds": 1.12,
+    "file": "22491231733700b8bb667dca1e49f867b263290d3096715d89a3c561798fceb0.mp3"
+  },
+  "1加2等于3": {
+    "text": "一加二等于三",
+    "targetSeconds": 1.12,
+    "file": "5444b2ac96ea4b2a1b290dbfe5fcf40f7af15e51e111bc3c129abaa69ede996a.mp3"
+  },
+  "2加18等于20": {
+    "text": "二加十八等于二十",
+    "targetSeconds": 1.493333,
+    "file": "a80a7fc542702ffc996e72cd418ee6b34719f22a45966de1eb79d46b687f8d59.mp3"
+  },
+  "3加1等于4": {
+    "text": "三加一等于四",
+    "targetSeconds": 1.12,
+    "file": "9f87c8f01c0319cd7ba6157454b1e5213275e0422e1a7c9f7cd745e1e3b31e1f.mp3"
+  },
+  "3减1等于2": {
+    "text": "三减一等于二",
+    "targetSeconds": 1.12,
+    "file": "661aba416fb98a627aa3bcdf2c7e8c75fa82dfab5fcb91d1c7932a26848a40de.mp3"
+  },
+  "3加2等于5": {
+    "text": "三加二等于五",
+    "targetSeconds": 1.12,
+    "file": "5c1b16b1ab9c213fbafbbeb785ac745a87ebe8f1db03bfb28cb07cb220fda16d.mp3"
+  },
+  "3加0等于3": {
+    "text": "三加零等于三",
+    "targetSeconds": 1.12,
+    "file": "fb010af784e3cee7e3bde8e3080758c0da147a48cdfaa19e0107fadae875aedb.mp3"
+  },
+  "3减0等于3": {
+    "text": "三减零等于三",
+    "targetSeconds": 1.12,
+    "file": "edb76d223f7102d32c15905ef310fae135fda496bb304d2512ca8c92a24a367f.mp3"
+  },
+  "3减2等于1": {
+    "text": "三减二等于一",
+    "targetSeconds": 1.12,
+    "file": "832a4da568de997f676650952bc101a123e44fbc5b0970ce95212230672f5513.mp3"
+  },
+  "3加3等于6": {
+    "text": "三加三等于六",
+    "targetSeconds": 1.12,
+    "file": "256d643da5197d8199ee76542651ed08870ee35ac8688416fe08d85c4a6b5dcf.mp3"
+  },
+  "3减3等于0": {
+    "text": "三减三等于零",
+    "targetSeconds": 1.12,
+    "file": "67b0bf1368fc257c4d53d4619d23416a378c95622b480de4aa5a22e90167e6a9.mp3"
+  },
+  "3加4等于7": {
+    "text": "三加四等于七",
+    "targetSeconds": 1.12,
+    "file": "91907160b8202f2f199e4962aaec64834c7987498bdde9eefd8cca30e77aea7e.mp3"
+  },
+  "3加8等于11": {
+    "text": "三加八等于十一",
+    "targetSeconds": 1.306667,
+    "file": "25bf39b20aef0d294449cc927df3ed133ec49c124209044e4caa214d09dcb411.mp3"
+  },
+  "3加9等于12": {
+    "text": "三加九等于十二",
+    "targetSeconds": 1.306667,
+    "file": "1e1da91f11203f6b7549ebec611555b80b2505b4d752a67e1e58db0c692b812e.mp3"
+  },
+  "3加6等于9": {
+    "text": "三加六等于九",
+    "targetSeconds": 1.12,
+    "file": "3de1e4d9ea1dd291ef53266488ac9dff03757cf1a70e2f73eabf20b5c666732a.mp3"
+  },
+  "3加10等于13": {
+    "text": "三加十等于十三",
+    "targetSeconds": 1.306667,
+    "file": "386edb3f8a09831b6b6779ea9475aaa1b6f8361808154e4967547429cb158a34.mp3"
+  },
+  "3加7等于10": {
+    "text": "三加七等于十",
+    "targetSeconds": 1.12,
+    "file": "89e1f94621c8a90794bd1a4085ace3a0eb7d57517401e416a50ce8d2656299e7.mp3"
+  },
+  "3加11等于14": {
+    "text": "三加十一等于十四",
+    "targetSeconds": 1.493333,
+    "file": "a4069ea9c735bbaf36ff199eebf31f6e4a7653cd32cae38659d4757b53cc406c.mp3"
+  },
+  "1加14等于15": {
+    "text": "一加十四等于十五",
+    "targetSeconds": 1.493333,
+    "file": "bcdff1956875dec4033ee2a341f3f2e238771ef0b225e2eeed5d10973f6d37f8.mp3"
+  },
+  "3加13等于16": {
+    "text": "三加十三等于十六",
+    "targetSeconds": 1.493333,
+    "file": "6ce3a443f13fc3fa4d04326fcd800e5159dad20a421abf3a4b2628d105476503.mp3"
+  },
+  "3加12等于15": {
+    "text": "三加十二等于十五",
+    "targetSeconds": 1.493333,
+    "file": "d40ed801e96bbc8e7ba42f55f7b9e954e0cf320ba4e40b536155ed13bd92ce36.mp3"
+  },
+  "3加16等于19": {
+    "text": "三加十六等于十九",
+    "targetSeconds": 1.493333,
+    "file": "e4f8610549b2c172fbbe7fb77a455d63ef3ee3f78754d70f4526b0056a966fe8.mp3"
+  },
+  "4加0等于4": {
+    "text": "四加零等于四",
+    "targetSeconds": 1.12,
+    "file": "3f1cf1716c4705d64b5b5b9f91d398d83801d2700ae5923b1c175122d23bcf9f.mp3"
+  },
+  "4加1等于5": {
+    "text": "四加一等于五",
+    "targetSeconds": 1.12,
+    "file": "c4d976840776ec7a33fcba3112b5ce7e93cf1eb1b9bf574997bad92a24405d61.mp3"
+  },
+  "3加17等于20": {
+    "text": "三加十七等于二十",
+    "targetSeconds": 1.493333,
+    "file": "05129a97dd720c05f324287a286b6dab860c860847bf39d0439720a8ce0208b3.mp3"
+  },
+  "4减0等于4": {
+    "text": "四减零等于四",
+    "targetSeconds": 1.12,
+    "file": "50be0f7ebc49f9826e21deb52fcf0059b037ea691ecc16425d8ad97f2f07c8e8.mp3"
+  },
+  "4减1等于3": {
+    "text": "四减一等于三",
+    "targetSeconds": 1.12,
+    "file": "ef65f24e0c80dbfc3848fa2630face21546aba504b15c8b447fa49d62fdb9a94.mp3"
+  },
+  "4减3等于1": {
+    "text": "四减三等于一",
+    "targetSeconds": 1.12,
+    "file": "f5c88e2682295e748c6354cfcbc87e43a2a31a58d32fc626264e2ad73bf0f2f3.mp3"
+  },
+  "4加2等于6": {
+    "text": "四加二等于六",
+    "targetSeconds": 1.12,
+    "file": "abba9b9abcf7aa12ee7bbf741d5695bcbc524ab38e6d306a114f800507a835e9.mp3"
+  },
+  "4加3等于7": {
+    "text": "四加三等于七",
+    "targetSeconds": 1.12,
+    "file": "8edd88894cec7b5aca48b6b206bccad47025aee1f96f4155931a8477564d6209.mp3"
+  },
+  "4加4等于8": {
+    "text": "四加四等于八",
+    "targetSeconds": 1.12,
+    "file": "8221fa88d466c93de07b5f8fb92cefdd6b5ccf9ad03e57ac8fd893744f155f2c.mp3"
+  },
+  "4加5等于9": {
+    "text": "四加五等于九",
+    "targetSeconds": 1.12,
+    "file": "492642561a25711cbd92a71fc20f0305c2ee552a412c69328ec390d55f77b4c2.mp3"
+  },
+  "3加14等于17": {
+    "text": "三加十四等于十七",
+    "targetSeconds": 1.493333,
+    "file": "71b67067db6e6f32cd2b2988fc82d62cab3f24ed33850f951e4ffee042885824.mp3"
+  },
+  "4减2等于2": {
+    "text": "四减二等于二",
+    "targetSeconds": 1.12,
+    "file": "713105b3fd23c406388e311586b9bab578e1c0092393e7a1a98015d56b32a366.mp3"
+  },
+  "4加6等于10": {
+    "text": "四加六等于十",
+    "targetSeconds": 1.12,
+    "file": "12cb5fb3a2e1e4824e40904ef66fb82a7e6c5588df20bce5b16486607d51f882.mp3"
+  },
+  "4加9等于13": {
+    "text": "四加九等于十三",
+    "targetSeconds": 1.306667,
+    "file": "ca4050a8fb4fc0d16401221b5925d7689ff82556acd11587108771abd4cdd855.mp3"
+  },
+  "4加11等于15": {
+    "text": "四加十一等于十五",
+    "targetSeconds": 1.493333,
+    "file": "5dce94160f22de5fa71a2a2147f0966172c5e7e67d027f0463a436118eea366b.mp3"
+  },
+  "4加8等于12": {
+    "text": "四加八等于十二",
+    "targetSeconds": 1.306667,
+    "file": "3e86540a4061a5af55fd0be573d82659afaf924c4cda6e0810c03292c349e8ad.mp3"
+  },
+  "3加15等于18": {
+    "text": "三加十五等于十八",
+    "targetSeconds": 1.493333,
+    "file": "4e1755349e4ee418d766657ef30584f21296233735934be8549ad0693f81f30a.mp3"
+  },
+  "4加7等于11": {
+    "text": "四加七等于十一",
+    "targetSeconds": 1.306667,
+    "file": "d9167efbec65da08c0ad5cb519cb1a681c7f8dbd9b016acbdff410f508ce7690.mp3"
+  },
+  "4加10等于14": {
+    "text": "四加十等于十四",
+    "targetSeconds": 1.306667,
+    "file": "22c36de90057abf8f7d6ece13a526eedb1b32d2b850c7cf50a0c4a878539b41b.mp3"
+  },
+  "4加12等于16": {
+    "text": "四加十二等于十六",
+    "targetSeconds": 1.493333,
+    "file": "35b899990a10d3786fc97e403fa2ae807c70486163de7ef6bb115d491a51eabb.mp3"
+  },
+  "4加14等于18": {
+    "text": "四加十四等于十八",
+    "targetSeconds": 1.493333,
+    "file": "6513b5a35862966775b0e47a59a3e37013b1af7affb5ea67f60d99c628f497a9.mp3"
+  },
+  "5加0等于5": {
+    "text": "五加零等于五",
+    "targetSeconds": 1.12,
+    "file": "4552e7c4287e7e1f53cefd5b230b4eeb8eed516cd04769a864002307a2987dee.mp3"
+  },
+  "5减0等于5": {
+    "text": "五减零等于五",
+    "targetSeconds": 1.12,
+    "file": "d7f09768ca2d5c8761501a92badd1e8d1916e04378da7bd078c332a71e5ec057.mp3"
+  },
+  "4加13等于17": {
+    "text": "四加十三等于十七",
+    "targetSeconds": 1.493333,
+    "file": "b76725d730b9c95908715e3efab3b8a4b343f3eabd26d86417b6bfa0a566c8c2.mp3"
+  },
+  "4加16等于20": {
+    "text": "四加十六等于二十",
+    "targetSeconds": 1.493333,
+    "file": "371d5886ef5c0d65b04e07324f129be95d383b956c6b303fe8a8d03f4e21007e.mp3"
+  },
+  "5加1等于6": {
+    "text": "五加一等于六",
+    "targetSeconds": 1.12,
+    "file": "a5483ea82772c7f994aa49c24c2ecd17f154466ada26645c64a3536cc4c74144.mp3"
+  },
+  "4加15等于19": {
+    "text": "四加十五等于十九",
+    "targetSeconds": 1.493333,
+    "file": "06d4e0d9686ece53167f02e0161656bcb04becbcf347002dbd55002391623ee6.mp3"
+  },
+  "5加2等于7": {
+    "text": "五加二等于七",
+    "targetSeconds": 1.12,
+    "file": "05f85769c9965d7dc57aa7895af31a3203fe9cc1179b4420df29541cfbd1a98d.mp3"
+  },
+  "5减4等于1": {
+    "text": "五减四等于一",
+    "targetSeconds": 1.12,
+    "file": "9f5ae491de91de20af3ccd6f234659eaf8de3cc2d835a593d843078b471af38d.mp3"
+  },
+  "5加3等于8": {
+    "text": "五加三等于八",
+    "targetSeconds": 1.12,
+    "file": "415325b3aff6d1627bd6c2fdb1d3d70f25e644d0004f73a21ae44ac6ba27b1ea.mp3"
+  },
+  "5减3等于2": {
+    "text": "五减三等于二",
+    "targetSeconds": 1.12,
+    "file": "94260eeb2da2e25135e70223ed59b7f285d081f4101462a59c2a61a1329a0652.mp3"
+  },
+  "5加5等于10": {
+    "text": "五加五等于十",
+    "targetSeconds": 1.12,
+    "file": "c5c489f9d75b6cc042be75e8a71e1985cfcd49421027c05a28d051f21e8b0fc6.mp3"
+  },
+  "5加4等于9": {
+    "text": "五加四等于九",
+    "targetSeconds": 1.12,
+    "file": "2456f2614fc17f662c186f4d0d6010ed13dd6036db97d568e0b5bf778d33d939.mp3"
+  },
+  "5加9等于14": {
+    "text": "五加九等于十四",
+    "targetSeconds": 1.306667,
+    "file": "5b7176a8c447dc679b3fe0d07bfd52d749a9ce4eee2d02d40c045eab1a9d9c70.mp3"
+  },
+  "5加7等于12": {
+    "text": "五加七等于十二",
+    "targetSeconds": 1.306667,
+    "file": "5e070230fd0be8488d246614b973519e0f3753e38d43a3635fb047a17ecbdbe1.mp3"
+  },
+  "5加8等于13": {
+    "text": "五加八等于十三",
+    "targetSeconds": 1.306667,
+    "file": "9568f90d50b8203c9cac41f628597932b6b240c37b827e03c746f359a045728b.mp3"
+  },
+  "5加6等于11": {
+    "text": "五加六等于十一",
+    "targetSeconds": 1.306667,
+    "file": "3ae15c382cd7274835d051b7a5ff75541e9ac1095f2d97e9dfc9758d0a24582b.mp3"
+  },
+  "5减2等于3": {
+    "text": "五减二等于三",
+    "targetSeconds": 1.12,
+    "file": "b23d7506a1dd095cf00bf40468437321c1bb29a7d6b91fb075fa5f6d0f8ad171.mp3"
+  },
+  "5加10等于15": {
+    "text": "五加十等于十五",
+    "targetSeconds": 1.306667,
+    "file": "2b247672936ef026040f658960f0d90bf550970e0cb1d59882331d9c0222d3e9.mp3"
+  },
+  "5减5等于0": {
+    "text": "五减五等于零",
+    "targetSeconds": 1.12,
+    "file": "53bdb6ec078b21ca14f9a0efe96fbb694123cdce381f9386fae94392551b6c95.mp3"
+  },
+  "5加12等于17": {
+    "text": "五加十二等于十七",
+    "targetSeconds": 1.493333,
+    "file": "bfeac60debbe163ffe4e7ca4737847b223ed03241594b1bd3e278d550728852b.mp3"
+  },
+  "5加15等于20": {
+    "text": "五加十五等于二十",
+    "targetSeconds": 1.493333,
+    "file": "53e292acdcc9873fe670181a25edec992b6c2670f1b5dd114b91788834d9445d.mp3"
+  },
+  "6加0等于6": {
+    "text": "六加零等于六",
+    "targetSeconds": 1.12,
+    "file": "6b8e296a0832fbf47952d6fdba6b42784726fa781a61a7b27338fc4a8a250650.mp3"
+  },
+  "5加13等于18": {
+    "text": "五加十三等于十八",
+    "targetSeconds": 1.493333,
+    "file": "6bf87c1d24bba8c4e8a4c593453c9b1d36c4f31ca81b350a32bc8bee831723f3.mp3"
+  },
+  "4减4等于0": {
+    "text": "四减四等于零",
+    "targetSeconds": 1.12,
+    "file": "21671bc0e08db9997bfab0ada81d9d1ba5528ca84227a5646489d4776382a84e.mp3"
+  },
+  "5加14等于19": {
+    "text": "五加十四等于十九",
+    "targetSeconds": 1.493333,
+    "file": "4ae3f1bc567f6ee2ea249a3b7e83bb0d93f32590af3ef359669b76c1b5a39a75.mp3"
+  },
+  "6减0等于6": {
+    "text": "六减零等于六",
+    "targetSeconds": 1.12,
+    "file": "ef8b5d8052f4212a0d3b53722f16db278a56f9f2632e3d65d8aad10df1e3d52a.mp3"
+  },
+  "6加1等于7": {
+    "text": "六加一等于七",
+    "targetSeconds": 1.12,
+    "file": "69f575d2274a91bdc9233f4d96d309064ce5d6c203fc5ddd9ac04cd8e15e2ba4.mp3"
+  },
+  "5加11等于16": {
+    "text": "五加十一等于十六",
+    "targetSeconds": 1.493333,
+    "file": "a7c96a770269a9d36aedc6e5cfe8224c41682952fe4046b695cf509fa2f96b06.mp3"
+  },
+  "6减1等于5": {
+    "text": "六减一等于五",
+    "targetSeconds": 1.12,
+    "file": "3cc049786cf38538ba8b0353655ccc1adb0b7fb0ee2d305d26d066a2f98c163f.mp3"
+  },
+  "6减2等于4": {
+    "text": "六减二等于四",
+    "targetSeconds": 1.12,
+    "file": "427f46ac152929d0f3ab8c0b9cf41def9325f1dbaf6f241e64e0095040529c99.mp3"
+  },
+  "6加2等于8": {
+    "text": "六加二等于八",
+    "targetSeconds": 1.12,
+    "file": "ff9ce54383932b37829468f7d2e300b73de312e6166e247ae550560417c16299.mp3"
+  },
+  "6加4等于10": {
+    "text": "六加四等于十",
+    "targetSeconds": 1.12,
+    "file": "fd6cc89250cfcf45db4984f857c2092b7e888d725ccbf20cfbc1215b4fc70ee3.mp3"
+  },
+  "6加3等于9": {
+    "text": "六加三等于九",
+    "targetSeconds": 1.12,
+    "file": "eb07371e779357c6fef4c7fa44e9afc2484788ad0e0d37a582aa510dfabb32ee.mp3"
+  },
+  "6加5等于11": {
+    "text": "六加五等于十一",
+    "targetSeconds": 1.306667,
+    "file": "253789f3a60d31103d351c5e7e402200325622e067028f4c2437c6e852d22d0f.mp3"
+  },
+  "3加5等于8": {
+    "text": "三加五等于八",
+    "targetSeconds": 1.12,
+    "file": "d6ae6c9482ea6034f818c910766a587990e37d2ef4c57e9b19f9a0b05b9e7a69.mp3"
+  },
+  "6减4等于2": {
+    "text": "六减四等于二",
+    "targetSeconds": 1.12,
+    "file": "3bd8d9376e564705984f4572ad3f46d9f693616814de09dfe287b3a9c2ad72a7.mp3"
+  },
+  "6加6等于12": {
+    "text": "六加六等于十二",
+    "targetSeconds": 1.306667,
+    "file": "82cbbc481b8fbafa148875fe410d639ab69cf5c31331c7364e5b340290f385c9.mp3"
+  },
+  "6减6等于0": {
+    "text": "六减六等于零",
+    "targetSeconds": 1.12,
+    "file": "58bf2c85a8eb0c8d6aac37a3a9c8bea14b63bdc5c24a9b0212c624366cce5877.mp3"
+  },
+  "6加9等于15": {
+    "text": "六加九等于十五",
+    "targetSeconds": 1.306667,
+    "file": "b770af55a35dfcba4b6484182e4e6e496af3df3c05628e82cac3e1762a3c8c0d.mp3"
+  },
+  "6加10等于16": {
+    "text": "六加十等于十六",
+    "targetSeconds": 1.306667,
+    "file": "d3df01eeea6c0d183b21f5face99718f2423eb4db73cca383180b8d7a42747d1.mp3"
+  },
+  "5减1等于4": {
+    "text": "五减一等于四",
+    "targetSeconds": 1.12,
+    "file": "985d651165727498f935333166603a584438122153a0eebae7e014ba4880cd7c.mp3"
+  },
+  "6加7等于13": {
+    "text": "六加七等于十三",
+    "targetSeconds": 1.306667,
+    "file": "b0f4a5fb8b646ddae2d255ad5f4cac68baa9a91cd2217a426a8cc95bf812742a.mp3"
+  },
+  "6加8等于14": {
+    "text": "六加八等于十四",
+    "targetSeconds": 1.306667,
+    "file": "85e1885f448352627a769f1954856189b60d33365cdf5c053813b65f34d8e126.mp3"
+  },
+  "6加13等于19": {
+    "text": "六加十三等于十九",
+    "targetSeconds": 1.493333,
+    "file": "71d1ad0b09af484fdd13e6bf49dd27915047b755d46e46f5fc153068a8751c93.mp3"
+  },
+  "6加12等于18": {
+    "text": "六加十二等于十八",
+    "targetSeconds": 1.493333,
+    "file": "e08fe436e1a92aff762d570bc5af7dd24bd96b6b3403baa2d2f7496cd1bf5ecc.mp3"
+  },
+  "7加0等于7": {
+    "text": "七加零等于七",
+    "targetSeconds": 1.12,
+    "file": "e2560f04ec3fa57ad84f5a681ae61a35a5833a8b4825dacf14cde45c2fb7909e.mp3"
+  },
+  "7减0等于7": {
+    "text": "七减零等于七",
+    "targetSeconds": 1.12,
+    "file": "6c1830659b22a7bc3b8c4a5aa8b01806ee515099f64ce5326ea26e59b75b8adf.mp3"
+  },
+  "7减1等于6": {
+    "text": "七减一等于六",
+    "targetSeconds": 1.12,
+    "file": "b09a52476c03d38e47c02d4ba9959faee549642870e672eaf7f3da245401222d.mp3"
+  },
+  "7加3等于10": {
+    "text": "七加三等于十",
+    "targetSeconds": 1.12,
+    "file": "7bba3333702d98ed451300bdcf1be666e6cbbdeab0737380d2922b326583bb72.mp3"
+  },
+  "7加1等于8": {
+    "text": "七加一等于八",
+    "targetSeconds": 1.12,
+    "file": "9636c46fb7c21cf433baac76652374bcf5d304de73a17091031f4d61957ba887.mp3"
+  },
+  "6加14等于20": {
+    "text": "六加十四等于二十",
+    "targetSeconds": 1.493333,
+    "file": "a52ae1ef3e447125c5336a1f904d10899cedec2ab269b1e9dbe4a5457a8be783.mp3"
+  },
+  "7减2等于5": {
+    "text": "七减二等于五",
+    "targetSeconds": 1.12,
+    "file": "a916fe4021bee5d19f30dcd4bbc135a1db1c4434e9f2ea24a4f5e09c2d06bf4d.mp3"
+  },
+  "7加2等于9": {
+    "text": "七加二等于九",
+    "targetSeconds": 1.12,
+    "file": "dd8e286e4460c8a4d0788fd2b3711eef47a3dba7172979cd4c05dbd33bb1c60a.mp3"
+  },
+  "7加5等于12": {
+    "text": "七加五等于十二",
+    "targetSeconds": 1.306667,
+    "file": "d99234ac466b775c9c010d9b46e8945684324f09ef5ff5d4e89671cef142ce8f.mp3"
+  },
+  "7减4等于3": {
+    "text": "七减四等于三",
+    "targetSeconds": 1.12,
+    "file": "8a2bea5dcd413f5ffd14ee72a19abadcf85fb69f3c9a0467ee179bf3d2171ab2.mp3"
+  },
+  "7加4等于11": {
+    "text": "七加四等于十一",
+    "targetSeconds": 1.306667,
+    "file": "1563aeefa2dd4632e29627a163f09c31ae9bd70c9007f1f9c72559b4c2810f4d.mp3"
+  },
+  "7减5等于2": {
+    "text": "七减五等于二",
+    "targetSeconds": 1.12,
+    "file": "ab887970d28299b69d90e0f3491cf9b5c5e8b96dda681cbc95beaf28998fff43.mp3"
+  },
+  "7减3等于4": {
+    "text": "七减三等于四",
+    "targetSeconds": 1.12,
+    "file": "8151340b07868545cf0bb31800743291ba09792321da1db17e96cc661af97e05.mp3"
+  },
+  "7减6等于1": {
+    "text": "七减六等于一",
+    "targetSeconds": 1.12,
+    "file": "304a6c36d3002ba0dcf29941f9d1d8d761e345f18402b48b137a2b6459be3b0c.mp3"
+  },
+  "7加6等于13": {
+    "text": "七加六等于十三",
+    "targetSeconds": 1.306667,
+    "file": "cdd6a7c094416d1c2007ed0344d3a78449903ab203c77147f0af5e20f64c64bf.mp3"
+  },
+  "7减7等于0": {
+    "text": "七减七等于零",
+    "targetSeconds": 1.12,
+    "file": "86ce0b7fb788ca21b8d11fd039836dd6df8d48a0b3374acd49af8c486a6b606e.mp3"
+  },
+  "7加9等于16": {
+    "text": "七加九等于十六",
+    "targetSeconds": 1.306667,
+    "file": "cc7521d19e25801259109b81941eda7b1edbda189404f5a78f52f84d9cb288d9.mp3"
+  },
+  "7加7等于14": {
+    "text": "七加七等于十四",
+    "targetSeconds": 1.306667,
+    "file": "36910d08bcc6b4a60c9dca96e65257df3442809b6abfadce07643f091e3e218c.mp3"
+  },
+  "6减3等于3": {
+    "text": "六减三等于三",
+    "targetSeconds": 1.12,
+    "file": "27496868b0f174d9bde4a51a76494bbc9922d4dca8bfafbfdd95bb165e0d9723.mp3"
+  },
+  "7加10等于17": {
+    "text": "七加十等于十七",
+    "targetSeconds": 1.306667,
+    "file": "2ffbe71fe0473da9ec69dc1322d353c72b872c003c70799a2c485206379670c9.mp3"
+  },
+  "7加11等于18": {
+    "text": "七加十一等于十八",
+    "targetSeconds": 1.493333,
+    "file": "d9839991b639ec295cbdb99962097ce94e40fbae8a9e90018ac1049a5fb98719.mp3"
+  },
+  "7加12等于19": {
+    "text": "七加十二等于十九",
+    "targetSeconds": 1.493333,
+    "file": "16f45d6c418cc5045d9933f97c64c885780437cd9b001c0082a234e165e71818.mp3"
+  },
+  "6减5等于1": {
+    "text": "六减五等于一",
+    "targetSeconds": 1.12,
+    "file": "033a14da953d83ddee3418004505c24b0cd5309f22a751df3e6c664bbf34368f.mp3"
+  },
+  "8加0等于8": {
+    "text": "八加零等于八",
+    "targetSeconds": 1.12,
+    "file": "d2bb8eadffb3703417d6cc6591542175061e54f4135a6822f92ae35d3ef879b6.mp3"
+  },
+  "7加8等于15": {
+    "text": "七加八等于十五",
+    "targetSeconds": 1.306667,
+    "file": "754e05170926f9dba4d472f21851be28bd6b5096f7e0ae6a119fcaaafc7955ea.mp3"
+  },
+  "8减0等于8": {
+    "text": "八减零等于八",
+    "targetSeconds": 1.12,
+    "file": "02ac5a1741ec599265b7ca60ceca0916be33942be76f48bfb7e06190965b35c5.mp3"
+  },
+  "8减1等于7": {
+    "text": "八减一等于七",
+    "targetSeconds": 1.12,
+    "file": "dda1424cada588fc1e1a060b7939d907d92953ec04bb0ac3a5e3be4eb0227280.mp3"
+  },
+  "8加2等于10": {
+    "text": "八加二等于十",
+    "targetSeconds": 1.12,
+    "file": "1ab320484a1dfba1341260dfdee4e4b543745aa7d26ca6835df3bdd248663bc0.mp3"
+  },
+  "7加13等于20": {
+    "text": "七加十三等于二十",
+    "targetSeconds": 1.493333,
+    "file": "06530a4d87e5e76e5d8ad70d9bdefb7598f236ce21ff0e95561907b4bab462d3.mp3"
+  },
+  "6加11等于17": {
+    "text": "六加十一等于十七",
+    "targetSeconds": 1.493333,
+    "file": "f2d3f42eee56c641915c93e2b69145609c03df0b11d5c08a210c165e28aa2a1c.mp3"
+  },
+  "8减2等于6": {
+    "text": "八减二等于六",
+    "targetSeconds": 1.12,
+    "file": "18770807455ca6870c2f44b021cff527428434d291af4d0a132c158a59a8ae03.mp3"
+  },
+  "8加3等于11": {
+    "text": "八加三等于十一",
+    "targetSeconds": 1.306667,
+    "file": "fb62eae1ad446018363408f7beb74e4d0029af590b579c8dbdfcfb37d182d116.mp3"
+  },
+  "8减3等于5": {
+    "text": "八减三等于五",
+    "targetSeconds": 1.12,
+    "file": "c866ad46fd82fd78618852b7ab063e62477174cfc068abec16bb26ed44dbf4bf.mp3"
+  },
+  "8加4等于12": {
+    "text": "八加四等于十二",
+    "targetSeconds": 1.306667,
+    "file": "9191184938c1b74266bf34ed8fcb3119ad40dee30dd1850920b84d3b4a5a4443.mp3"
+  },
+  "8加5等于13": {
+    "text": "八加五等于十三",
+    "targetSeconds": 1.306667,
+    "file": "385b173103f61cf8826104713b71e6eca2dde78ecd822c0c68708b28f20de63d.mp3"
+  },
+  "8加1等于9": {
+    "text": "八加一等于九",
+    "targetSeconds": 1.12,
+    "file": "223fdfc2b49c319a83ef5040169f686f568d1de74522b043bc459f891da8a79c.mp3"
+  },
+  "8减5等于3": {
+    "text": "八减五等于三",
+    "targetSeconds": 1.12,
+    "file": "7fa90d2af3e266cad078386553556a0284814dd6eaf97f6919b1ca85091e7d39.mp3"
+  },
+  "8加7等于15": {
+    "text": "八加七等于十五",
+    "targetSeconds": 1.306667,
+    "file": "afef0300154e9fd407cbb853f8e163268c6e8145c1cb2d32d2d9285dd72c11b7.mp3"
+  },
+  "8减7等于1": {
+    "text": "八减七等于一",
+    "targetSeconds": 1.12,
+    "file": "4902778ac35ebafb3acace4d3b7e0a7a5d9a19c4b52b8cb61d6676a608c624be.mp3"
+  },
+  "8加6等于14": {
+    "text": "八加六等于十四",
+    "targetSeconds": 1.306667,
+    "file": "1e291a7f555bbaa8eb444af0696c007c50d9817e34e208fc6ec23ed591f70591.mp3"
+  },
+  "8减6等于2": {
+    "text": "八减六等于二",
+    "targetSeconds": 1.12,
+    "file": "fbaae02d4e2993b8e9516fae26894c5853214028fd91ae883c835c2e23bbe68e.mp3"
+  },
+  "8加9等于17": {
+    "text": "八加九等于十七",
+    "targetSeconds": 1.306667,
+    "file": "f43720268e623ba9dd26967456d249c1bfd01846b9662a4606c7352a88a67c7f.mp3"
+  },
+  "8加8等于16": {
+    "text": "八加八等于十六",
+    "targetSeconds": 1.306667,
+    "file": "a03bc5c9dd8bf62260d068ba4948c72582a0458c2f45aa7b635b66fe51c07994.mp3"
+  },
+  "8减8等于0": {
+    "text": "八减八等于零",
+    "targetSeconds": 1.12,
+    "file": "2825ae9d4f2b57cfa1d6ef4b1ef1ee90faa09b3b0c05ecea82da30b78de76605.mp3"
+  },
+  "9加1等于10": {
+    "text": "九加一等于十",
+    "targetSeconds": 1.12,
+    "file": "1e33a8eea049ed6832d2396f2717525c9fc4841b4ee1afa0222968f19ae31337.mp3"
+  },
+  "8加12等于20": {
+    "text": "八加十二等于二十",
+    "targetSeconds": 1.493333,
+    "file": "6becb236ef5c1eb5db9391b14270adc401d99678c75d5475f07472b5a51f5657.mp3"
+  },
+  "8加11等于19": {
+    "text": "八加十一等于十九",
+    "targetSeconds": 1.493333,
+    "file": "cb2427b71001b05fb25ab3177d7432fe7c3f0f5de5d3636cf1653f39e03d8181.mp3"
+  },
+  "9减1等于8": {
+    "text": "九减一等于八",
+    "targetSeconds": 1.12,
+    "file": "385665b08dcd8deee55dce4b7cfa02ac2da7683400bdc5d3654d0394495e512d.mp3"
+  },
+  "9减2等于7": {
+    "text": "九减二等于七",
+    "targetSeconds": 1.12,
+    "file": "ce54ffdce088b5d8cc1a5ccfff7d148d3dcb9f92b4c9ba06758cfadae5926c32.mp3"
+  },
+  "9加2等于11": {
+    "text": "九加二等于十一",
+    "targetSeconds": 1.306667,
+    "file": "8651bf34ea2fca4d534bb6d6906df4db69c91b95f2008b676aab84ef53812bb4.mp3"
+  },
+  "9加0等于9": {
+    "text": "九加零等于九",
+    "targetSeconds": 1.12,
+    "file": "59332d106ad6eafbe2b4542030a55b53fa9b7aa797a0ad82573de94246251bbf.mp3"
+  },
+  "9加4等于13": {
+    "text": "九加四等于十三",
+    "targetSeconds": 1.306667,
+    "file": "dd0bf6b25cbdf8232ef7a91bfc13a580852e848018a4c589980191194e6ebe90.mp3"
+  },
+  "9减3等于6": {
+    "text": "九减三等于六",
+    "targetSeconds": 1.12,
+    "file": "a178a8b7b36022b2806680b2fb76dee8d98b53f9d2599688d8dda74fa93842fb.mp3"
+  },
+  "9加5等于14": {
+    "text": "九加五等于十四",
+    "targetSeconds": 1.306667,
+    "file": "1388b4e3f989029de5e4612f583559cd436474b41b81e8694f7e4b62992c0d0e.mp3"
+  },
+  "9减4等于5": {
+    "text": "九减四等于五",
+    "targetSeconds": 1.12,
+    "file": "b00fc6fc827874cff9fa45b204c3369709cb60dcd6e935e0d56866f115196b7e.mp3"
+  },
+  "8加10等于18": {
+    "text": "八加十等于十八",
+    "targetSeconds": 1.306667,
+    "file": "4e659f7fd5edc648e74b906cde6da0835d3bd2ea9ddbcda44edea0f78389ce0c.mp3"
+  },
+  "9减6等于3": {
+    "text": "九减六等于三",
+    "targetSeconds": 1.12,
+    "file": "00874b88bf36e604506a3c1e6b765155f5887723b1023a2b824873e8c4282c8e.mp3"
+  },
+  "9加6等于15": {
+    "text": "九加六等于十五",
+    "targetSeconds": 1.306667,
+    "file": "8cd635bfb696016fc3005115b010f2beeef14985d9673a8ec423c2df96136b47.mp3"
+  },
+  "9加7等于16": {
+    "text": "九加七等于十六",
+    "targetSeconds": 1.306667,
+    "file": "5862e448d4a1dacfd35289222794a339fdfa65b9cb9098840ae33965664c6cd6.mp3"
+  },
+  "9减7等于2": {
+    "text": "九减七等于二",
+    "targetSeconds": 1.12,
+    "file": "3cc1d4eba74bac871a4a13086bffcc206d9a8e1b53148d3116da8a234a35a503.mp3"
+  },
+  "9加9等于18": {
+    "text": "九加九等于十八",
+    "targetSeconds": 1.306667,
+    "file": "0a3ce128b46aa4ff935383c68c245afed90d3482fb6852b731ab79591bf8d9c5.mp3"
+  },
+  "9减8等于1": {
+    "text": "九减八等于一",
+    "targetSeconds": 1.12,
+    "file": "3a355f3a5b7b8c46e1c7b1d603ae4117bb36098c49856f564284c49d81714c03.mp3"
+  },
+  "9加10等于19": {
+    "text": "九加十等于十九",
+    "targetSeconds": 1.306667,
+    "file": "1e3fa57a3d9f45752fa2c3e00d35976e2135565a78785c649b0703aee8d4ace5.mp3"
+  },
+  "9加11等于20": {
+    "text": "九加十一等于二十",
+    "targetSeconds": 1.493333,
+    "file": "e7899dce891abe817d5226c5dbe6ba9058d5e7cff1dad1f912bb1f4c5b574432.mp3"
+  },
+  "9减9等于0": {
+    "text": "九减九等于零",
+    "targetSeconds": 1.12,
+    "file": "6b45c0a4f70c560d7c5f4330a525e285b7ff311a98858b66ea042c9b35950bdd.mp3"
+  },
+  "9减0等于9": {
+    "text": "九减零等于九",
+    "targetSeconds": 1.12,
+    "file": "df8bff4114f1d93826d3db20b14878178cb0ebd8a8e8942b39a8f9998c2ff8c3.mp3"
+  },
+  "10减0等于10": {
+    "text": "十减零等于十",
+    "targetSeconds": 1.12,
+    "file": "a2b1cbb6bc7517d0739d8569a39c0a91f61167ba225d999baa62a1b66f8a0d3f.mp3"
+  },
+  "8减4等于4": {
+    "text": "八减四等于四",
+    "targetSeconds": 1.12,
+    "file": "505284d44051442c321a85b0a6f6ec0a13fa1b7da98eb28cba60d5ba9e5721f5.mp3"
+  },
+  "10减1等于9": {
+    "text": "十减一等于九",
+    "targetSeconds": 1.12,
+    "file": "f955a6151b40bee398cc33a58d4d80b76e39a49accbe89769dca9c316315c8ba.mp3"
+  },
+  "10加1等于11": {
+    "text": "十加一等于十一",
+    "targetSeconds": 1.306667,
+    "file": "505c998c801c530a367ded020a5326f7aa52ceb4fa01fd0269dde8d908b59156.mp3"
+  },
+  "10加2等于12": {
+    "text": "十加二等于十二",
+    "targetSeconds": 1.306667,
+    "file": "387b105cba89f93716f3d434b7f16ee8d7c96fe548eb376daeadb540d8fa6581.mp3"
+  },
+  "10加3等于13": {
+    "text": "十加三等于十三",
+    "targetSeconds": 1.306667,
+    "file": "4292d8dcd2f4feb625394bf470541b9453a99fbf18dc526aacd535d1f752801e.mp3"
+  },
+  "10加0等于10": {
+    "text": "十加零等于十",
+    "targetSeconds": 1.12,
+    "file": "24c0d53ca615abb69d2b267b040e35e4ff1440b825a56c2d94d6a09f9527f65b.mp3"
+  },
+  "10减2等于8": {
+    "text": "十减二等于八",
+    "targetSeconds": 1.12,
+    "file": "191eb8c4d49fd625db57edc04fff2a63f47a9ce934a72b8db917ca8365b88d9d.mp3"
+  },
+  "10减4等于6": {
+    "text": "十减四等于六",
+    "targetSeconds": 1.12,
+    "file": "69a89079247ca35b9b36fdd6be52a70a1cd49ccbbe91cfa2e3b78e0a249a2773.mp3"
+  },
+  "10加4等于14": {
+    "text": "十加四等于十四",
+    "targetSeconds": 1.306667,
+    "file": "cb84aca9df4c31e0cbe0d2eda7e5362c317d20d9e77d4e1e9b43003ac92b6ee6.mp3"
+  },
+  "10减3等于7": {
+    "text": "十减三等于七",
+    "targetSeconds": 1.12,
+    "file": "bcd6109b0a90bbe3e4c677707792f36e4deef62eb3e7205e8c667f90bad8ea9c.mp3"
+  },
+  "10减5等于5": {
+    "text": "十减五等于五",
+    "targetSeconds": 1.12,
+    "file": "40cef7cfcc7bb4f49d61edaed6e4642b5c044ff753aa87a06a43855b0e4b7f2a.mp3"
+  },
+  "10加5等于15": {
+    "text": "十加五等于十五",
+    "targetSeconds": 1.306667,
+    "file": "0e5585fe044d45242dc90d8c0eb0ed873d4618692bcfca277818bafda2d9d331.mp3"
+  },
+  "10减6等于4": {
+    "text": "十减六等于四",
+    "targetSeconds": 1.12,
+    "file": "457e03b6c3f1ae0e3cd15780494f187c947dfc8497e150758c2e96ad2886ba5d.mp3"
+  },
+  "9加3等于12": {
+    "text": "九加三等于十二",
+    "targetSeconds": 1.306667,
+    "file": "3039c3b2f0577cf714b5b34331648c4705c6a42778e99c8024c6b42ee0d2676e.mp3"
+  },
+  "10加8等于18": {
+    "text": "十加八等于十八",
+    "targetSeconds": 1.306667,
+    "file": "bb6510e252f58b18b798dd8c72aa19f900fe1bd1a30f7db971232a7f8ce82b8e.mp3"
+  },
+  "10加6等于16": {
+    "text": "十加六等于十六",
+    "targetSeconds": 1.306667,
+    "file": "abd8951e1780d3f0625d6f2e11c0614a7a5dc2f797377d528bedd6199bcef0fb.mp3"
+  },
+  "10减7等于3": {
+    "text": "十减七等于三",
+    "targetSeconds": 1.12,
+    "file": "553c6836b040f3767a4c38ddf4ac1742331b292aaa71fde7e6f2f7447925a3f3.mp3"
+  },
+  "10加9等于19": {
+    "text": "十加九等于十九",
+    "targetSeconds": 1.306667,
+    "file": "714ae6d94076bcdc84d67c9f78d23f8569fdb9237b8afb16fe6f51310f4ab092.mp3"
+  },
+  "10加7等于17": {
+    "text": "十加七等于十七",
+    "targetSeconds": 1.306667,
+    "file": "3335d0cdbbba4b12f0459294c6e49da987dbcd875eaded1ed0558747fc9cba14.mp3"
+  },
+  "10减9等于1": {
+    "text": "十减九等于一",
+    "targetSeconds": 1.12,
+    "file": "c9c115cbd8f23cf2f38edd7b2afacaa5b39d1a90f52bd7401571e364b37e30f3.mp3"
+  },
+  "10减10等于0": {
+    "text": "十减十等于零",
+    "targetSeconds": 1.12,
+    "file": "7cb887615470c4f91bdfa57c1060a3f668818c02934d1e9273bd8f3b528db2c2.mp3"
+  },
+  "9减5等于4": {
+    "text": "九减五等于四",
+    "targetSeconds": 1.12,
+    "file": "297baf564243affab0d47acf817fc1098489ec5b32936abbe212f5148ae976c5.mp3"
+  },
+  "11加0等于11": {
+    "text": "十一加零等于十一",
+    "targetSeconds": 1.493333,
+    "file": "2da25448c8f5523c738190721111493deadb9959669b27d57f2397303881d644.mp3"
+  },
+  "11减0等于11": {
+    "text": "十一减零等于十一",
+    "targetSeconds": 1.493333,
+    "file": "aadaca960a0e5519448236ff6abc26ed2c48551a3d2a916654d541c0319395a4.mp3"
+  },
+  "10减8等于2": {
+    "text": "十减八等于二",
+    "targetSeconds": 1.12,
+    "file": "47939a3785a38e33e6970983230e5a81aeb90547be52eb3426e99b70ce8ccb25.mp3"
+  },
+  "11加1等于12": {
+    "text": "十一加一等于十二",
+    "targetSeconds": 1.493333,
+    "file": "27c3d125ec40a884f165daaa72dc4a3c45ef40808bf345cca04ce2e71d2f23d8.mp3"
+  },
+  "9加8等于17": {
+    "text": "九加八等于十七",
+    "targetSeconds": 1.306667,
+    "file": "dd9481883f088d7cb91fdc48ccf402176d189a024a4434b792af0f4ee0da0765.mp3"
+  },
+  "11减1等于10": {
+    "text": "十一减一等于十",
+    "targetSeconds": 1.306667,
+    "file": "0f55e87191cb750af7019bc81b97a6222adb77997511de0a00848a3ecf8cb82b.mp3"
+  },
+  "11减2等于9": {
+    "text": "十一减二等于九",
+    "targetSeconds": 1.306667,
+    "file": "9addb9961839d5be0d9c239828fe39bec33b5beae71f6a45c10dadc0cc0abde7.mp3"
+  },
+  "11加3等于14": {
+    "text": "十一加三等于十四",
+    "targetSeconds": 1.493333,
+    "file": "ed1dd69dce2e40995f11f62629a38b16118064ddfcf6156181d6a6f686666974.mp3"
+  },
+  "10加10等于20": {
+    "text": "十加十等于二十",
+    "targetSeconds": 1.306667,
+    "file": "7887c713262af7b1ac477410aff4c3c55110dab4fabc85288fb0302985232806.mp3"
+  },
+  "11加2等于13": {
+    "text": "十一加二等于十三",
+    "targetSeconds": 1.493333,
+    "file": "06743aa54ff1a2bf32ed22bc09b948bed690dd0981aafa395e3f740578d68c71.mp3"
+  },
+  "11加4等于15": {
+    "text": "十一加四等于十五",
+    "targetSeconds": 1.493333,
+    "file": "7861ce6194771ba0e105078efb7a856bf5c17a33cc0df1e9de0a62d370533c8c.mp3"
+  },
+  "11减3等于8": {
+    "text": "十一减三等于八",
+    "targetSeconds": 1.306667,
+    "file": "f5e39be132ccd48c6cf5b963867f1fab142282a3b0889c4531531958d73f5580.mp3"
+  },
+  "11减4等于7": {
+    "text": "十一减四等于七",
+    "targetSeconds": 1.306667,
+    "file": "dfd9b129987a38b069141f2d7e572d1b4b972e31210e213c70026ae03893e36b.mp3"
+  },
+  "11加5等于16": {
+    "text": "十一加五等于十六",
+    "targetSeconds": 1.493333,
+    "file": "880d2ec0c72f21f7b38c60bad38cbbacbf70b75da38023b5d7e479c4419cc56d.mp3"
+  },
+  "11加8等于19": {
+    "text": "十一加八等于十九",
+    "targetSeconds": 1.493333,
+    "file": "6fbe5441231e2afb8c6049d1a9449aae89326fc9dce323eaea4a597c0a2bacd4.mp3"
+  },
+  "11减5等于6": {
+    "text": "十一减五等于六",
+    "targetSeconds": 1.306667,
+    "file": "5bad440de196a8b289caf0bf9bf86c84662af93f8f48f9b79a0d8021c7bd8ead.mp3"
+  },
+  "11加6等于17": {
+    "text": "十一加六等于十七",
+    "targetSeconds": 1.493333,
+    "file": "aaae9b9e55b8b8a57a977d5d161ba5af7f51738897e94f52215f4048ef88e6a9.mp3"
+  },
+  "11减6等于5": {
+    "text": "十一减六等于五",
+    "targetSeconds": 1.306667,
+    "file": "f1842ea404f091afe0e74ef5c8efd9a0281de61811451c2ec4ddd2431294a1bb.mp3"
+  },
+  "11减8等于3": {
+    "text": "十一减八等于三",
+    "targetSeconds": 1.306667,
+    "file": "5ad289647c35886e167b16f24cbb76b98507abe9a87d061bc8f790d67870b007.mp3"
+  },
+  "11减7等于4": {
+    "text": "十一减七等于四",
+    "targetSeconds": 1.306667,
+    "file": "d37c0ca16ec3fb8999a4701816d15fdce4d05781cdd320155959088481a48b21.mp3"
+  },
+  "11加9等于20": {
+    "text": "十一加九等于二十",
+    "targetSeconds": 1.493333,
+    "file": "0a0cf9f0fa973dc15458af9f6d7fd54dc9d72a322ec943ffa894bf2cfcf2df09.mp3"
+  },
+  "11减10等于1": {
+    "text": "十一减十等于一",
+    "targetSeconds": 1.306667,
+    "file": "3af112167032bbc5029718e8c7667c74dc758273c11eea1d22796c8992eb1069.mp3"
+  },
+  "12加0等于12": {
+    "text": "十二加零等于十二",
+    "targetSeconds": 1.493333,
+    "file": "289699d11c356cf8510102344776b6a111225a5275b3b2ec4e3465a709a4c488.mp3"
+  },
+  "11减11等于0": {
+    "text": "十一减十一等于零",
+    "targetSeconds": 1.493333,
+    "file": "c71ba22e8eddd448be06cc9febec9a731eafeb6559d9bf15daeb775dd4fc6829.mp3"
+  },
+  "12加1等于13": {
+    "text": "十二加一等于十三",
+    "targetSeconds": 1.493333,
+    "file": "a7594cb9a687aacbe13c4e348d200c153d638660abd7e912de4e7af1aff76bfe.mp3"
+  },
+  "12加2等于14": {
+    "text": "十二加二等于十四",
+    "targetSeconds": 1.493333,
+    "file": "addf6593f6d3ba24e3d23af37ce9351bf5f4d7d3261a0b8d20ab5e21d797f84c.mp3"
+  },
+  "11减9等于2": {
+    "text": "十一减九等于二",
+    "targetSeconds": 1.306667,
+    "file": "e1c7bfd85d34db06e240887949d07c3623b046234f4007d2a8dfeb0d2bb31238.mp3"
+  },
+  "11加7等于18": {
+    "text": "十一加七等于十八",
+    "targetSeconds": 1.493333,
+    "file": "1a641e699d4595b7a1ec93341686e3377a92e71e0111850dd0d07eac47d5774e.mp3"
+  },
+  "12减0等于12": {
+    "text": "十二减零等于十二",
+    "targetSeconds": 1.493333,
+    "file": "9ba2af5c9611104dfee6f35923a8703e2c9f656407b323c89282bf7c0ca59d4d.mp3"
+  },
+  "12减3等于9": {
+    "text": "十二减三等于九",
+    "targetSeconds": 1.306667,
+    "file": "06d9e96fad9dd37aabefd3a5112fcb7e1c89fe437663c8df3a28dca2f139ae9c.mp3"
+  },
+  "12加3等于15": {
+    "text": "十二加三等于十五",
+    "targetSeconds": 1.493333,
+    "file": "a6e3eb1340e83491e40263d5f29ae401574de637aa73533e9f7f23fcd5e817f4.mp3"
+  },
+  "12减6等于6": {
+    "text": "十二减六等于六",
+    "targetSeconds": 1.306667,
+    "file": "0cb97cadb470ea8ea64a211c9f36d23afae95493f91795fe5666ae13e65bca0c.mp3"
+  },
+  "12加5等于17": {
+    "text": "十二加五等于十七",
+    "targetSeconds": 1.493333,
+    "file": "ee18682d181156d274f22b7579b19a6e448637138e51af85c5b2f7ecfe4707d8.mp3"
+  },
+  "12减4等于8": {
+    "text": "十二减四等于八",
+    "targetSeconds": 1.306667,
+    "file": "dbe2c8dafb915d5a85888bbe3459c40a52cbdadcc59b634e84d3840652ab0df4.mp3"
+  },
+  "12减5等于7": {
+    "text": "十二减五等于七",
+    "targetSeconds": 1.306667,
+    "file": "88aa068e62c848f630fa1a7f3f4a35042d10366ab327bc79bd9fe7e3158ec9e2.mp3"
+  },
+  "12加4等于16": {
+    "text": "十二加四等于十六",
+    "targetSeconds": 1.493333,
+    "file": "21986626e8dd41332fcc1a3f78d3ed51e4aa41c5569c0b76d7c3b79e9a092aac.mp3"
+  },
+  "12加7等于19": {
+    "text": "十二加七等于十九",
+    "targetSeconds": 1.493333,
+    "file": "d473dc72a4d0c1d6b69733049ebaf46ee3f74cee7e232a0a65990fd49e2fec25.mp3"
+  },
+  "12加8等于20": {
+    "text": "十二加八等于二十",
+    "targetSeconds": 1.493333,
+    "file": "95da263b002b7bce541068b74394b023de3050c1289bdbad3c52eb8ec9bc5248.mp3"
+  },
+  "12减10等于2": {
+    "text": "十二减十等于二",
+    "targetSeconds": 1.306667,
+    "file": "cd0987e13804948120c17d7982b5e2781c1aff902b61de41770bdd69d67f90c7.mp3"
+  },
+  "12减8等于4": {
+    "text": "十二减八等于四",
+    "targetSeconds": 1.306667,
+    "file": "9cb47a389d56bf1122419a65da3a7d83e599d49a198a08186689838d51efa85d.mp3"
+  },
+  "12减9等于3": {
+    "text": "十二减九等于三",
+    "targetSeconds": 1.306667,
+    "file": "bf6cb53e0121b162caf4f77968fb7bbf61606b8b83e9b78ff644a105c37069b3.mp3"
+  },
+  "12减11等于1": {
+    "text": "十二减十一等于一",
+    "targetSeconds": 1.493333,
+    "file": "39787165df172b4bdf75b91f1ebe6163f169a882e0029f9f305fa7c618fb37ce.mp3"
+  },
+  "12减12等于0": {
+    "text": "十二减十二等于零",
+    "targetSeconds": 1.493333,
+    "file": "15e2d22da006ed0829ecfcce081f19d86f46dee58cf0b4b3239d3b32060f3b05.mp3"
+  },
+  "12减1等于11": {
+    "text": "十二减一等于十一",
+    "targetSeconds": 1.493333,
+    "file": "86744df28fee3065a666f869ef96b6c37868824538cfbeef4d07aa3056eb386a.mp3"
+  },
+  "12加6等于18": {
+    "text": "十二加六等于十八",
+    "targetSeconds": 1.493333,
+    "file": "e0fbd6fe26add75dda490c216da559c74a446abe644dd05dace417f479a2b21a.mp3"
+  },
+  "13加0等于13": {
+    "text": "十三加零等于十三",
+    "targetSeconds": 1.493333,
+    "file": "fc799d186f43af884793dede08b256c2347350aac11512c5bf6826543dd9b3b1.mp3"
+  },
+  "13减1等于12": {
+    "text": "十三减一等于十二",
+    "targetSeconds": 1.493333,
+    "file": "74b9f45c943bf1e723f0e20185512820658de78d74e6185f9630578e0b0334aa.mp3"
+  },
+  "13加1等于14": {
+    "text": "十三加一等于十四",
+    "targetSeconds": 1.493333,
+    "file": "291450fea556e867b42667504ac1014a2075e422968ab3b942b9a9dc76962484.mp3"
+  },
+  "13加3等于16": {
+    "text": "十三加三等于十六",
+    "targetSeconds": 1.493333,
+    "file": "30f15dcad4268a7268d96576130bd54b44de657414419b651a3137da45dc2b46.mp3"
+  },
+  "13减3等于10": {
+    "text": "十三减三等于十",
+    "targetSeconds": 1.306667,
+    "file": "4df2686be8874b4c8280caba80597bedb056bb8bf9fdff42e43c3de5b6251277.mp3"
+  },
+  "13减4等于9": {
+    "text": "十三减四等于九",
+    "targetSeconds": 1.306667,
+    "file": "5a01a1e9cfa6aeda256cf9112fcfd77a0a58edc1fd9b2d16c0cd1a88df71027f.mp3"
+  },
+  "13减2等于11": {
+    "text": "十三减二等于十一",
+    "targetSeconds": 1.493333,
+    "file": "014221fa88bcc7a5f756a2cca69fdb19098d50975b302fec90524b34de041501.mp3"
+  },
+  "13加4等于17": {
+    "text": "十三加四等于十七",
+    "targetSeconds": 1.493333,
+    "file": "f19ad12cb1fa1459b90c0f9e9e84fbdf9e9898e9746e6f3245749f54dd1608b5.mp3"
+  },
+  "13加5等于18": {
+    "text": "十三加五等于十八",
+    "targetSeconds": 1.493333,
+    "file": "6904df83d14dd22c6531971851c3ef8277f49eab2aca510abb1c26cbb0726961.mp3"
+  },
+  "13减5等于8": {
+    "text": "十三减五等于八",
+    "targetSeconds": 1.306667,
+    "file": "d8d5f256c7793ce0883ae6ea63eafa4bae36d23a2a676f67767b5cd7b84d50e9.mp3"
+  },
+  "13减6等于7": {
+    "text": "十三减六等于七",
+    "targetSeconds": 1.306667,
+    "file": "43651493ec9daf9f2f06d6ca726fc4066ecd75ade2ed89a686d62fa5728a4d79.mp3"
+  },
+  "13加6等于19": {
+    "text": "十三加六等于十九",
+    "targetSeconds": 1.493333,
+    "file": "72f5c29ef28d27fe4781074c8f3623420b0d0516b3c1bdf368aa8dd0846e8261.mp3"
+  },
+  "13加7等于20": {
+    "text": "十三加七等于二十",
+    "targetSeconds": 1.493333,
+    "file": "22fdfd7e0115e8613526b09a26667cfa2d791bb286861153f9dccf5077fe4621.mp3"
+  },
+  "13减8等于5": {
+    "text": "十三减八等于五",
+    "targetSeconds": 1.306667,
+    "file": "39c357be645e7823d4bcdc79896c6649aa77ded0516073c46e7c68192b3bdc47.mp3"
+  },
+  "13减9等于4": {
+    "text": "十三减九等于四",
+    "targetSeconds": 1.306667,
+    "file": "7ec4068bb9613d758df639718cfbe4d6b3de31f39583d6846847f23bf567bc2a.mp3"
+  },
+  "13减7等于6": {
+    "text": "十三减七等于六",
+    "targetSeconds": 1.306667,
+    "file": "5c22abb9e6ed2003cae4a8ed2584e55c6672e165716d53f59c284e05f802a7fd.mp3"
+  },
+  "12减2等于10": {
+    "text": "十二减二等于十",
+    "targetSeconds": 1.306667,
+    "file": "096caec4253765c78e1aff978aa60be95bc32252e5273717bb90269c958b01c6.mp3"
+  },
+  "13减12等于1": {
+    "text": "十三减十二等于一",
+    "targetSeconds": 1.493333,
+    "file": "572ace8c712418518baa921153291a20f94022005843348253e07e9ce0ec0326.mp3"
+  },
+  "13加2等于15": {
+    "text": "十三加二等于十五",
+    "targetSeconds": 1.493333,
+    "file": "570719821a46dc58f79b7d9fc384b80d53192f89c0c4340a3de41d1e1a60931c.mp3"
+  },
+  "14减0等于14": {
+    "text": "十四减零等于十四",
+    "targetSeconds": 1.493333,
+    "file": "b4c992990172c5f764f7815490710bce2de56c285d57aec289eac04c929069e8.mp3"
+  },
+  "14加0等于14": {
+    "text": "十四加零等于十四",
+    "targetSeconds": 1.493333,
+    "file": "fbd796d34f0591f6762c7506e02dcdc5af284f9c2610e0018889c7881977ce2b.mp3"
+  },
+  "13减10等于3": {
+    "text": "十三减十等于三",
+    "targetSeconds": 1.306667,
+    "file": "a8f9e9547b12b1e60dafb9e713cce72055de1fd33fe0d018a591e1822e41995d.mp3"
+  },
+  "14加1等于15": {
+    "text": "十四加一等于十五",
+    "targetSeconds": 1.493333,
+    "file": "ca86d7def2a2d721ba3406e1cb86e172974dbb0e0573ef7e010991355eaf40d2.mp3"
+  },
+  "13减13等于0": {
+    "text": "十三减十三等于零",
+    "targetSeconds": 1.493333,
+    "file": "3ac7ba664562801c5b7566131dcfecc56595350134ba894d5e324f8385be242e.mp3"
+  },
+  "13减11等于2": {
+    "text": "十三减十一等于二",
+    "targetSeconds": 1.493333,
+    "file": "8c549561aa42ac38d758c755abf2a9d173369f1bfa76a147f974d2b95b5660ab.mp3"
+  },
+  "12减7等于5": {
+    "text": "十二减七等于五",
+    "targetSeconds": 1.306667,
+    "file": "59f4acff603be81fc70c7d79493d8ca6af662cfb86a486dd1dae78b441e008a6.mp3"
+  },
+  "14减2等于12": {
+    "text": "十四减二等于十二",
+    "targetSeconds": 1.493333,
+    "file": "ce09a0964669374beb471383aba8e4ebe60f1f827af7c830189aead9350735cd.mp3"
+  },
+  "14加2等于16": {
+    "text": "十四加二等于十六",
+    "targetSeconds": 1.493333,
+    "file": "338ce7896a332056eea92ca0c3c985ffcc804247eae1a7f4d88c14d8a4c07ad5.mp3"
+  },
+  "14减1等于13": {
+    "text": "十四减一等于十三",
+    "targetSeconds": 1.493333,
+    "file": "b3727599f85620c99ffba5b8edaad7bbadbd698b126947300b9add6d466f5d37.mp3"
+  },
+  "14加3等于17": {
+    "text": "十四加三等于十七",
+    "targetSeconds": 1.493333,
+    "file": "166861229066e735479710906882dcb37c903de15bd909cd11198036a4d50778.mp3"
+  },
+  "14加5等于19": {
+    "text": "十四加五等于十九",
+    "targetSeconds": 1.493333,
+    "file": "f3b6225d3334f00b6d6dc30b482d2167ee575d4331a82ee5a9f1e083442dbf5e.mp3"
+  },
+  "14减4等于10": {
+    "text": "十四减四等于十",
+    "targetSeconds": 1.306667,
+    "file": "5a4bdd175f1bb27d9fc9524e08cd8c7718732483bcb82e97481b3069d2d31dbd.mp3"
+  },
+  "14减5等于9": {
+    "text": "十四减五等于九",
+    "targetSeconds": 1.306667,
+    "file": "f26ef9123ba227c1b2e82da5c1660a7bfaed8e116d74f3648efcab336747dce4.mp3"
+  },
+  "14加6等于20": {
+    "text": "十四加六等于二十",
+    "targetSeconds": 1.493333,
+    "file": "77d398ccc7e85c92f6a8994e69f368b227ae28abd142d5fab2fa0c4fa7b2fdaf.mp3"
+  },
+  "14加4等于18": {
+    "text": "十四加四等于十八",
+    "targetSeconds": 1.493333,
+    "file": "06ac2b0a2b5caf43232a1f459a21392b553a47e213b331a3b3a1159d3f32d27a.mp3"
+  },
+  "14减6等于8": {
+    "text": "十四减六等于八",
+    "targetSeconds": 1.306667,
+    "file": "83a1f55e88ca74eb0af82635acd119f7998b7e24cfc32db0302ce451a2e49b77.mp3"
+  },
+  "14减7等于7": {
+    "text": "十四减七等于七",
+    "targetSeconds": 1.306667,
+    "file": "f8b42999ed42de9dc02661ceedae7f8621663a7b991f11c1cfa2e057afa5a648.mp3"
+  },
+  "14减10等于4": {
+    "text": "十四减十等于四",
+    "targetSeconds": 1.306667,
+    "file": "aaa8531cb90306db8d4e20f2fdb389e44e2752de58e14f4248b07f820a985199.mp3"
+  },
+  "14减12等于2": {
+    "text": "十四减十二等于二",
+    "targetSeconds": 1.493333,
+    "file": "3da02be9015c32f1b10b06f0c34cf90fb44174ea34c046ba0715c9d17ae3feed.mp3"
+  },
+  "13减0等于13": {
+    "text": "十三减零等于十三",
+    "targetSeconds": 1.493333,
+    "file": "df3a881863d0a697f45ba99b60aae1b6ca80b38d39816da1ad7f83be2b048076.mp3"
+  },
+  "14减8等于6": {
+    "text": "十四减八等于六",
+    "targetSeconds": 1.306667,
+    "file": "ad4ce12d751531004834754990381c755e7699f99af83f5b4b7752cb3c3e7f2e.mp3"
+  },
+  "14减11等于3": {
+    "text": "十四减十一等于三",
+    "targetSeconds": 1.493333,
+    "file": "7b30b2aea8e9769456cafa43aa7773b9f49c84d7bad3cb2a5ba18c9b606930e5.mp3"
+  },
+  "15减0等于15": {
+    "text": "十五减零等于十五",
+    "targetSeconds": 1.493333,
+    "file": "c07e4582ef78ed13df9bd62b9dc9019814d62aa1bc0bae70c0da7a53b3e0843c.mp3"
+  },
+  "15加1等于16": {
+    "text": "十五加一等于十六",
+    "targetSeconds": 1.493333,
+    "file": "ffeb839f371b1cf31091864f362381b21d166380920f047203a18594cdcb1505.mp3"
+  },
+  "15加2等于17": {
+    "text": "十五加二等于十七",
+    "targetSeconds": 1.493333,
+    "file": "e2a6cdf6fbf73f12bf6a54e3292a0429c44736fa6ee8e6b2d06bd4315e0e8e70.mp3"
+  },
+  "15加0等于15": {
+    "text": "十五加零等于十五",
+    "targetSeconds": 1.493333,
+    "file": "9106e25a25892dd100444d4f645f89e87b2fb1d3977e3cb5507a05043f6e3fbf.mp3"
+  },
+  "15减2等于13": {
+    "text": "十五减二等于十三",
+    "targetSeconds": 1.493333,
+    "file": "2ca53c92ba9b7b39689f8a029aa6832e03ca2f0860919f56500613efe2501a79.mp3"
+  },
+  "15减1等于14": {
+    "text": "十五减一等于十四",
+    "targetSeconds": 1.493333,
+    "file": "91bc7ddc59db4edc3abb75e0b1061887e8ef260d18b59caa6625d1f285a60094.mp3"
+  },
+  "14减13等于1": {
+    "text": "十四减十三等于一",
+    "targetSeconds": 1.493333,
+    "file": "b2f1498f6f3c18f2881583e571017388d852f869d80c919d7d489aca52cf679e.mp3"
+  },
+  "15加3等于18": {
+    "text": "十五加三等于十八",
+    "targetSeconds": 1.493333,
+    "file": "3f30d1fb1eb7a4d7677c5fc89739234db9da0dec481c3602b37249f71599bd4b.mp3"
+  },
+  "15减4等于11": {
+    "text": "十五减四等于十一",
+    "targetSeconds": 1.493333,
+    "file": "529ade13b19bbfaf93fd2ec548da534a3ee3d9affc3846abcfa512d0aa0a151d.mp3"
+  },
+  "15减5等于10": {
+    "text": "十五减五等于十",
+    "targetSeconds": 1.306667,
+    "file": "c2665b246a1040a6ecab8c16263a1156fb78c293e4fed8f50d3e707b0b4b5401.mp3"
+  },
+  "15加4等于19": {
+    "text": "十五加四等于十九",
+    "targetSeconds": 1.493333,
+    "file": "13c981091a775245388d75b2283370ae6b11c373a3567f67acd50776751c62dc.mp3"
+  },
+  "15加5等于20": {
+    "text": "十五加五等于二十",
+    "targetSeconds": 1.493333,
+    "file": "39c2ec1d91997a35994fc2162baa4d734f7918e0298d3327414fcaef0be2a07d.mp3"
+  },
+  "15减8等于7": {
+    "text": "十五减八等于七",
+    "targetSeconds": 1.306667,
+    "file": "7465c61e2a832ac9dc49e53707a1a03ef0c0960c1392574914af67b5c025fbcc.mp3"
+  },
+  "15减6等于9": {
+    "text": "十五减六等于九",
+    "targetSeconds": 1.306667,
+    "file": "9952a468ae7be90a3073b84323439978372d3a78cef3d690628052a594647f15.mp3"
+  },
+  "15减9等于6": {
+    "text": "十五减九等于六",
+    "targetSeconds": 1.306667,
+    "file": "fc6ab2d588ccc55ba81e025e72ba2da877f8efd662bab4079090ac6fc6ade7c2.mp3"
+  },
+  "15减7等于8": {
+    "text": "十五减七等于八",
+    "targetSeconds": 1.306667,
+    "file": "44e6b7ce4bf2681b4103235a8a60f0b479503cd2a481c8f8d4eb4560d1a831ce.mp3"
+  },
+  "15减10等于5": {
+    "text": "十五减十等于五",
+    "targetSeconds": 1.306667,
+    "file": "4524ce55da26eafb9ac1021452d3f763e8677f375c8fef37a2d74c60580e5b3d.mp3"
+  },
+  "15减12等于3": {
+    "text": "十五减十二等于三",
+    "targetSeconds": 1.493333,
+    "file": "e3b3f52f6849024f98bb0800a25452e6c2f0a67309c84600ff552a109d8ceb28.mp3"
+  },
+  "15减13等于2": {
+    "text": "十五减十三等于二",
+    "targetSeconds": 1.493333,
+    "file": "0e59cfc55f85f7ae4cda8cef9d8d4c8e0ac228c832d46c1fffcb6e507743fe98.mp3"
+  },
+  "15减15等于0": {
+    "text": "十五减十五等于零",
+    "targetSeconds": 1.493333,
+    "file": "7d80d11765f3b5f46d19cfbc6668c255078d6cad4593b4857583a3833230de41.mp3"
+  },
+  "16减1等于15": {
+    "text": "十六减一等于十五",
+    "targetSeconds": 1.493333,
+    "file": "f1bee82c5592d0e4d424aeecfcf2b50dede4574f582f9fe3f8739fa6612bb73c.mp3"
+  },
+  "15减11等于4": {
+    "text": "十五减十一等于四",
+    "targetSeconds": 1.493333,
+    "file": "be03b3cdaf66f4d4fa7ca50a55577c692d9b9fac7be6c7ad2029d0ed6e0cf478.mp3"
+  },
+  "14减3等于11": {
+    "text": "十四减三等于十一",
+    "targetSeconds": 1.493333,
+    "file": "60cee407eb01123be15aad1b7f5d59ad720eff1e9da8310537e90121d9a4fd19.mp3"
+  },
+  "16加1等于17": {
+    "text": "十六加一等于十七",
+    "targetSeconds": 1.493333,
+    "file": "0b4b556575201a17dfc63a97b085ec7236fbd2ec3f2530f3819f69839f9f867d.mp3"
+  },
+  "14减9等于5": {
+    "text": "十四减九等于五",
+    "targetSeconds": 1.306667,
+    "file": "293686746d2bfa56c6f83d5303dd3b9ec70c92f8edb6dbc9c4a2026ab7804d05.mp3"
+  },
+  "15减14等于1": {
+    "text": "十五减十四等于一",
+    "targetSeconds": 1.493333,
+    "file": "c256ffb7cec90f5fc9af1cfa00fce582b141f3035f9ebb618d7d4421cd3c5ec3.mp3"
+  },
+  "16减0等于16": {
+    "text": "十六减零等于十六",
+    "targetSeconds": 1.493333,
+    "file": "b1346935e3d1050b8872eb481e393406923c7cecb6e7f293b6e23ed75860e5ca.mp3"
+  },
+  "16加4等于20": {
+    "text": "十六加四等于二十",
+    "targetSeconds": 1.493333,
+    "file": "2adc86d2a0a90543aa87d692196053d4c49399409fe3d275fc1681d7ac0ebf7f.mp3"
+  },
+  "14减14等于0": {
+    "text": "十四减十四等于零",
+    "targetSeconds": 1.493333,
+    "file": "061056787057ac6257f10314e34108e810a613defc69c4fad13a36cd0bf46450.mp3"
+  },
+  "16减3等于13": {
+    "text": "十六减三等于十三",
+    "targetSeconds": 1.493333,
+    "file": "aa1a51adebea209e358a34a6e4211a0e0333ce2100b21e14b65f595be9a0e2c4.mp3"
+  },
+  "16减4等于12": {
+    "text": "十六减四等于十二",
+    "targetSeconds": 1.493333,
+    "file": "f02b54faadfdb1cfd6861026013f4cee5504987db1aa7de28d4d5950957fd008.mp3"
+  },
+  "16减5等于11": {
+    "text": "十六减五等于十一",
+    "targetSeconds": 1.493333,
+    "file": "334cc75917320540929517df9660d2a419b96ecc3eaedb039506be5e2cdb4ec5.mp3"
+  },
+  "16加3等于19": {
+    "text": "十六加三等于十九",
+    "targetSeconds": 1.493333,
+    "file": "c43f6f205d8dd400534d859cf4301254bd705e5da6b9c278396d5511100b1947.mp3"
+  },
+  "16减7等于9": {
+    "text": "十六减七等于九",
+    "targetSeconds": 1.306667,
+    "file": "c5af8758886e9343a83efa8b244ab05e62bdeee50b6277922dae2af753961a05.mp3"
+  },
+  "16减2等于14": {
+    "text": "十六减二等于十四",
+    "targetSeconds": 1.493333,
+    "file": "a0e2507c3649bb5b2c4d8616c440ff79ca2242e1dc3bb561a3d5405977f3d2c1.mp3"
+  },
+  "15减3等于12": {
+    "text": "十五减三等于十二",
+    "targetSeconds": 1.493333,
+    "file": "e4afa1c6eeab1fc85d9e1108b117628d28cb62d8f1caf3979478e7c19a078e73.mp3"
+  },
+  "16减6等于10": {
+    "text": "十六减六等于十",
+    "targetSeconds": 1.306667,
+    "file": "fba7500facaea10a951589fb0eb32470395320e8a8651b5ea0ad2a7eac0b549c.mp3"
+  },
+  "16减10等于6": {
+    "text": "十六减十等于六",
+    "targetSeconds": 1.306667,
+    "file": "d555c735e9fe71f6ed5f48a424cb9109c4d3b5d4f95b398dbc0757ad535fd8d2.mp3"
+  },
+  "16减11等于5": {
+    "text": "十六减十一等于五",
+    "targetSeconds": 1.493333,
+    "file": "bd80558d45a1dce4ad0cfdb8afafe1cddd76fa14099e6386256cd6dc33505fc4.mp3"
+  },
+  "16减9等于7": {
+    "text": "十六减九等于七",
+    "targetSeconds": 1.306667,
+    "file": "a60043ab463a155b9283d46f013087697339a20a5d43d2460a3766909ac3ae3c.mp3"
+  },
+  "16减14等于2": {
+    "text": "十六减十四等于二",
+    "targetSeconds": 1.493333,
+    "file": "0adc854a12b00e0afd59f6cce697a3d6e1ebd00b072fc21d4be9b8bc83a12160.mp3"
+  },
+  "16减8等于8": {
+    "text": "十六减八等于八",
+    "targetSeconds": 1.306667,
+    "file": "f882a4c2e9a52378faf9e924fe382a55feb56a281663b355d874e910019439fc.mp3"
+  },
+  "16减13等于3": {
+    "text": "十六减十三等于三",
+    "targetSeconds": 1.493333,
+    "file": "2a4d7072c40ed3d5be8b34da67ce7ee16fadfcf84f24d2b83b3cf405c11a98bd.mp3"
+  },
+  "17加0等于17": {
+    "text": "十七加零等于十七",
+    "targetSeconds": 1.493333,
+    "file": "7000956c7c60c93c7a2d4de0fec5da17ee3e47f747b4ac6d3071dcf9a65da01d.mp3"
+  },
+  "16减12等于4": {
+    "text": "十六减十二等于四",
+    "targetSeconds": 1.493333,
+    "file": "b741a1963f35029534b99675d952104b7a933b54935861f844fffa27ca8a62ee.mp3"
+  },
+  "17减0等于17": {
+    "text": "十七减零等于十七",
+    "targetSeconds": 1.493333,
+    "file": "27ab6e32c0e896625b08cfce2d663485bf630ba514373e7355c77e391167ff6b.mp3"
+  },
+  "17加1等于18": {
+    "text": "十七加一等于十八",
+    "targetSeconds": 1.493333,
+    "file": "59435de7ff1a26f01238175983869d4c1d8940f5d14f49ff75cf1f89e238e4d4.mp3"
+  },
+  "16减16等于0": {
+    "text": "十六减十六等于零",
+    "targetSeconds": 1.493333,
+    "file": "b3f51f55c64d837c135227c2d989961e625bd1caf4fb2f7321af02463f67dc8a.mp3"
+  },
+  "16减15等于1": {
+    "text": "十六减十五等于一",
+    "targetSeconds": 1.493333,
+    "file": "09c7b2d3fc5b08e70cdd064a4de75962098c6970b6b393c5ddeaf81c8b118f86.mp3"
+  },
+  "16加0等于16": {
+    "text": "十六加零等于十六",
+    "targetSeconds": 1.493333,
+    "file": "2f1c9cf15f53fe12f2993a3fe214c9d19908172a2da6a635599fd7451ee57d77.mp3"
+  },
+  "17加3等于20": {
+    "text": "十七加三等于二十",
+    "targetSeconds": 1.493333,
+    "file": "e70c94ad28cb23845f603c1cf5e70cf3e5a29b5f0cd962adf5288c569f733bf8.mp3"
+  },
+  "17减1等于16": {
+    "text": "十七减一等于十六",
+    "targetSeconds": 1.493333,
+    "file": "114de30bd4b4a2ed25dfd577ef5be8894ac627faa863adaf4b1664527501837b.mp3"
+  },
+  "17减4等于13": {
+    "text": "十七减四等于十三",
+    "targetSeconds": 1.493333,
+    "file": "0809eee4f13509bef4a68facfa5645016fd795f78dfb1a796c70ac1b9e3aff30.mp3"
+  },
+  "17减2等于15": {
+    "text": "十七减二等于十五",
+    "targetSeconds": 1.493333,
+    "file": "3c1387d60dea4ecec70266a474762e6ab34834075e1b44ef050fffbce627ebf7.mp3"
+  },
+  "17减3等于14": {
+    "text": "十七减三等于十四",
+    "targetSeconds": 1.493333,
+    "file": "ee30dc1d468768e40e1ea84f9f0493f00bdd3a41956c7b082eb581f0fe60b1ee.mp3"
+  },
+  "17加2等于19": {
+    "text": "十七加二等于十九",
+    "targetSeconds": 1.493333,
+    "file": "bc69338c25ea92cc65c3dd73813c0bbdbbf940e9d3757280c51ff958d15d82b9.mp3"
+  },
+  "17减5等于12": {
+    "text": "十七减五等于十二",
+    "targetSeconds": 1.493333,
+    "file": "57cf34415e5574ec518abde4b381912c7a328ff5b2606c3500ccc4525b7cd657.mp3"
+  },
+  "17减9等于8": {
+    "text": "十七减九等于八",
+    "targetSeconds": 1.306667,
+    "file": "9c5531f959ab6285eac069388fac9969746751b7dc468c48b193f4419c865b76.mp3"
+  },
+  "17减10等于7": {
+    "text": "十七减十等于七",
+    "targetSeconds": 1.306667,
+    "file": "50629df89bbfc22ad497a2989dab8d6879f399554c446d4a408e2e7b1990598b.mp3"
+  },
+  "17减7等于10": {
+    "text": "十七减七等于十",
+    "targetSeconds": 1.306667,
+    "file": "a6205e511b38260ba61821f121ab86289505fc5a39e481b3e0a5dc7e9d96c55f.mp3"
+  },
+  "17减11等于6": {
+    "text": "十七减十一等于六",
+    "targetSeconds": 1.493333,
+    "file": "79b2a1996bfcd1708540e74b0134ecb454349434964a48595abe085f2aa02255.mp3"
+  },
+  "17减8等于9": {
+    "text": "十七减八等于九",
+    "targetSeconds": 1.306667,
+    "file": "518f5e840f311f3809abd881a61f097665b748108476ef5c16a2fca1ccc62a4f.mp3"
+  },
+  "16加2等于18": {
+    "text": "十六加二等于十八",
+    "targetSeconds": 1.493333,
+    "file": "3154a1ebc23308d86fea5054b81818f19ad99ed14ff41a5a2ae54de8b5bfcabc.mp3"
+  },
+  "17减6等于11": {
+    "text": "十七减六等于十一",
+    "targetSeconds": 1.493333,
+    "file": "c47b0f10003a03fcfecdbd28b55eaaf931d4976c56b2202169a51a76c6a35ac5.mp3"
+  },
+  "17减14等于3": {
+    "text": "十七减十四等于三",
+    "targetSeconds": 1.493333,
+    "file": "5e27c59c95bafb38e4380ca4ac6dd57c41feb2077093cb7226ce4f01142df331.mp3"
+  },
+  "17减12等于5": {
+    "text": "十七减十二等于五",
+    "targetSeconds": 1.493333,
+    "file": "5657106405a76b8d1a2bb5acf2bb3bb7e6a61c964ef83ee6663b0bb1d09a7bda.mp3"
+  },
+  "17减15等于2": {
+    "text": "十七减十五等于二",
+    "targetSeconds": 1.493333,
+    "file": "f0408e27fb38e72aaa45aa74eb4cb8abbf9bacf7560a67912c68307f92152085.mp3"
+  },
+  "18加0等于18": {
+    "text": "十八加零等于十八",
+    "targetSeconds": 1.493333,
+    "file": "052493fc455ad061af1e7fcaa04fe6488a6677e1d994074408aaf6bb6bdd7a70.mp3"
+  },
+  "18减1等于17": {
+    "text": "十八减一等于十七",
+    "targetSeconds": 1.493333,
+    "file": "3eb0cbacc506547e9e80925c5ec8289bfd94bbe7bfb01d547609fa537bcc3fdc.mp3"
+  },
+  "18减0等于18": {
+    "text": "十八减零等于十八",
+    "targetSeconds": 1.493333,
+    "file": "6d528d095b4164b9de39a80e052df8f45cebd976c9aeb0e07fe17bf593ca7fad.mp3"
+  },
+  "17减17等于0": {
+    "text": "十七减十七等于零",
+    "targetSeconds": 1.493333,
+    "file": "8df934a3709635944249ec805d1795a2671cc673ebd5cd5615686c78cee90552.mp3"
+  },
+  "18减2等于16": {
+    "text": "十八减二等于十六",
+    "targetSeconds": 1.493333,
+    "file": "c8de02149611c85614d6a38c81b709b904d7e06955b1d5bc738ee6636542cddb.mp3"
+  },
+  "18加2等于20": {
+    "text": "十八加二等于二十",
+    "targetSeconds": 1.493333,
+    "file": "590f8918dcc68e59a1255163a0a55ed5c490dbc2e3fa55cad5616e0ee0209cf3.mp3"
+  },
+  "17减16等于1": {
+    "text": "十七减十六等于一",
+    "targetSeconds": 1.493333,
+    "file": "10ca8b42cabe8f921e30cb37bc1225c02913ce211aadeadc807b3cca1a7421fc.mp3"
+  },
+  "18减3等于15": {
+    "text": "十八减三等于十五",
+    "targetSeconds": 1.493333,
+    "file": "2665a2ffd08d46d0efdbdfae6b8cfe8e6542efff502334fadb73e617d6cea10b.mp3"
+  },
+  "18减5等于13": {
+    "text": "十八减五等于十三",
+    "targetSeconds": 1.493333,
+    "file": "cef5eb07ffaaac985aa667bdb625abaea5e50eff5ea038b780e58431a1e3533d.mp3"
+  },
+  "18减4等于14": {
+    "text": "十八减四等于十四",
+    "targetSeconds": 1.493333,
+    "file": "38e053336ba7af5046ff7f7865df0f3f096e857e528c48b28ce5dbd7ad335574.mp3"
+  },
+  "17减13等于4": {
+    "text": "十七减十三等于四",
+    "targetSeconds": 1.493333,
+    "file": "9859a2f39eecc035479abf85f8ac80e18bdf94277fe451110b528d8933ab3cf0.mp3"
+  },
+  "18减6等于12": {
+    "text": "十八减六等于十二",
+    "targetSeconds": 1.493333,
+    "file": "c31240f0702b8cb18d20665b00f5fbe4a4e25efeb28ae5610f10ff5e8c16007c.mp3"
+  },
+  "18减8等于10": {
+    "text": "十八减八等于十",
+    "targetSeconds": 1.306667,
+    "file": "fdcddf64c591dcbb9a74571e9781c947f5a2529bfcd4a9356a77253b08b5471e.mp3"
+  },
+  "18减9等于9": {
+    "text": "十八减九等于九",
+    "targetSeconds": 1.306667,
+    "file": "ba893f8d651c5723369e317e09ea4946a27b14c786944105b079fa71d5130732.mp3"
+  },
+  "18减12等于6": {
+    "text": "十八减十二等于六",
+    "targetSeconds": 1.493333,
+    "file": "c122c767b5c25e4112b8a6185cca8648c0dfe8cf3977e38d1c034a86aa0a6419.mp3"
+  },
+  "18减15等于3": {
+    "text": "十八减十五等于三",
+    "targetSeconds": 1.493333,
+    "file": "f50d49f53692134536e53bac121c4da9083d6d582b375dc80070849bbfff3ed1.mp3"
+  },
+  "18减10等于8": {
+    "text": "十八减十等于八",
+    "targetSeconds": 1.306667,
+    "file": "d27a3132ec5f75e35da83e7940e85bffc7d1750ba1ccf719ebd897b6892be3d8.mp3"
+  },
+  "18减13等于5": {
+    "text": "十八减十三等于五",
+    "targetSeconds": 1.493333,
+    "file": "e45fb8ae4fc2ae4af3439bea4fd212826cb6979978c6a747828b5b7bd1b5b997.mp3"
+  },
+  "18减11等于7": {
+    "text": "十八减十一等于七",
+    "targetSeconds": 1.493333,
+    "file": "af740c3493cb8232a2e6d59b739dcd3ab29ca0760d0dfe0edb24dd5b6c59b3a7.mp3"
+  },
+  "18减18等于0": {
+    "text": "十八减十八等于零",
+    "targetSeconds": 1.493333,
+    "file": "70c1fbf74da5f885474dfb848be61dee72dbb8a952a81da1981b06de99e12a82.mp3"
+  },
+  "18减14等于4": {
+    "text": "十八减十四等于四",
+    "targetSeconds": 1.493333,
+    "file": "b1636cf758c914da688589baa4a9c498d6bcb29431aafe76a4044c2383f30bc9.mp3"
+  },
+  "18减16等于2": {
+    "text": "十八减十六等于二",
+    "targetSeconds": 1.493333,
+    "file": "b8dbbfd8aca63032666c58ad04bc9cc6fc69e6512d736d703c02ef086bf6c62e.mp3"
+  },
+  "18减17等于1": {
+    "text": "十八减十七等于一",
+    "targetSeconds": 1.493333,
+    "file": "57844f477bf12266fda890ac543c30dd488b0c62e4cf2d77c4a0a3d91bb90f3e.mp3"
+  },
+  "19加1等于20": {
+    "text": "十九加一等于二十",
+    "targetSeconds": 1.493333,
+    "file": "e43d58021e2ed0b65af13a04fe2f3f5739a2bbff9d688ff8dca6c86a866a3eeb.mp3"
+  },
+  "19加0等于19": {
+    "text": "十九加零等于十九",
+    "targetSeconds": 1.493333,
+    "file": "55c443bdda4d970faa9108f697218196beb74f134126fcfd2824b14808fa3c2c.mp3"
+  },
+  "19减3等于16": {
+    "text": "十九减三等于十六",
+    "targetSeconds": 1.493333,
+    "file": "b0124d66b29a916d4c8f456b7672963328914366ae30a8704950da6de40f7235.mp3"
+  },
+  "19减1等于18": {
+    "text": "十九减一等于十八",
+    "targetSeconds": 1.493333,
+    "file": "63c2e54b28c6017a2a367da188cc313c637f6e442b65441db4439cde980235ae.mp3"
+  },
+  "19减4等于15": {
+    "text": "十九减四等于十五",
+    "targetSeconds": 1.493333,
+    "file": "9fc7b34f80d9245b6b2521358b802426edbd433ed474b1de37f95d8c782af8cc.mp3"
+  },
+  "19减0等于19": {
+    "text": "十九减零等于十九",
+    "targetSeconds": 1.493333,
+    "file": "e63f1e1486202d7cc19ae449e078db926613b45ff141ce2990e24472f17645f4.mp3"
+  },
+  "19减6等于13": {
+    "text": "十九减六等于十三",
+    "targetSeconds": 1.493333,
+    "file": "956434b9cff1bb2385403e32f34d60d7346669450abc3105b16faec5ebc0d571.mp3"
+  },
+  "19减5等于14": {
+    "text": "十九减五等于十四",
+    "targetSeconds": 1.493333,
+    "file": "b768aaaff3c80ae63d3da29f06f0e6c95cdf4a9772b49c0c4de8101231f0f79f.mp3"
+  },
+  "19减7等于12": {
+    "text": "十九减七等于十二",
+    "targetSeconds": 1.493333,
+    "file": "4b7a2b3a3f955bfd41d51190eeebf9f07bf8ee49ae2275149157c9747fb9d277.mp3"
+  },
+  "19减2等于17": {
+    "text": "十九减二等于十七",
+    "targetSeconds": 1.493333,
+    "file": "259b318b90498b7b35b3a21168b2ad98d1a98b9e79a091900b268fb74097cc55.mp3"
+  },
+  "19减8等于11": {
+    "text": "十九减八等于十一",
+    "targetSeconds": 1.493333,
+    "file": "ae17cc93dda56eadb0549f6f8438eb6ede424bb58f89b158973d9371e85d3b64.mp3"
+  },
+  "19减10等于9": {
+    "text": "十九减十等于九",
+    "targetSeconds": 1.306667,
+    "file": "0ab25713c2c77e0a6c96ea1b4d436ce243c7e57884e8b4731c6239620d824d79.mp3"
+  },
+  "19减13等于6": {
+    "text": "十九减十三等于六",
+    "targetSeconds": 1.493333,
+    "file": "022e599ff96007609bdcbf4c85431fce626b443fd163f2d230fbf52a631c7d6e.mp3"
+  },
+  "19减11等于8": {
+    "text": "十九减十一等于八",
+    "targetSeconds": 1.493333,
+    "file": "5b7b920ef77de3d9921bce3dee598fa188a962998bab702c505de4e6c9b12d3f.mp3"
+  },
+  "19减12等于7": {
+    "text": "十九减十二等于七",
+    "targetSeconds": 1.493333,
+    "file": "f138caa00625fac6934b454e46d8d94da8c900fd3baf53b4509f2cd7ddc335f1.mp3"
+  },
+  "19减9等于10": {
+    "text": "十九减九等于十",
+    "targetSeconds": 1.306667,
+    "file": "262f7f2bd01d6b77d95a43fed19b242a4783feed044e1ecdaad1b7aecd83b807.mp3"
+  },
+  "19减15等于4": {
+    "text": "十九减十五等于四",
+    "targetSeconds": 1.493333,
+    "file": "d77265bbed82e2c8a0f5fdcc3e2a859502e402417a7ebb64978b7f23253e9267.mp3"
+  },
+  "19减14等于5": {
+    "text": "十九减十四等于五",
+    "targetSeconds": 1.493333,
+    "file": "b1f62c1b8284767b99fa1f5812a4468aaeee36a9b11f54fc73524ca65c0a0f87.mp3"
+  },
+  "18加1等于19": {
+    "text": "十八加一等于十九",
+    "targetSeconds": 1.493333,
+    "file": "c929d69b0767910614c01b74dd20520b804011b5fe67d4756dd1093918948e14.mp3"
+  },
+  "19减17等于2": {
+    "text": "十九减十七等于二",
+    "targetSeconds": 1.493333,
+    "file": "053c63053489117c0b7962cf26f526280ab898ebd421f21a3f37b1be586ecac7.mp3"
+  },
+  "20加0等于20": {
+    "text": "二十加零等于二十",
+    "targetSeconds": 1.493333,
+    "file": "b2b3f977444275e4ab75f2dcfe9717d87f010fbdacc53844ee7a4a277bad29ed.mp3"
+  },
+  "20减3等于17": {
+    "text": "二十减三等于十七",
+    "targetSeconds": 1.493333,
+    "file": "f651a52a6a2a433047ac5809dda36f0fa30d0c742de9d1f3ca1c3cde995188f1.mp3"
+  },
+  "19减19等于0": {
+    "text": "十九减十九等于零",
+    "targetSeconds": 1.493333,
+    "file": "f3cddfe548c4a6830769452cf162b84d85588957ddede2095332fca96abb320b.mp3"
+  },
+  "20减2等于18": {
+    "text": "二十减二等于十八",
+    "targetSeconds": 1.493333,
+    "file": "7e77f4b25d806729c810dfd99999614c3fd03b5c0ce5cfca0371e883f0ad3324.mp3"
+  },
+  "20减1等于19": {
+    "text": "二十减一等于十九",
+    "targetSeconds": 1.493333,
+    "file": "458e5deda739ef1b1c050b3996f2e5e68dca8e403ed341b764cf49aaf6cbb5b0.mp3"
+  },
+  "20减4等于16": {
+    "text": "二十减四等于十六",
+    "targetSeconds": 1.493333,
+    "file": "bfe6db37b9b8dde5d78e62e4a1c56b60a8fe794a0a5860a526cc51cf32c1f33a.mp3"
+  },
+  "19减18等于1": {
+    "text": "十九减十八等于一",
+    "targetSeconds": 1.493333,
+    "file": "e11a481d4802b68dc5e278acb0ce67e199db33165530b96f472a241831de12ee.mp3"
+  },
+  "20减0等于20": {
+    "text": "二十减零等于二十",
+    "targetSeconds": 1.493333,
+    "file": "aaa617e5f18021b0e34e25ceb7c395a094b91029c366a80086dc093740a066fe.mp3"
+  },
+  "18减7等于11": {
+    "text": "十八减七等于十一",
+    "targetSeconds": 1.493333,
+    "file": "9dca93c840954c46076c6344e8b650b954714636ad8f583e82710a0cabcc42db.mp3"
+  },
+  "20减7等于13": {
+    "text": "二十减七等于十三",
+    "targetSeconds": 1.493333,
+    "file": "a0ab3d1887cbe2d2441e2d6338505414d7abe9c399054c62faeb506c66c2041a.mp3"
+  },
+  "20减8等于12": {
+    "text": "二十减八等于十二",
+    "targetSeconds": 1.493333,
+    "file": "3933946d5a459034f3e6f602e8393a4c20d20609d6aff3d5b41ce6511242bcd2.mp3"
+  },
+  "20减10等于10": {
+    "text": "二十减十等于十",
+    "targetSeconds": 1.306667,
+    "file": "e1cc930bd7da80a4519796d1de6e6ccf12fd8bebc8429d85db642f8074eaffcd.mp3"
+  },
+  "20减12等于8": {
+    "text": "二十减十二等于八",
+    "targetSeconds": 1.493333,
+    "file": "18f9a3cd329db9f5905e23502b7cd1b7894ccf2be93742c7d4b805ea67028861.mp3"
+  },
+  "20减6等于14": {
+    "text": "二十减六等于十四",
+    "targetSeconds": 1.493333,
+    "file": "b81f4e26722090fa39a674453d1f2ffc929a47f3e8a45307b4d9f6ae47144ded.mp3"
+  },
+  "20减11等于9": {
+    "text": "二十减十一等于九",
+    "targetSeconds": 1.493333,
+    "file": "6afff712f29932c56c3cd0570522e3b607353a1c66b7f6b476a277329622f8d7.mp3"
+  },
+  "20减9等于11": {
+    "text": "二十减九等于十一",
+    "targetSeconds": 1.493333,
+    "file": "14fb7dabea4db26cdd310b55dd40757b77425fdbb7196c7014302af4c05764f5.mp3"
+  },
+  "20减14等于6": {
+    "text": "二十减十四等于六",
+    "targetSeconds": 1.493333,
+    "file": "7af0218de47cd3cd4e2d5c11aa4b743e1b5588ccbeeda769d3d1db302a4e202b.mp3"
+  },
+  "20减13等于7": {
+    "text": "二十减十三等于七",
+    "targetSeconds": 1.493333,
+    "file": "5550171bf23728161ff83418b60467f256957e24b520309ccbaab0d9232a2062.mp3"
+  },
+  "20减15等于5": {
+    "text": "二十减十五等于五",
+    "targetSeconds": 1.493333,
+    "file": "8dcd8c72f0d3da1a8f7dbe28f91f4aa22b137dd44dd22985833db78cf8f3d9bf.mp3"
+  },
+  "20减16等于4": {
+    "text": "二十减十六等于四",
+    "targetSeconds": 1.493333,
+    "file": "fd6ddfcc4554dbe919bcb85627056d6e8d58991031d852b33cafb5c1a1df4361.mp3"
+  },
+  "20减17等于3": {
+    "text": "二十减十七等于三",
+    "targetSeconds": 1.493333,
+    "file": "9f0ade9513df5b3b60340ce7495fa7a58baa8168b4a42bc007a4bf0269d81f3f.mp3"
+  },
+  "20减18等于2": {
+    "text": "二十减十八等于二",
+    "targetSeconds": 1.493333,
+    "file": "969baac89fade2fd5d2ebe5f22f700ef71c36806dc41633d11900b76b76a2fce.mp3"
+  },
+  "20减5等于15": {
+    "text": "二十减五等于十五",
+    "targetSeconds": 1.493333,
+    "file": "bf846ebc39bbb069f536e0cd3004547637b2253b53efa65d27916516a626ffb2.mp3"
+  },
+  "1": {
+    "text": "一",
+    "targetSeconds": 0.186667,
+    "file": "43d5bccce2c3033d1db4c096693b515192d2b837b62d337a9d5c33d891594af5.mp3"
+  },
+  "20减20等于0": {
+    "text": "二十减二十等于零",
+    "targetSeconds": 1.493333,
+    "file": "ce6b8aad1d78b509a322a0efda5329cfbaa394b3af46f7058275c882d89207dc.mp3"
+  },
+  "5": {
+    "text": "五",
+    "targetSeconds": 0.186667,
+    "file": "1d52b5fa3737aca1ae584aa2f2fc1a61fbc15a9bfd2d3cc9441e46a72491f127.mp3"
+  },
+  "3": {
+    "text": "三",
+    "targetSeconds": 0.186667,
+    "file": "d75603df4e9f2568eacb7fbda118da9d18a7a93d196c2f65e0f04f962d73bbb6.mp3"
+  },
+  "7": {
+    "text": "七",
+    "targetSeconds": 0.186667,
+    "file": "cb7565f4e5a714422ebf9a93093fed17ae4062ddd2b92106c0f7c057245222e7.mp3"
+  },
+  "2": {
+    "text": "二",
+    "targetSeconds": 0.186667,
+    "file": "296868063a1b60b3b24310a23420448e3af69c90098cccffe72d49a1e25e3447.mp3"
+  },
+  "20减19等于1": {
+    "text": "二十减十九等于一",
+    "targetSeconds": 1.493333,
+    "file": "1df62d7036ab3a281994b18d4f2ecce346007d3a19b57a7554c3fe84cf228cdb.mp3"
+  },
+  "0": {
+    "text": "零",
+    "targetSeconds": 0.186667,
+    "file": "dc0e2ce63d692260217802477fd3d18cc209ce5d9955e43981bbcc32e68d2962.mp3"
+  },
+  "4": {
+    "text": "四",
+    "targetSeconds": 0.186667,
+    "file": "ea4ad787596e5b4b52e489b8fe098f37ce76798a97eafcac8971d1c9df0a2b32.mp3"
+  },
+  "9": {
+    "text": "九",
+    "targetSeconds": 0.186667,
+    "file": "6e5e12659ff35d66a29b505b733032cbfc33157e7dc88092e1642ed396abec9d.mp3"
+  },
+  "10": {
+    "text": "十",
+    "targetSeconds": 0.186667,
+    "file": "314f1fbd06b88580a71d9e6b0df597154c2eb02e92b76ce28d8719e32f5e868b.mp3"
+  },
+  "11": {
+    "text": "十一",
+    "targetSeconds": 0.373333,
+    "file": "67ecf5875b13c71e5f65afcec89fdd475ebcafd5cae9cc8fb013b98bd9502829.mp3"
+  },
+  "6": {
+    "text": "六",
+    "targetSeconds": 0.186667,
+    "file": "d90726eaadf5d67056e3df0252d5d4f0583d0d0c6155f0a7e87ce62cd5e3af63.mp3"
+  },
+  "16": {
+    "text": "十六",
+    "targetSeconds": 0.373333,
+    "file": "ecaee3ead52798a9d5cebbce0cf6ec97b9c3cd944a034e6b48cb66a622fc2a76.mp3"
+  },
+  "14": {
+    "text": "十四",
+    "targetSeconds": 0.373333,
+    "file": "a07945de486c62c6f51dda1d6db990e037318e50c299330f34637596c9a4a5d2.mp3"
+  },
+  "13": {
+    "text": "十三",
+    "targetSeconds": 0.373333,
+    "file": "1804daa51266a8d97d0730f4a3c24f9be44a05b334016f6a6fca3b0298b385ad.mp3"
+  },
+  "17": {
+    "text": "十七",
+    "targetSeconds": 0.373333,
+    "file": "a3def67503261135abb07bafccd78cc3d40c4ca3234c94f28d7bc4a68a0fb06b.mp3"
+  },
+  "8": {
+    "text": "八",
+    "targetSeconds": 0.186667,
+    "file": "17afab646e3df5717d1184da0a092d9a50e36d1eae11510d193a45cb7e3fc9a3.mp3"
+  },
+  "18": {
+    "text": "十八",
+    "targetSeconds": 0.373333,
+    "file": "1841b63976a23bd3d073e352836f7c74cc71d24ce63504782f641011295e1309.mp3"
+  },
+  "19": {
+    "text": "十九",
+    "targetSeconds": 0.373333,
+    "file": "22a60fb8e09b99e360ae9d9a06c00ae59f58d328aacf076b99f621ce9480a54d.mp3"
+  },
+  "19减16等于3": {
+    "text": "十九减十六等于三",
+    "targetSeconds": 1.493333,
+    "file": "0b58db891f16d25186dd9f2aaf9162bfb9c94cf2ef3a9457767963336676a10b.mp3"
+  },
+  "加": {
+    "text": "加",
+    "targetSeconds": 0.186667,
+    "file": "fe28050f4356e522aa8e0b90d19e065e468ffed2e3ed491236a8715b4d9634f0.mp3"
+  },
+  "20": {
+    "text": "二十",
+    "targetSeconds": 0.373333,
+    "file": "8ccdb68ad452efc7a8d5ad9604918d7e73e6f3a4a943448d2f29229dab0f8aa7.mp3"
+  },
+  "15": {
+    "text": "十五",
+    "targetSeconds": 0.373333,
+    "file": "62d76e4fd9479f680fd6980369be3771874bafbb294b998ce86d2f81828613c9.mp3"
+  },
+  "减": {
+    "text": "减",
+    "targetSeconds": 0.186667,
+    "file": "fd75f82350f0e04c67919a113b99820a8bd2ae74cd9df6f9dcd6876ad67fa995.mp3"
+  },
+  "等于": {
+    "text": "等于",
+    "targetSeconds": 0.373333,
+    "file": "31049b06b8e6bb74cfac15cef682fd8fc2624fe36296f3d4fd5dda37df90fe14.mp3"
+  },
+  "几": {
+    "text": "几",
+    "targetSeconds": 0.186667,
+    "file": "80b6652daab8e0dfc79e74729143559e5c4005c75082bdee941af5c2c3c8d56b.mp3"
+  },
+  "12": {
+    "text": "十二",
+    "targetSeconds": 0.373333,
+    "file": "3873e8681c5a3cca4daa048d971ec17b10545793ab5f7b631a510fc8e9a00d8a.mp3"
+  }
+}

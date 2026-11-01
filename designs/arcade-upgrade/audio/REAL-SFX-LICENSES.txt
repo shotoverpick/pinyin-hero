@@ -1,0 +1,21 @@
+Balloon pop — Gniffelbaf; curated by AntumDeluge
+Original: https://freesound.org/s/82119/
+Download: https://opengameart.org/content/balloon-sounds
+License: CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+Changes: FLAC converted to mono 44.1 kHz MP3. Original speed and pitch retained.
+
+10 Guage Shotgun — Vincent (Vince) Sevedge
+Copyright (c) 2009 Vincent Sevedge
+Published by Tabasco: https://opengameart.org/content/gunshot-sounds
+Source file: sounds/shotty.wav
+The download page labels the collection CC0, but the archive's original
+creativecommons.txt states:
+
+Copyright (c) 2009 Vincent Sevedge
+
+Audio and Visual content is covered under the Creative Commons Attribution 3.0 Unported License
+http://creativecommons.org/licenses/by/3.0/
+
+This project follows that original CC BY 3.0 license and credits the author.
+Changes: stereo WAV converted to mono 44.1 kHz MP3, gain reduced 6 dB,
+final 90 ms faded out. Original speed and pitch retained. No endorsement implied.

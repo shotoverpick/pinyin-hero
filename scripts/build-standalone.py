@@ -1,12 +1,23 @@
 """将当前语文/数学源码打包为独立文件；合集共用一份老师配音。"""
 from pathlib import Path
-import json,re
+import json,re,base64,mimetypes
 ROOT=Path(__file__).resolve().parents[1]
 def script(name):
     return '<script>\n'+(ROOT/name).read_text().replace('</script','<\\/script')+'\n</script>'
+def stylesheet(name):
+    path=ROOT/name
+    css=path.read_text()
+    def inline(match):
+        asset=match[1].strip('\"\'')
+        if asset.startswith(('data:','http:','https:','#')):return match[0]
+        file=path.parent/asset
+        if not file.exists():raise FileNotFoundError(file)
+        mime=mimetypes.guess_type(str(file))[0] or 'application/octet-stream'
+        return 'url("data:'+mime+';base64,'+base64.b64encode(file.read_bytes()).decode()+'")'
+    return re.sub(r'url\(([^)]+)\)',inline,css)
 def bundle(name):
     html=(ROOT/name).read_text()
-    html=re.sub(r'<link rel="stylesheet" href="([^"]+)">',lambda m:'<style>\n'+(ROOT/m[1]).read_text()+'\n</style>',html)
+    html=re.sub(r'<link rel="stylesheet" href="([^"]+)">',lambda m:'<style>\n'+stylesheet(m[1].split('?')[0])+'\n</style>',html)
     html=re.sub(r'<script src="([^"]+)"></script>',lambda m:script(m[1].split('?')[0]),html)
     html=re.sub(r'  <script>\s*if \(\'serviceWorker\' in navigator[\s\S]*?</script>', '',html)
     return re.sub(r'  <link rel="manifest"[^>]+>\n','',html)

@@ -94,7 +94,7 @@
 
       // Audio 由共享配音播放器管理，不一定挂在 DOM 中。
       const inactiveFrame = isPinyin ? mathFrame : pinyinFrame;
-      try { inactiveFrame.contentWindow.TeacherVoice?.stop(); } catch (e) {}
+      try { inactiveFrame.contentWindow.TeacherVoice?.stop(); inactiveFrame.contentWindow.ArcadeFX?.stop(); } catch (e) {}
 
     }
 

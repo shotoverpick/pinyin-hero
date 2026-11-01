@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS = {
   voiceEngine: 'teacher',
   voiceProfileVersion: 3,
   rate: 0.9,
+  calculationRate: 1,
   gameSpeed: 'slow',
   autoHint: true,
   roundSize: 10,
@@ -96,14 +97,27 @@ function ensureAudioContext() {
 }
 
 function stopAllSpeech() { window.TeacherVoice.stop(); }
+function fastMathPlan(text) {
+  const value = mathToSpeechText(text).replace(/\s+/g, '');
+  const data = window.MATH_FAST_VOICE_DATA || {};
+  if (!/^\d{1,2}(?:(?:加|减)\d{1,2})+(?:等于(?:\d{1,2}|几))?[。！？!?.]?$/.test(value)) return null;
+  const key = value.replace(/[。！？!?.]$/, '');
+  if (data[key]) return [{uri: data[key], type: 'teacher'}];
+  const tokens = key.match(/\d+|等于|加|减|几/g) || [];
+  if (!tokens.length || tokens.some(token => !data[token])) return null;
+  return tokens.map(token => ({uri:data[token],type:'teacher'}));
+}
 function speak(text) {
   if (!S().sound || !text) return;
-  window.TeacherVoice.speak(mathToSpeechText(text), {
+  const fast = fastMathPlan(text);
+  const options = {
     enabled: () => S().sound,
-    rate: Math.max(0.7, Math.min(1.5, (S().rate || 0.9) / 0.9)),
+    rate: fast ? (S().calculationRate || 1) : Math.max(0.7, Math.min(1.5, (S().rate || 0.9) / 0.9)),
     onerror: () => toast('老师配音暂时无法播放，请再点一次 🔊'),
     onmissing: () => toast('这句老师配音尚未准备好')
-  });
+  };
+  if (fast) window.TeacherVoice.playSequence(fast, options);
+  else window.TeacherVoice.speak(mathToSpeechText(text), options);
 }
 
 function beep(notes, type = 'sine', vol = 0.22) {
@@ -130,8 +144,9 @@ const sfx = {
   ok: () => beep([[587, .1], [784, .12], [1047, .24]], 'triangle', 0.25),
   bad: () => beep([[220, .16], [175, .24]], 'square', 0.12),
   key: () => beep([[587, .04], [880, .055]], 'triangle', 0.26),
-  pop: () => beep([[620, .05], [940, .09]], 'triangle', 0.24),
-  cannon: () => beep([[140, .06], [75, .14], [520, .12]], 'sawtooth', 0.24),
+  pop: () => window.ArcadeFX?.sound('pop', S().sound),
+  balloonPop: () => window.ArcadeFX?.sound('balloon-pop', S().sound),
+  cannon: () => window.ArcadeFX?.sound('cannon', S().sound),
   step: () => beep([[523, .06], [659, .09]], 'triangle', 0.18),
   win: () => beep([[523, .14], [659, .14], [784, .14], [1047, .38]], 'triangle', 0.26),
 };
@@ -146,6 +161,7 @@ function go(render, ...args) {
   if (cleanup) { cleanup(); cleanup = null; }
   keyHandler = null;
   stopAllSpeech();
+  window.ArcadeFX?.stop();
   window.scrollTo(0, 0);
   render(...args);
 }
@@ -1915,7 +1931,8 @@ function generateArcadeItem(poolIds, excludeAnswers = []) {
       }
     }
     if (!excludeAnswers.includes(ans)) {
-      return { eq, ans, speak: `${eq}等于${ans}`, mistakeKey: mKey, eqDisplay: `${eq} = ${ans}` };
+      const solved = eq.includes('?') ? eq.replace('?', String(ans)) : `${eq} = ${ans}`;
+      return { eq, ans, speak: solved, mistakeKey: mKey, eqDisplay: solved };
     }
   }
   return { eq: '3 + 2', ans: 5, speak: '3加2等于5', mistakeKey: 'add:3+2', eqDisplay: '3 + 2 = 5' };
@@ -1996,6 +2013,7 @@ function balloonGame(opts) {
     const it = generateArcadeItem(opts.poolIds, usedAns);
     const el = document.createElement('div');
     el.className = 'balloon';
+    el.style.setProperty('--balloon-hue', Math.floor(Math.random() * 300) + 'deg');
     const color = pick(BALLOON_COLORS);
     el.innerHTML = `<div class="body" style="background:${color};border-color:${color}">
       <div class="eq-txt">${it.eq}</div>
@@ -2019,7 +2037,8 @@ function balloonGame(opts) {
     b.el.classList.add('pop');
     setTimeout(() => b.el.remove(), 280);
     G.score++;
-    sfx.pop();
+    sfx.balloonPop();
+    window.ArcadeFX?.hit(stage, b.el, 'pop', G.score);
     speak(b.it.speak);
     G.speed = Math.min(preset.max, preset.speed + G.score * preset.accel);
     G.interval = Math.max(preset.minInterval, preset.interval - G.score * 35);
@@ -2031,6 +2050,7 @@ function balloonGame(opts) {
     if (!G.running) return;
     const dt = Math.min(0.05, (t - (G.last || t)) / 1000);
     G.last = t;
+    if (window.ArcadeFX?.frozen(stage, t)) { G.raf = requestAnimationFrame(frame); return; }
     G.spawnT -= dt * 1000;
     if (G.spawnT <= 0 && G.balloons.length < preset.maxCount) {
       spawn();
@@ -2040,6 +2060,7 @@ function balloonGame(opts) {
     for (const b of G.balloons.slice()) {
       b.y += b.speed * dt;
       b.el.style.transform = `translateY(${-b.y}px)`;
+      b.el.style.left = (b.x + Math.sin(b.y / 80 + b.x) * 7) + 'px';
       if (b.y > H + 30) {
         G.balloons = G.balloons.filter(x => x !== b);
         b.el.remove();
@@ -2108,12 +2129,12 @@ function balloonGame(opts) {
 
   function begin() {
     $('#ov').classList.add('hidden');
-    G.running = true; G.last = 0; G.spawnT = 200;
+    G.running = true; window.ArcadeFX?.start(stage, 'pop', S().sound); G.last = 0; G.spawnT = 200;
     G.raf = requestAnimationFrame(frame);
   }
 
   function gameOver() {
-    G.running = false;
+    G.running = false; window.ArcadeFX?.stop();
     cancelAnimationFrame(G.raf);
     if (G.score > (save.balloonBest || 0)) save.balloonBest = G.score;
     const stars = G.score >= 22 ? 3 : G.score >= 12 ? 2 : G.score >= 5 ? 1 : 0;
@@ -2130,7 +2151,7 @@ function balloonGame(opts) {
 
   keyHandler = onKey;
   $('#goBtn').onclick = begin;
-  cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); };
+  cleanup = () => { G.running = false; window.ArcadeFX?.stop(); cancelAnimationFrame(G.raf); };
   drawHUD();
 }
 
@@ -2172,7 +2193,7 @@ function tankGame(opts) {
     <div class="tank-stage" id="stage">
       <div class="tank-danger-line"></div>
       <div class="player-base">
-        <div class="player-turret" id="turret"><div class="barrel"></div></div>
+        <div class="player-turret arcade-player" id="turret">${window.ArcadeFX.tank(true)}</div>
         <div class="base-wall">🏰 数学大本营</div>
       </div>
       <div class="overlay" id="ov"><div class="card center" style="max-width:460px">
@@ -2185,7 +2206,7 @@ function tankGame(opts) {
     ${S().showNumpad ? numpadHtml(maxNum) : ''}`;
 
   $('#quit').onclick = () => opts.back();
-  const stage = $('#stage'), turretEl = $('#turret');
+  const stage = $('#stage'), turretEl = $('#heroTurret') || $('#turret');
   let preset = (SPEED_PRESETS[S().gameSpeed] || SPEED_PRESETS.slow).tank;
   const G = { tanks: [], buf: '', score: 0, hearts: 5, running: false, last: 0, spawnT: 0, speed: preset.speed, interval: preset.interval, raf: 0, missed: [] };
 
@@ -2212,7 +2233,7 @@ function tankGame(opts) {
     const it = generateArcadeItem(opts.poolIds, usedAns);
     const el = document.createElement('div');
     el.className = 'enemy-tank';
-    el.innerHTML = `<div class="tank-body"><div class="eq-txt">${it.eq}</div></div><div class="enemy-gun"></div>`;
+    el.innerHTML = `<div class="tank-body"><div class="eq-txt">${it.eq}</div>${window.ArcadeFX.tank(false)}</div>`;
     let x, tries = 0;
     do { x = 14 + Math.random() * Math.max(40, W - 144); tries++; }
     while (tries < 12 && G.tanks.some(t => Math.abs(t.x - x) < 125 && t.y < 140));
@@ -2237,6 +2258,7 @@ function tankGame(opts) {
     G.tanks = G.tanks.filter(x => x !== t);
     const deg = aimTurretAt(t);
     sfx.cannon();
+    window.ArcadeFX?.recoil(stage);
     const W = stage.clientWidth, H = stage.clientHeight;
     const sx = W / 2 - 7, sy = H - 68;
     const tx = t.x + 51, ty = t.y + 45;
@@ -2251,6 +2273,7 @@ function tankGame(opts) {
     setTimeout(() => {
       shell.remove();
       t.el.classList.add('destroyed');
+      window.ArcadeFX?.hit(stage, t.el, 'tank', G.score);
       stage.classList.remove('boom-shake'); void stage.offsetWidth; stage.classList.add('boom-shake');
       const exp = document.createElement('div');
       exp.className = 'tank-explosion'; exp.textContent = '💥';
@@ -2277,6 +2300,7 @@ function tankGame(opts) {
     if (!G.running) return;
     const dt = Math.min(0.05, (now - (G.last || now)) / 1000);
     G.last = now;
+    if (window.ArcadeFX?.frozen(stage, now)) { G.raf = requestAnimationFrame(frame); return; }
     G.spawnT -= dt * 1000;
     if (G.spawnT <= 0 && G.tanks.length < preset.maxCount) { spawn(); G.spawnT = G.interval; }
     const dangerY = stage.clientHeight - 145;
@@ -2337,12 +2361,12 @@ function tankGame(opts) {
 
   function begin() {
     $('#ov').classList.add('hidden');
-    G.running = true; G.last = 0; G.spawnT = 250;
+    G.running = true; window.ArcadeFX?.start(stage, 'tank', S().sound); G.last = 0; G.spawnT = 250;
     G.raf = requestAnimationFrame(frame);
   }
 
   function gameOver() {
-    G.running = false;
+    G.running = false; window.ArcadeFX?.stop();
     cancelAnimationFrame(G.raf);
     if (G.score > (save.tankBest || 0)) save.tankBest = G.score;
     const stars = G.score >= 22 ? 3 : G.score >= 12 ? 2 : G.score >= 5 ? 1 : 0;
@@ -2359,7 +2383,7 @@ function tankGame(opts) {
 
   keyHandler = onKey;
   $('#goBtn').onclick = begin;
-  cleanup = () => { G.running = false; cancelAnimationFrame(G.raf); };
+  cleanup = () => { G.running = false; window.ArcadeFX?.stop(); cancelAnimationFrame(G.raf); };
   drawHUD();
 }
 
@@ -2706,7 +2730,9 @@ function settingsModal() {
       <select id="sVoice"><option value="teacher" selected>温柔女老师（统一 TTS 配音）</option>
       </select>
     </div>
-    <div class="setting-row"><span>🐢 朗读语速</span><input type="range" id="sRate" min="0.6" max="1.2" step="0.1" value="${s.rate}"></div>
+    <div class="setting-row"><span>⚡ 算式语速（标准档约 1.12 秒读完 1+1=2）</span><input type="range" id="sCalcRate" min="0.8" max="1.3" step="0.1" value="${s.calculationRate || 1}"></div>
+    <div class="setting-row"><span>算式配音试听</span><button class="btn small green" id="sCalcPreview">听 1 + 1 = 2</button></div>
+    <div class="setting-row"><span>🐢 讲解语速</span><input type="range" id="sRate" min="0.6" max="1.2" step="0.1" value="${s.rate}"></div>
     <div class="setting-row"><span>🎈 气球/坦克速度</span>${speedSelectHtml('sGameSpeed')}</div>
     <div class="setting-row"><span>🔢 显示屏幕数字键盘 (0~20)</span><label class="switch"><input type="checkbox" id="sNumpad" ${s.showNumpad ? 'checked' : ''}><span></span></label></div>
     <div class="setting-row"><span>💡 答错时自动展开聪聪图解提示</span><label class="switch"><input type="checkbox" id="sHint" ${s.autoHint ? 'checked' : ''}><span></span></label></div>
@@ -2721,10 +2747,12 @@ function settingsModal() {
     s.sound = $('#sSound').checked;
     s.voiceEngine = $('#sVoice').value;
     s.rate = +$('#sRate').value;
+    s.calculationRate = +$('#sCalcRate').value;
     s.gameSpeed = $('#sGameSpeed').value;
     s.showNumpad = $('#sNumpad').checked;
     s.autoHint = $('#sHint').checked;
     s.roundSize = +$('#sSize').value;
+    window.ArcadeFX?.setEnabled(s.sound);
     if (!s.sound) stopAllSpeech();
     const np = app.querySelector('.numpad');
     if (np) np.style.display = s.showNumpad ? '' : 'none';
@@ -2736,6 +2764,8 @@ function settingsModal() {
   $('#sSound').onchange = () => { syncAll(); if (s.sound) sfx.ok(); };
   $('#sVoice').onchange = () => { syncAll(); speak('小朋友你好，我是聪聪，快来一起玩数学游戏吧！'); };
   $('#sRate').onchange = () => { syncAll(); speak('你好，小朋友'); };
+  $('#sCalcRate').onchange = () => { syncAll(); speak('1+1=2'); };
+  $('#sCalcPreview').onclick = () => { syncAll(); speak('1+1=2'); };
   $('#sGameSpeed').onchange = syncAll;
   $('#sNumpad').onchange = syncAll;
   $('#sHint').onchange = syncAll;

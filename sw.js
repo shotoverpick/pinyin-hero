@@ -1,21 +1,29 @@
-const CACHE_NAME = 'xiaoyongshi-v16';
+const CACHE_NAME = 'xiaoyongshi-v19';
 const ASSETS = [
   './',
   './index.html',
   './all.html',
   './combo.html',
-  './style.css',
+  './style.css?v=arcade2-tones1',
   './data.js',
   './pinyin-audio-data.js?v=tts3',
   './teacher-voice-data.js?v=tts3',
   './teacher-voice-player.js?v=tts3',
-  './app.js?v=tts3',
+  './app.js?v=real-sfx1',
   './hanzi-writer.min.js',
   './hanzi-data.js',
   './math.html',
   './math-style.css',
   './math-data.js',
-  './math-app.js?v=tts3',
+  './math-app.js?v=real-sfx1',
+  './math-fast-voice-data.js?v=fast1',
+  './designs/arcade-upgrade/arcade-upgrade.css?v=arcade2',
+  './designs/arcade-upgrade/arcade-fx.js?v=real-sfx1',
+  './designs/arcade-upgrade/arcade-sound-data.js?v=real-sfx1',
+  './designs/arcade-upgrade/assets/duck-flight-v2.png',
+  './designs/arcade-upgrade/assets/tank-hull-v2.png',
+  './designs/arcade-upgrade/assets/tank-turret-v2.png',
+  './designs/arcade-upgrade/assets/balloon-v2.png',
   './manifest.json'
 ];
 
