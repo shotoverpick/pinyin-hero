@@ -41,5 +41,5 @@ function planText(text){
  return{segments,missing};
 }
 function speak(text,options={}){const plan=planText(text);if(plan.missing.length||!plan.segments.length){stop();options.onmissing?.(plan.missing);return;}playSequence(plan.segments,options);}
-window.TeacherVoice={stop,playSequence,planText,speak,getAudio};
+window.TeacherVoice={stop,playSequence,planText,speak,getAudio,refreshCatalog(){trie=null;catalog=null;}};
 })();

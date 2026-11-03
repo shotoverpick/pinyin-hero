@@ -42,6 +42,7 @@ function persist() {
   updateStarCount();
 }
 const S = () => save.settings;
+window.LearningTheme?.setSoundProvider(()=>S().sound);
 function totalStars() {
   return Object.values(save.stars).reduce((a, b) => a + b, 0) + (save.bonus || 0);
 }
@@ -1291,6 +1292,7 @@ function unitListScreen() {
     h += `</div></div>`;
   });
   app.innerHTML = h;
+  window.LearningTheme?.decorateHome(app);
   $('#backHome').onclick = () => { sfx.ok(); go(homeScreen); };
   app.querySelectorAll('.lesson-card').forEach(b => b.addEventListener('click', () => {
     const l = ALL_LESSONS.find(x => x.id === b.dataset.id);

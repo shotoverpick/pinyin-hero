@@ -69,6 +69,7 @@
       background: #b8ecff;
     }
   </style>
+<link rel="stylesheet" href="learning-theme.css?v=worlds1">
 </head>
 <body>
   <div class="switch-bar">
@@ -78,11 +79,13 @@
   <iframe id="pinyinFrame" class="game-frame" src="index.html?v=tts3" allow="autoplay"></iframe>
   <iframe id="mathFrame" class="game-frame" src="math.html?v=tts3" allow="autoplay" style="display:none"></iframe>
 
+  <script src="learning-theme.js?v=worlds1"></script>
   <script>
     const pinyinFrame = document.getElementById('pinyinFrame');
     const mathFrame = document.getElementById('mathFrame');
     const btnPinyin = document.getElementById('btnPinyin');
     const btnMath = document.getElementById('btnMath');
+    window.LearningTheme?.setSoundProvider(()=>{try{return (location.hash==='#math'?mathFrame:pinyinFrame).contentWindow.LearningTheme?.isSoundEnabled()??false;}catch{return false;}});
 
     function switchGame(which) {
       const isPinyin = which === 'pinyin';

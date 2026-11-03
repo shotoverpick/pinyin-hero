@@ -1,0 +1,455 @@
+[
+  {
+    "key": "yan4",
+    "chars": [
+      "雁"
+    ]
+  },
+  {
+    "key": "guang1",
+    "chars": [
+      "光"
+    ]
+  },
+  {
+    "key": "shen2",
+    "chars": [
+      "什"
+    ]
+  },
+  {
+    "key": "yan2",
+    "chars": [
+      "颜",
+      "沿"
+    ]
+  },
+  {
+    "key": "han4",
+    "chars": [
+      "汉"
+    ]
+  },
+  {
+    "key": "zen3",
+    "chars": [
+      "怎"
+    ]
+  },
+  {
+    "key": "cheng2",
+    "chars": [
+      "成",
+      "乘"
+    ]
+  },
+  {
+    "key": "han2",
+    "chars": [
+      "含"
+    ]
+  },
+  {
+    "key": "rang4",
+    "chars": [
+      "让"
+    ]
+  },
+  {
+    "key": "diao4",
+    "chars": [
+      "掉",
+      "调"
+    ]
+  },
+  {
+    "key": "biao1",
+    "chars": [
+      "标"
+    ]
+  },
+  {
+    "key": "ding4",
+    "chars": [
+      "定"
+    ]
+  },
+  {
+    "key": "tong1",
+    "chars": [
+      "通"
+    ]
+  },
+  {
+    "key": "dou1",
+    "chars": [
+      "都"
+    ]
+  },
+  {
+    "key": "sui2",
+    "chars": [
+      "随"
+    ]
+  },
+  {
+    "key": "bian4",
+    "chars": [
+      "便",
+      "变",
+      "遍"
+    ]
+  },
+  {
+    "key": "gai1",
+    "chars": [
+      "该"
+    ]
+  },
+  {
+    "key": "rong2",
+    "chars": [
+      "容"
+    ]
+  },
+  {
+    "key": "hai2",
+    "chars": [
+      "还"
+    ]
+  },
+  {
+    "key": "gen1",
+    "chars": [
+      "根",
+      "跟"
+    ]
+  },
+  {
+    "key": "chao2",
+    "chars": [
+      "朝"
+    ]
+  },
+  {
+    "key": "pai2",
+    "chars": [
+      "排",
+      "牌"
+    ]
+  },
+  {
+    "key": "biao3",
+    "chars": [
+      "表"
+    ]
+  },
+  {
+    "key": "mian4",
+    "chars": [
+      "面"
+    ]
+  },
+  {
+    "key": "zhai1",
+    "chars": [
+      "摘"
+    ]
+  },
+  {
+    "key": "ding3",
+    "chars": [
+      "顶"
+    ]
+  },
+  {
+    "key": "shua3",
+    "chars": [
+      "耍"
+    ]
+  },
+  {
+    "key": "jiao4",
+    "chars": [
+      "觉",
+      "较",
+      "叫"
+    ]
+  },
+  {
+    "key": "bian1",
+    "chars": [
+      "边",
+      "编"
+    ]
+  },
+  {
+    "key": "jiao3",
+    "chars": [
+      "脚",
+      "角"
+    ]
+  },
+  {
+    "key": "hai3",
+    "chars": [
+      "海"
+    ]
+  },
+  {
+    "key": "liao4",
+    "chars": [
+      "料"
+    ]
+  },
+  {
+    "key": "nuan3",
+    "chars": [
+      "暖"
+    ]
+  },
+  {
+    "key": "sui4",
+    "chars": [
+      "穗"
+    ]
+  },
+  {
+    "key": "miao2",
+    "chars": [
+      "描"
+    ]
+  },
+  {
+    "key": "pan2",
+    "chars": [
+      "盘"
+    ]
+  },
+  {
+    "key": "lie4",
+    "chars": [
+      "列"
+    ]
+  },
+  {
+    "key": "cun4",
+    "chars": [
+      "寸"
+    ]
+  },
+  {
+    "key": "mai3",
+    "chars": [
+      "买"
+    ]
+  },
+  {
+    "key": "lang4",
+    "chars": [
+      "浪"
+    ]
+  },
+  {
+    "key": "hen3",
+    "chars": [
+      "很"
+    ]
+  },
+  {
+    "key": "gui4",
+    "chars": [
+      "贵"
+    ]
+  },
+  {
+    "key": "zhuang4",
+    "chars": [
+      "状"
+    ]
+  },
+  {
+    "key": "tong2",
+    "chars": [
+      "同",
+      "童"
+    ]
+  },
+  {
+    "key": "fen1",
+    "chars": [
+      "分"
+    ]
+  },
+  {
+    "key": "gun3",
+    "chars": [
+      "滚"
+    ]
+  },
+  {
+    "key": "cheng1",
+    "chars": [
+      "称",
+      "撑"
+    ]
+  },
+  {
+    "key": "zong3",
+    "chars": [
+      "总"
+    ]
+  },
+  {
+    "key": "suan4",
+    "chars": [
+      "算"
+    ]
+  },
+  {
+    "key": "chao1",
+    "chars": [
+      "抄"
+    ]
+  },
+  {
+    "key": "lei4",
+    "chars": [
+      "类"
+    ]
+  },
+  {
+    "key": "tie1",
+    "chars": [
+      "贴"
+    ]
+  },
+  {
+    "key": "pan4",
+    "chars": [
+      "判"
+    ]
+  },
+  {
+    "key": "zeng1",
+    "chars": [
+      "增"
+    ]
+  },
+  {
+    "key": "gai3",
+    "chars": [
+      "改"
+    ]
+  },
+  {
+    "key": "jiao1",
+    "chars": [
+      "交"
+    ]
+  },
+  {
+    "key": "tai2",
+    "chars": [
+      "台",
+      "抬"
+    ]
+  },
+  {
+    "key": "luan4",
+    "chars": [
+      "乱"
+    ]
+  },
+  {
+    "key": "mang2",
+    "chars": [
+      "忙"
+    ]
+  },
+  {
+    "key": "zhui1",
+    "chars": [
+      "追"
+    ]
+  },
+  {
+    "key": "pao3",
+    "chars": [
+      "跑"
+    ]
+  },
+  {
+    "key": "tang3",
+    "chars": [
+      "躺"
+    ]
+  },
+  {
+    "key": "shen1",
+    "chars": [
+      "伸"
+    ]
+  },
+  {
+    "key": "gan4",
+    "chars": [
+      "干"
+    ]
+  },
+  {
+    "key": "cun2",
+    "chars": [
+      "存"
+    ]
+  },
+  {
+    "key": "cang2",
+    "chars": [
+      "藏"
+    ]
+  },
+  {
+    "key": "sou1",
+    "chars": [
+      "艘"
+    ]
+  },
+  {
+    "key": "dai4",
+    "chars": [
+      "带",
+      "袋"
+    ]
+  },
+  {
+    "key": "mao4",
+    "chars": [
+      "茂"
+    ]
+  },
+  {
+    "key": "zhuan3",
+    "chars": [
+      "转"
+    ]
+  },
+  {
+    "key": "nao3",
+    "chars": [
+      "脑"
+    ]
+  },
+  {
+    "key": "kao3",
+    "chars": [
+      "考"
+    ]
+  },
+  {
+    "key": "shei2",
+    "chars": [
+      "谁"
+    ]
+  }
+]

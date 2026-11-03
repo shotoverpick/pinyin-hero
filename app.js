@@ -184,6 +184,7 @@ function loadSave() {
 }
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} updateStarCount(); }
 const S = () => save.settings;
+window.LearningTheme?.setSoundProvider(()=>S().sound);
 function totalStars() { return Object.values(save.stars).reduce((a, b) => a + b, 0) + (save.bonus || 0); }
 function stickerCount() { return Math.min(STICKERS.length, Math.floor(totalStars() / 5)); }
 function updateStarCount() { $('#starCount').textContent = '⭐ ' + totalStars(); }
@@ -324,7 +325,11 @@ function speakItem(item) {
   if (!item) return;
   if (item.type === 'letter') speakPinyin(item.letter || item.plain);
   else if (item.type === 'syl') speakPinyin(item.plain, item.tone);
-  else speak(item.speak || item.char);
+  else if(item.type==='char' || item.char){
+    const py=item.py || toneText(item.plain,item.tone),uri=(window.QUESTION_CHARACTER_VOICE||{})[item.char+'|'+py];
+    if(uri){if(S().sound)playRecording(uri,()=>toast('请再点一次听读音'),{type:'pinyin'});}
+    else speakPinyin(item.plain,item.tone);
+  }else speak(item.speak || item.char);
 }
 
 // 中文讲解使用预生成的老师配音；混排拼音接回对应的教学录音。
@@ -556,6 +561,7 @@ function homeScreen() {
   setTitle('拼音小勇士');
   const mc = Object.keys(save.mistakes).length;
   app.innerHTML = `
+    ${window.LearningTheme?.heroHtml() || ''}
     <div class="hero">
       <h1>🦸 拼音小勇士</h1>
       <p>人教版（部编）《语文》一年级上册 · 课文、汉语拼音、识字表、写字表 100% 同步！</p>
@@ -586,6 +592,7 @@ function homeScreen() {
         </button>
       </div>
     </div>
+    <div class="row center" style="margin-bottom:18px"><button class="btn green" id="interestReading">🚗 汽车与我的世界 · 兴趣阅读</button></div>
     <div class="mode-grid">
       <button class="mode-card" style="background:linear-gradient(135deg,#5cc68d,#3aa876)" data-go="pinyin">
         <div class="emoji">🔤</div><h2>汉语拼音（14 课）</h2><p>第二～四单元 a o e 到 ang eng ing ong<br>含课本音节、看图词语、儿歌与生字</p><div class="big-bg">ɑoe</div>
@@ -617,6 +624,7 @@ function homeScreen() {
       <button class="btn blue" data-go="stickers">🏆 我的贴纸 (${stickerCount()}/${STICKERS.length})</button>
       <button class="btn gray" data-go="help">👨‍👩‍👦 家长说明</button>
     </div>`;
+  if ($('#interestReading')) $('#interestReading').onclick=()=>go(charListScreen,'课外阅读');
   const modeAnnounce = {
     pinyin: '汉语拼音',
     chars: '识字与阅读闯关',
@@ -703,7 +711,7 @@ function pinyinListScreen() {
     const l = PINYIN_LESSONS[i];
     sfx.ok();
     go(pinyinLessonScreen, i);
-    if (l) speak(i < 14 ? `第 ${i + 1} 课，${l.name}` : l.name);
+    if (l && !window.QUESTION_LEARNING?.['h'+(i+1)]) speak(i < 14 ? `第 ${i + 1} 课，${l.name}` : l.name);
   }));
   app.querySelectorAll('.lesson-card[data-char-id]').forEach(b => b.addEventListener('click', () => {
     const yl = ALL_LESSONS.find(x => x.id === b.dataset.charId);
@@ -726,7 +734,8 @@ function speakSyllable(sylStr) {
   speakPinyin(sylStr);
 }
 
-function pinyinLessonScreen(i) {
+function pinyinLessonScreen(i, original = false) {
+  if (!original && window.QUESTION_LEARNING?.['h'+(i+1)]) return questionLearningHome('h'+(i+1));
   const l = PINYIN_LESSONS[i];
   const charLesson = l.charLessonId ? ALL_LESSONS.find(x => x.id === l.charLessonId) : null;
   const charItems = charLesson ? LESSON_ITEMS[charLesson.id] : [];
@@ -847,7 +856,7 @@ function pinyinLessonScreen(i) {
   };
   app.querySelectorAll('.char-card[data-ci]').forEach(b => b.addEventListener('click', () => {
     sfx.pop();
-    speak(charItems[+b.dataset.ci].speak);
+    speakItem(charItems[+b.dataset.ci]);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
 
@@ -947,7 +956,8 @@ function charListScreen(filterCat) {
     ['汉语拼音', '🔤 汉语拼音栏目（第二～四单元）'],
     ['阅读', '📗 阅读栏目（第五、七、八单元）'],
     ['数学识字', '🔷 数学识字素材'],
-    ['试卷专项', '📝 试卷专项识字']
+    ['试卷专项', '📝 试卷专项识字'],
+    ['课外阅读', '🚗 课外兴趣阅读']
   ];
 
   let h = `<div class="screen-title">🏯 课本同步学习与闯关 <span class="sub">识字表 280 字 · 写字表 100 字 · 课文原文全收录</span></div>
@@ -986,15 +996,142 @@ function charListScreen(filterCat) {
     sfx.ok();
     if (l && (!l.items || !l.items.length) && l.pinyinLessonIdx !== undefined) {
       go(pinyinLessonScreen, l.pinyinLessonIdx);
-      if (l) speak(l.name);
+      if (l && !window.QUESTION_LEARNING?.[l.id]) speak(l.name);
     } else {
       go(charLessonScreen, b.dataset.id);
-      if (l) speak(l.name);
+      if (l && !window.QUESTION_LEARNING?.[l.id]) speak(l.name);
     }
   }));
 }
 
-function charLessonScreen(id) {
+// 题意理解练习：每次抽取一组题，原字卡与历史记录保持原样。
+// 逐字拼音与点读。点字只朗读，不会提交选项。
+function questionReading(text) {
+  const value=String(text),pinyin=(window.QUESTION_PINYIN||{})[value]||[];
+  let html='';
+  for(let i=0;i<value.length;i++){
+    const c=value[i],py=pinyin[i];
+    if(py){html+=`<button type="button" class="ql-read-char" data-read-char="${escapeHtml(c)}" data-read-py="${escapeHtml(py)}" aria-label="${escapeHtml(c+'，'+py)}"><ruby>${escapeHtml(c)}<rt>${escapeHtml(py)}</rt></ruby></button>`;}
+    else if(/[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/i.test(c)){
+      const token=value.slice(i).match(/^[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+[0-5]?/i)[0];
+      html+=`<button type="button" class="ql-read-syl" data-read-syl="${escapeHtml(token)}" aria-label="听拼音 ${escapeHtml(token)}">${escapeHtml(token)}</button>`;i+=token.length-1;
+    }else html+=`<span class="ql-reading-punctuation">${escapeHtml(c)}</span>`;
+  }
+  return `<span class="ql-reading">${html}</span>`;
+}
+function bindQuestionReading(root=app){
+  root.querySelectorAll('[data-read-char]').forEach(button=>button.onclick=e=>{
+    e.stopPropagation();const char=button.dataset.readChar,py=button.dataset.readPy;
+    const uri=(window.QUESTION_CHARACTER_VOICE||{})[char+'|'+py];
+    if(uri){if(S().sound)playRecording(uri,()=>toast('请再点一次听读音'),{type:'pinyin'});}
+    else{const parsed=parsePinyin(py);speakPinyin(parsed.plain,parsed.tone);}
+  });
+  root.querySelectorAll('[data-read-syl]').forEach(button=>button.onclick=e=>{e.stopPropagation();speakPinyin(button.dataset.readSyl);});
+}
+function questionPicture(visual){
+ if(!visual)return '';
+ return `<div class="ql-picture"><div class="ql-picture-caption">${questionReading(visual.caption||'看图想一想')}</div><div class="ql-picture-items ${escapeHtml(visual.layout||'cards')}">${visual.items.map(item=>`<figure class="ql-figure">${window.QuestionIllustrations?.render(item.symbol)||''}${item.label?`<figcaption>${questionReading(item.label)}</figcaption>`:''}</figure>`).join('')}</div></div>`;
+}
+function questionTheme(unit){return unit.extracurricular?(unit.icon==='🚗'?'cars':'blocks'):(window.LearningTheme?.get()||'cars');}
+function questionLearningHome(id, chapterId) {
+  const unit = window.QUESTION_LEARNING[id];
+  const chapter=unit.chapters.find(c=>c.id===chapterId)||unit.chapters[0];
+  const theme=questionTheme(unit);
+  setTitle(unit.title);
+  const groups = [...new Set(unit.questions.map(q => q.group))];
+  const items = LESSON_ITEMS[id] || [];
+  const chapterText=[...(chapter.words||[]),...(chapter.story||[])].join('');
+  const pool=items.filter(item=>chapterText.includes(item.char));
+  const lessonItems=pool.length?pool:items;
+  const writingItems = lessonItems.filter(item => (window.HANZI_STROKE_DATA || {})[item.char]);
+  const story=chapter.themeStories?.[theme]||chapter.story||[];
+  const pinyinIndex=unit.pinyinLessonIdx;
+  app.innerHTML = `<div class="ql-shell ql-home" data-unit="${escapeHtml(id)}" data-chapter="${escapeHtml(chapter.id)}">
+    <div class="ql-breadcrumb"><button class="btn small gray" id="ql-back">← 返回单元目录</button><span>${escapeHtml(unit.sourceUnit||unit.title)}</span><span>→ ${escapeHtml(chapter.name)}</span></div>
+    <div class="ql-home-heading"><div class="ql-unit-icon">${window.QuestionIllustrations?.render(theme==='cars'?'car':'pixel-house')}</div><div><div class="ql-eyebrow">${theme==='cars'?'汽车学习城 · 知识加油站':'方块学习世界 · 小小建造师'}</div><h1>${escapeHtml(unit.title)}</h1><p>${escapeHtml(unit.subtitle)}</p></div></div>
+    ${unit.chapters.length>1?`<div class="ql-chapters" aria-label="选择章节">${unit.chapters.map((c,i)=>`<button class="ql-chapter" data-chapter-choice="${escapeHtml(c.id)}" aria-pressed="${c.id===chapter.id}"><span class="ql-chapter-num">第 ${i+1} 站 · ${unit.questions.filter(q=>q.chapter===c.id).length} 题</span><strong>${escapeHtml(c.name)}</strong><small>${escapeHtml(c.page)}</small></button>`).join('')}</div>`:''}
+    <div class="ql-theme-scene">${window.QuestionIllustrations?.render(theme==='cars'?'car':'grass-block')}<span>${escapeHtml(chapter.name)} · 今天只练这一章</span></div>
+    ${story.length?`<section class="ql-story"><div class="ql-story-header"><h2>📖 ${chapter.themeStories?'主题改编小故事':'先读一读'}</h2><span class="ql-reading-help">点一个字，读一个字</span></div><p class="ql-reading-help">每个字上方有拼音，点一下字就能听读音。</p>${story.map(line=>`<p class="ql-story-line">${questionReading(line)}</p>`).join('')}${chapter.storyVisual?questionPicture(chapter.storyVisual):''}</section>`:''}
+    <div class="ql-word-strip">${(chapter.words||[]).map(word=>`<div class="ql-word">${questionReading(word)}</div>`).join('')}</div>
+    <div class="ql-modes">${groups.map((group, i) => `<button class="ql-mode" data-group="${i}"><span class="ql-mode-icon">${i?'🌟':'🔎'}</span><strong>${escapeHtml(group)}</strong><span>${i?'读懂内容，学习知识':'认识题目在说什么'}</span><span class="ql-mode-count">本章 ${unit.questions.filter(q=>q.group===group&&q.chapter===chapter.id).length} 题 · 本单元共 ${unit.questions.filter(q=>q.group===group).length} 题</span><b>抽 4 题，练一练 →</b></button>`).join('')}</div>
+    <div class="ql-section-title">✏️ 本章字音与书写</div>
+    <div class="ql-skills"><button class="ql-skill" id="ql-pinyin"><b>🔤 拼音闯关</b><span>听读音、拼字母</span></button><button class="ql-skill" id="ql-tone"><b>🎵 声调练习</b><span>分清一二三四声</span></button><button class="ql-skill" id="ql-write" ${writingItems.length?'':'disabled'}><b>🖌️ 田字格手写</b><span>${writingItems.length?`本章 ${writingItems.length} 字可描红`:'本课先练拼音认读'}</span></button></div>
+    <button class="btn blue ql-library" id="ql-library">📚 打开原课内容、字卡与练习</button>
+    <p class="ql-source">${escapeHtml(chapter.page)}${chapter.themeStories?' · 兴趣故事为原创改编，学习目标与原课一致。':''}</p>
+    ${chapter.sources?`<p class="ql-source">资料参考：${chapter.sources.map(s=>`<a target="_blank" rel="noopener" href="${escapeHtml(s.url)}">${escapeHtml(s.title)}</a>`).join(' · ')}。短文为项目原创启蒙读物。</p>`:''}
+  </div>`;
+  $('#ql-back').onclick = () => go(charListScreen,unit.extracurricular?'课外阅读':currentCharFilter);
+  $('#ql-library').onclick = () => pinyinIndex!==undefined?go(pinyinLessonScreen,pinyinIndex,true):go(charLessonScreen,id,true);
+  const back=()=>go(questionLearningHome,id,chapter.id);
+  $('#ql-pinyin').onclick = () => pinyinIndex!==undefined
+    ?go(startRound,{title:'本课拼音闯关',items:PINYIN_LESSONS[pinyinIndex].items.map(letterItem),requireTone:false,starKey:'letter:'+PINYIN_LESSONS[pinyinIndex].id,back})
+    :go(startRound,{title:'本章拼音闯关',items:roundItems(lessonItems),requireTone:true,starKey:'char:'+id,back});
+  $('#ql-tone').onclick = () => {const tones=pinyinIndex!==undefined?sylItemsFor(pinyinIndex):lessonItems.filter(item=>item.tone);go(startToneRound,{title:'本章声调练习',items:roundItems(tones),starKey:'tone:'+id,back});};
+  $('#ql-write').onclick=()=>go(hanziWriteScreen,{title:'本章田字格手写',items:writingItems,startIdx:0,starKey:'write:'+id,back});
+  app.querySelectorAll('[data-chapter-choice]').forEach(b=>b.onclick=()=>go(questionLearningHome,id,b.dataset.chapterChoice));
+  app.querySelectorAll('[data-group]').forEach(b=>b.onclick=()=>startQuestionChapter(id,chapter.id,groups[Number(b.dataset.group)]));
+  bindQuestionReading();
+}
+function startQuestionChapter(id,chapterId,group){
+ const unit=window.QUESTION_LEARNING[id],theme=questionTheme(unit);
+ const questions=shuffle(unit.questions.filter(q=>q.chapter===chapterId&&q.group===group)).slice(0,4).sort((a,b)=>(a.level||1)-(b.level||1)).map(q=>({...q,prompt:q.variants?.[theme]?.prompt||q.prompt,theme,choices:shuffle(q.options.map((text,index)=>({text,correct:index===q.answer})))}));
+ go(questionLearningRound,id,group,questions,0,0);
+}
+let lastEncouragement = '';
+function learningPraise(kind) {
+  const pool = (window.QUESTION_ENCOURAGEMENT || {})[kind] || ['答对啦！'];
+  const choices = pool.filter(text => text !== lastEncouragement);
+  const text = choices[Math.floor(Math.random() * choices.length)] || pool[0];
+  lastEncouragement = text;
+  return text;
+}
+function questionLearningRound(id, group, questions, index, correctCount) {
+  const q=questions[index],unit=window.QUESTION_LEARNING[id],chapter=unit.chapters.find(c=>c.id===q.chapter);
+  let answered=false,missed=false;
+  setTitle(chapter.name+' · '+group);
+  app.innerHTML=`<div class="ql-shell ql-round">
+    <div class="ql-round-head"><button class="btn small gray" id="ql-quit">← 返回本章</button><span>${escapeHtml(chapter.name)} · ${escapeHtml(group)}</span><b>${index+1} / ${questions.length}</b></div>
+    <div class="ql-star-trail" aria-label="完成一题，点亮一颗星">${questions.map((_,i)=>`<span class="${i<index?'lit':''}" data-star="${i}">${i<index?'⭐':'☆'}</span>`).join('')}<small>认真练一题，点亮一颗星</small></div>
+    <div class="ql-progress" aria-label="练习进度"><span style="width:${100*(index+1)/questions.length}%"></span></div>
+    <div class="ql-theme-scene">${window.QuestionIllustrations?.render(q.theme==='cars'?'car':'grass-block')}<span>${q.theme==='cars'?'汽车学习卡':'方块学习牌'} · ${escapeHtml(q.skill)}</span></div>
+    <div class="ql-stimulus"><div class="ql-question"><div class="ql-question-label">🔎 自己读题，仔细看图</div><h2>${questionReading(q.prompt)}</h2><p class="ql-reading-help">点字听读音；选好后，点“选这个”。</p></div>
+    ${questionPicture(q.visual)}</div>
+    <div class="ql-options">${q.choices.map((c,i)=>`<div class="ql-option-row"><div class="ql-choice-panel" data-choice-panel="${i}"><div class="ql-option-reading">${questionReading(c.text)}</div><button class="ql-choice" data-choice="${i}" aria-label="选择${String.fromCharCode(65+i)}：${escapeHtml(c.text)}">${String.fromCharCode(65+i)}<br>选这个</button></div></div>`).join('')}</div>
+    ${(chapter.originalStory||chapter.story||[]).length?`<details class="ql-reference"><summary>📖 回看本章课文或故事（点字听读）</summary>${(chapter.originalStory||chapter.story).map(line=>`<p class="ql-story-line">${questionReading(line)}</p>`).join('')}</details>`:''}
+    <div class="ql-actions"><button class="btn small orange" id="ql-hint">💡 我需要提示</button></div>
+    <div class="ql-feedback" id="ql-feedback" role="status" aria-live="polite"></div>
+    <button class="btn green ql-next hidden" id="ql-next">下一题 →</button>
+  </div>`;
+  const showHint=()=>{const feedback=$('#ql-feedback');feedback.className='ql-feedback hint';feedback.innerHTML='💡 '+questionReading(q.hint);bindQuestionReading(feedback);};
+  $('#ql-quit').onclick=()=>go(questionLearningHome,id,q.chapter);
+  $('#ql-hint').onclick=()=>{if(!answered)showHint();};
+  app.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{
+    if(answered)return;
+    const n=Number(b.dataset.choice),c=q.choices[n],feedback=$('#ql-feedback');
+    if(!c.correct){window.LearningTheme?.play('tap');missed=true;app.querySelector(`[data-choice-panel="${n}"]`).classList.add('try-again');showHint();return;}
+    answered=true;app.querySelector(`[data-choice-panel="${n}"]`).classList.add('correct');
+    const praiseText=learningPraise(missed?'retry':'first');feedback.className='ql-feedback success';
+    feedback.innerHTML='<strong class="ql-praise">🌟 '+escapeHtml(praiseText)+'</strong>'+questionReading(q.explain);bindQuestionReading(feedback);
+    const star=app.querySelector(`[data-star="${index}"]`);star.textContent='⭐';star.classList.add('lit','new-star');
+    if(!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)confetti(8);
+    window.LearningTheme?.play('correct');speak(praiseText);
+    app.querySelectorAll('[data-choice]').forEach(choice=>choice.disabled=true);
+    const next=$('#ql-next');next.classList.remove('hidden');next.textContent=index+1===questions.length?'完成啦 →':'下一题 →';
+    next.onclick=()=>{const count=correctCount+(missed?0:1);if(index+1<questions.length)go(questionLearningRound,id,group,questions,index+1,count);else go(questionLearningFinish,id,group,count,questions.length,q.chapter);};
+  });
+  bindQuestionReading();
+}
+function questionLearningFinish(id,group,correct,total,chapterId){
+  setTitle('练习完成');const finishPraise=learningPraise('finish');
+  app.innerHTML=`<div class="ql-shell"><div class="ql-finish"><div class="ql-icon">🎉</div><h1>你完成啦！</h1><div class="ql-finish-stars">${'⭐'.repeat(total)}</div><p class="ql-finish-praise">${escapeHtml(finishPraise)}</p><p>一共练了 ${total} 题，其中 ${correct} 题一次选对。</p><p>遇到不认识的字，可以回去再听一听。</p><button class="btn green" id="ql-again">本章再练一组</button> <button class="btn blue" id="ql-home">返回本章</button></div></div>`;
+  $('#ql-again').onclick=()=>startQuestionChapter(id,chapterId,group);
+  $('#ql-home').onclick=()=>go(questionLearningHome,id,chapterId);
+  speak(finishPraise);
+}
+window.addEventListener('learning-theme-change',()=>{const home=app.querySelector('.ql-home');if(home)go(questionLearningHome,home.dataset.unit,home.dataset.chapter);});
+
+function charLessonScreen(id, original = false) {
+  if (!original && window.QUESTION_LEARNING?.[id]) return questionLearningHome(id);
   const l = ALL_LESSONS.find(x => x.id === id);
   const items = LESSON_ITEMS[id] || [];
   const writeSet = new Set((l.writeChars || []).map(w => w.split(' ')[0]));
@@ -1112,10 +1249,10 @@ function charLessonScreen(id) {
   }));
   app.querySelectorAll('.char-card[data-i]').forEach(b => b.addEventListener('click', () => {
     sfx.pop();
-    speak(items[+b.dataset.i].speak);
+    speakItem(items[+b.dataset.i]);
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
-  const back = () => go(charLessonScreen, id);
+  const back = () => go(charLessonScreen, id, true);
   app.querySelectorAll('.write-card[data-wi]').forEach(b => b.addEventListener('click', () => {
     const wi = +b.dataset.wi;
     const it = writeItems[wi];
@@ -1334,7 +1471,7 @@ function hanziWriteScreen(opts) {
     });
 
     startQuiz(totalStrokes, it);
-    setTimeout(() => speakItem(it), 200);
+
   }
 
   function startQuiz(totalStrokes, it) {
@@ -1419,8 +1556,8 @@ function hanziWriteScreen(opts) {
     if (writer && writer._quiz) writer._quiz._hanziWriter.highlightStroke(writer._quiz._currentStrokeIndex);
   };
   $('#btnRedo').onclick = () => { sfx.del(); loadChar(); };
-  $('#prevChar').onclick = () => { if (idx > 0) { sfx.key(); idx--; loadChar(); speak(items[idx].speak); } };
-  $('#nextChar').onclick = () => { if (idx < items.length - 1) { sfx.key(); idx++; loadChar(); speak(items[idx].speak); } };
+  $('#prevChar').onclick = () => { if (idx > 0) { sfx.key(); idx--; loadChar(); } };
+  $('#nextChar').onclick = () => { if (idx < items.length - 1) { sfx.key(); idx++; loadChar(); } };
 
   loadChar();
 }
@@ -1516,8 +1653,7 @@ function showQuestion() {
     ? `声调：<span class="k" style="color:var(--t1)">ˉ</span>一声 <span class="k" style="color:var(--t2)">ˊ</span>二声 <span class="k" style="color:var(--t3)">ˇ</span>三声 <span class="k" style="color:var(--t4)">ˋ</span>四声${it.tone === 0 ? '　（这个字读<b>轻声</b>，点 <span class="k">轻声</span>）' : ''}`
     : '';
   updateAnswer();
-  const questionSeq = speakSeq;
-  setTimeout(() => { if (questionSeq === speakSeq && R && R.items[R.idx] === it) speakItem(it); }, 250);
+
 }
 
 function updateAnswer() {
@@ -1585,11 +1721,11 @@ function check() {
     if (R.wrong === 0) { R.firstTry++; if (R.isReview) reduceMistake(it); }
     ans.className = 'answer-box ok';
     ans.innerHTML = renderPy(it.plain, R.requireTone ? it.tone : null);
-    fb.className = 'feedback ok'; fb.textContent = '🎉 ' + praise();
+    const praiseText=praise();
+    fb.className = 'feedback ok'; fb.textContent = '🎉 ' + praiseText;
     highlightKey(null);
     sfx.ok();
-    if (it.type === 'char') speakPinyin(it.plain, it.tone);
-    else speakItem(it);
+    speak(praiseText);
     setTimeout(() => { R.idx++; R.idx >= R.items.length ? finishRound() : showQuestion(); }, 1500);
     return;
   }
@@ -1600,7 +1736,6 @@ function check() {
   if (okL) {
     fb.innerHTML = '拼音对啦！👍 声调再想想，听一听 🔊';
     R.tone = null;
-    speakItem(it);
   } else {
     fb.textContent = R.wrong >= 2 ? '没关系，看看提示，照着打一遍 💪' : '不对哦，再试一次 💪';
     R.buf = ''; R.tone = null;
@@ -1719,8 +1854,7 @@ function toneQuestion() {
   $('#q .tzg')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
   $('#q .bigpy')?.addEventListener('click', () => { sfx.pop(); speakItem(it); });
   $('#fb').textContent = ''; $('#fb').className = 'feedback';
-  const questionSeq = speakSeq;
-  setTimeout(() => { if (questionSeq === speakSeq && R && R.items[R.idx] === it) speakItem(it); }, 250);
+
 }
 function toneAnswer(t) {
   if (R.locked) return;
@@ -1731,7 +1865,7 @@ function toneAnswer(t) {
     if (R.wrong === 0) R.firstTry++;
     $('#tpy').innerHTML = renderPy(it.plain, it.tone, `tone-color t${it.tone}`);
     fb.className = 'feedback ok'; fb.textContent = `🎉 ${praise()} 是${TONE_NAMES[t]}的第 ${t} 声！`;
-    sfx.ok(); speakItem(it);
+    sfx.ok(); speak(praise());
     setTimeout(() => { R.idx++; R.idx >= R.items.length ? finishToneRound() : toneQuestion(); }, 1500);
   } else {
     R.wrong++;
@@ -1739,7 +1873,7 @@ function toneAnswer(t) {
     fb.className = 'feedback bad';
     fb.textContent = R.wrong >= 2 ? `提示：它是「${TONE_NAMES[it.tone]}」哦` : '再听一听 👂';
     if (R.wrong === 2 && it.id) addMistake(it);
-    setTimeout(() => speakItem(it), 300);
+
   }
 }
 function finishToneRound() {
@@ -3086,7 +3220,7 @@ function mistakesScreen() {
   app.innerHTML = h;
   app.querySelectorAll('.char-card').forEach(b => b.addEventListener('click', () => {
     sfx.pop();
-    speak(charItem(b.dataset.s).speak);
+    speakItem(charItem(b.dataset.s));
     b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
   }));
   if (list.length) {
