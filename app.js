@@ -98,7 +98,19 @@ function charItem(s) {
 }
 const LESSON_ITEMS = {};
 ALL_LESSONS.forEach(l => { LESSON_ITEMS[l.id] = (l.items || []).map(charItem); });
-const ALL_CHAR_ITEMS = ALL_LESSONS.flatMap(l => LESSON_ITEMS[l.id]);
+// 专项分类引用已有字卡；仅在相同读音不存在时创建新记录。
+const sharedCharItems = new Map();
+ALL_LESSONS.filter(l => !l.reuseItems).forEach(l => LESSON_ITEMS[l.id].forEach(item => {
+  if (!sharedCharItems.has(item.id)) sharedCharItems.set(item.id, item);
+}));
+ALL_LESSONS.filter(l => l.reuseItems).forEach(l => {
+  LESSON_ITEMS[l.id] = l.reuseItems.map(raw => {
+    const item = charItem(raw);
+    if (!sharedCharItems.has(item.id)) sharedCharItems.set(item.id, item);
+    return sharedCharItems.get(item.id);
+  });
+});
+const ALL_CHAR_ITEMS = ALL_LESSONS.filter(l => !l.unit.supplemental).flatMap(l => LESSON_ITEMS[l.id]);
 
 // 为音节提供自然的汉字拟音（用于课本拼读音节表发声与练习）
 const SYL_SPEAK_MAP = {};
@@ -933,7 +945,9 @@ function charListScreen(filterCat) {
     ['all', '📚 全部课本单元（第一～八单元）'],
     ['识字', '📖 识字栏目（第一、六单元）'],
     ['汉语拼音', '🔤 汉语拼音栏目（第二～四单元）'],
-    ['阅读', '📗 阅读栏目（第五、七、八单元）']
+    ['阅读', '📗 阅读栏目（第五、七、八单元）'],
+    ['数学识字', '🔷 数学识字素材'],
+    ['试卷专项', '📝 试卷专项识字']
   ];
 
   let h = `<div class="screen-title">🏯 课本同步学习与闯关 <span class="sub">识字表 280 字 · 写字表 100 字 · 课文原文全收录</span></div>
@@ -943,7 +957,7 @@ function charListScreen(filterCat) {
 
   CHAR_UNITS.filter(u => cat === 'all' || u.category === cat).forEach(u => {
     h += `<div class="unit">
-      <div class="unit-title" style="background:${u.color}">${u.unit} <span style="opacity:.85;font-size:14px;font-weight:600">（课本「${u.category}」栏目）</span></div>
+      <div class="unit-title" style="background:${u.color}">${u.unit} <span style="opacity:.85;font-size:14px;font-weight:600">（${u.supplemental ? '拓展素材' : '课本「' + u.category + '」栏目'}）</span></div>
       <div class="lesson-grid">`;
     u.lessons.forEach(l => {
       const cItems = LESSON_ITEMS[l.id] || [];
@@ -1074,6 +1088,7 @@ function charLessonScreen(id) {
 
   h += `<div class="row center" style="margin-top:26px">
       <button class="btn" style="background:#e11d48" id="mWriteAll">🖌️ 田字格手写练字</button>
+      ${l.reuseItems ? '<button class="btn green" id="mOrdered">📖 顺序认字</button>' : ''}
       <button class="btn blue" id="mType">⌨️ 打字闯关</button>
       <button class="btn orange" id="mTone">🎵 声调练习</button>
       <button class="btn pink" id="mBalloon">🎈 气球大作战</button>
@@ -1120,6 +1135,10 @@ function charLessonScreen(id) {
     const pool = writeItems.length ? writeItems : items;
     go(hanziWriteScreen, { title: `田字格手写 · ${l.name}`, items: pool, startIdx: 0, starKey: 'write:' + id, back });
     speak('田字格练字');
+  };
+  if ($('#mOrdered')) $('#mOrdered').onclick = () => {
+    sfx.ok();
+    go(startRound, {title: `顺序认字 · ${l.name}`, items: items.slice(), ordered: true, requireTone: true, starKey: 'char:' + id, back});
   };
   $('#mType').onclick = () => {
     sfx.ok();
@@ -1410,7 +1429,7 @@ function hanziWriteScreen(opts) {
 let R = null; // 当前回合
 
 function syncRoundSizeLive() {
-  if (!R || !R.items || !R.items.length || R.isReview) return;
+  if (!R || !R.items || !R.items.length || R.isReview || R.ordered) return;
   const targetN = Math.max(R.idx + 1, S().roundSize || 10);
   const pool = (R.sourcePool && R.sourcePool.length) ? R.sourcePool : R.items.slice();
   if (R.items.length < targetN) {
@@ -1428,7 +1447,7 @@ function syncRoundSizeLive() {
 
 function startRound(opts) {
   const sourcePool = (opts.pool && opts.pool.length) ? opts.pool.slice() : opts.items.slice();
-  const initialItems = opts.isReview ? opts.items.slice() : roundItems(sourcePool, S().roundSize);
+  const initialItems = (opts.isReview || opts.ordered) ? opts.items.slice() : roundItems(sourcePool, S().roundSize);
   R = { ...opts, sourcePool, items: initialItems, idx: 0, firstTry: 0, buf: '', tone: null, wrong: 0, reveal: false, locked: false };
   setTitle(opts.title);
   app.innerHTML = `
@@ -1593,7 +1612,7 @@ function check() {
 function finishRound() {
   const n = R.items.length, ratio = R.firstTry / n;
   const stars = ratio >= 0.9 ? 3 : ratio >= 0.7 ? 2 : 1;
-  showResult({ stars, starKey: R.starKey, line: `一共 ${n} 题，一次就答对 ${R.firstTry} 题`, again: () => go(startRound, { ...R, items: shuffle(R.items) }), back: R.back });
+  showResult({ stars, starKey: R.starKey, line: `一共 ${n} 题，一次就答对 ${R.firstTry} 题`, again: () => go(startRound, { ...R, items: R.ordered ? R.items.slice() : shuffle(R.items) }), back: R.back });
 }
 
 function showResult({ stars, starKey, line, again, back, bonus = 0 }) {

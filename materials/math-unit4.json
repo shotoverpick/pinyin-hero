@@ -1,0 +1,1256 @@
+{
+  "name": "一年级数学上册·第四单元·立体图形",
+  "unit": "一年级数学上册·第四单元",
+  "characters": [
+    {
+      "text": "数",
+      "pinyin": "shù",
+      "example": "数学"
+    },
+    {
+      "text": "学",
+      "pinyin": "xué",
+      "example": "数学"
+    },
+    {
+      "text": "年",
+      "pinyin": "nián",
+      "example": "年级"
+    },
+    {
+      "text": "级",
+      "pinyin": "jí",
+      "example": "年级"
+    },
+    {
+      "text": "上",
+      "pinyin": "shàng",
+      "example": "上册"
+    },
+    {
+      "text": "册",
+      "pinyin": "cè",
+      "example": "上册"
+    },
+    {
+      "text": "单",
+      "pinyin": "dān",
+      "example": "单元"
+    },
+    {
+      "text": "元",
+      "pinyin": "yuán",
+      "example": "单元"
+    },
+    {
+      "text": "练",
+      "pinyin": "liàn",
+      "example": "练习"
+    },
+    {
+      "text": "习",
+      "pinyin": "xí",
+      "example": "练习"
+    },
+    {
+      "text": "写",
+      "pinyin": "xiě",
+      "example": "写出"
+    },
+    {
+      "text": "出",
+      "pinyin": "chū",
+      "example": "写出"
+    },
+    {
+      "text": "下",
+      "pinyin": "xià",
+      "example": "下面"
+    },
+    {
+      "text": "面",
+      "pinyin": "miàn",
+      "example": "两面"
+    },
+    {
+      "text": "立",
+      "pinyin": "lì",
+      "example": "立体"
+    },
+    {
+      "text": "体",
+      "pinyin": "tǐ",
+      "example": "立体"
+    },
+    {
+      "text": "图",
+      "pinyin": "tú",
+      "example": "图形"
+    },
+    {
+      "text": "形",
+      "pinyin": "xíng",
+      "example": "图形"
+    },
+    {
+      "text": "名",
+      "pinyin": "míng",
+      "example": "名称"
+    },
+    {
+      "text": "称",
+      "pinyin": "chēng",
+      "example": "名称"
+    },
+    {
+      "text": "认",
+      "pinyin": "rèn",
+      "example": "认真"
+    },
+    {
+      "text": "真",
+      "pinyin": "zhēn",
+      "example": "认真"
+    },
+    {
+      "text": "填",
+      "pinyin": "tián",
+      "example": "填一填"
+    },
+    {
+      "text": "一",
+      "pinyin": "yī",
+      "example": "一"
+    },
+    {
+      "text": "书",
+      "pinyin": "shū",
+      "example": "数学书"
+    },
+    {
+      "text": "魔",
+      "pinyin": "mó",
+      "example": "魔方"
+    },
+    {
+      "text": "方",
+      "pinyin": "fāng",
+      "example": "魔方"
+    },
+    {
+      "text": "状",
+      "pinyin": "zhuàng",
+      "example": "形状"
+    },
+    {
+      "text": "圆",
+      "pinyin": "yuán",
+      "example": "圆柱"
+    },
+    {
+      "text": "柱",
+      "pinyin": "zhù",
+      "example": "圆柱"
+    },
+    {
+      "text": "两",
+      "pinyin": "liǎng",
+      "example": "两面"
+    },
+    {
+      "text": "大",
+      "pinyin": "dà",
+      "example": "大小"
+    },
+    {
+      "text": "小",
+      "pinyin": "xiǎo",
+      "example": "大小"
+    },
+    {
+      "text": "相",
+      "pinyin": "xiāng",
+      "example": "相等"
+    },
+    {
+      "text": "等",
+      "pinyin": "děng",
+      "example": "相等"
+    },
+    {
+      "text": "长",
+      "pinyin": "cháng",
+      "example": "长方体"
+    },
+    {
+      "text": "正",
+      "pinyin": "zhèng",
+      "example": "正方体"
+    },
+    {
+      "text": "对",
+      "pinyin": "duì",
+      "example": "相对"
+    },
+    {
+      "text": "既",
+      "pinyin": "jì",
+      "example": "既"
+    },
+    {
+      "text": "站",
+      "pinyin": "zhàn",
+      "example": "站得稳"
+    },
+    {
+      "text": "得",
+      "pinyin": "de",
+      "example": "站得稳"
+    },
+    {
+      "text": "稳",
+      "pinyin": "wěn",
+      "example": "站得稳"
+    },
+    {
+      "text": "跑",
+      "pinyin": "pǎo",
+      "example": "跑得快"
+    },
+    {
+      "text": "快",
+      "pinyin": "kuài",
+      "example": "跑得快"
+    },
+    {
+      "text": "拼",
+      "pinyin": "pīn",
+      "example": "拼成"
+    },
+    {
+      "text": "成",
+      "pinyin": "chéng",
+      "example": "拼成"
+    },
+    {
+      "text": "个",
+      "pinyin": "gè",
+      "example": "一个"
+    },
+    {
+      "text": "滚",
+      "pinyin": "gǔn",
+      "example": "滚得最快"
+    },
+    {
+      "text": "最",
+      "pinyin": "zuì",
+      "example": "滚得最快"
+    },
+    {
+      "text": "乒",
+      "pinyin": "pīng",
+      "example": "乒乓球"
+    },
+    {
+      "text": "乓",
+      "pinyin": "pāng",
+      "example": "乒乓球"
+    },
+    {
+      "text": "球",
+      "pinyin": "qiú",
+      "example": "乒乓球"
+    },
+    {
+      "text": "篮",
+      "pinyin": "lán",
+      "example": "篮球"
+    },
+    {
+      "text": "完",
+      "pinyin": "wán",
+      "example": "完全"
+    },
+    {
+      "text": "全",
+      "pinyin": "quán",
+      "example": "完全"
+    },
+    {
+      "text": "同",
+      "pinyin": "tóng",
+      "example": "相同"
+    },
+    {
+      "text": "细",
+      "pinyin": "xì",
+      "example": "细心"
+    },
+    {
+      "text": "心",
+      "pinyin": "xīn",
+      "example": "细心"
+    },
+    {
+      "text": "辨",
+      "pinyin": "biàn",
+      "example": "辨一辨"
+    },
+    {
+      "text": "确",
+      "pinyin": "què",
+      "example": "正确"
+    },
+    {
+      "text": "错",
+      "pinyin": "cuò",
+      "example": "错误"
+    },
+    {
+      "text": "误",
+      "pinyin": "wù",
+      "example": "错误"
+    },
+    {
+      "text": "搭",
+      "pinyin": "dā",
+      "example": "搭积木"
+    },
+    {
+      "text": "积",
+      "pinyin": "jī",
+      "example": "搭积木"
+    },
+    {
+      "text": "木",
+      "pinyin": "mù",
+      "example": "搭积木"
+    },
+    {
+      "text": "足",
+      "pinyin": "zú",
+      "example": "足球"
+    },
+    {
+      "text": "羽",
+      "pinyin": "yǔ",
+      "example": "羽毛球"
+    },
+    {
+      "text": "毛",
+      "pinyin": "máo",
+      "example": "羽毛球"
+    },
+    {
+      "text": "动",
+      "pinyin": "dòng",
+      "example": "动脑"
+    },
+    {
+      "text": "脑",
+      "pinyin": "nǎo",
+      "example": "动脑"
+    },
+    {
+      "text": "选",
+      "pinyin": "xuǎn",
+      "example": "选一选"
+    },
+    {
+      "text": "答",
+      "pinyin": "dá",
+      "example": "答案"
+    },
+    {
+      "text": "案",
+      "pinyin": "àn",
+      "example": "答案"
+    },
+    {
+      "text": "序",
+      "pinyin": "xù",
+      "example": "序号"
+    },
+    {
+      "text": "号",
+      "pinyin": "hào",
+      "example": "序号"
+    },
+    {
+      "text": "括",
+      "pinyin": "kuò",
+      "example": "括号"
+    },
+    {
+      "text": "物",
+      "pinyin": "wù",
+      "example": "物品"
+    },
+    {
+      "text": "品",
+      "pinyin": "pǐn",
+      "example": "物品"
+    },
+    {
+      "text": "课",
+      "pinyin": "kè",
+      "example": "课本"
+    },
+    {
+      "text": "本",
+      "pinyin": "běn",
+      "example": "课本"
+    },
+    {
+      "text": "矿",
+      "pinyin": "kuàng",
+      "example": "矿泉水瓶"
+    },
+    {
+      "text": "泉",
+      "pinyin": "quán",
+      "example": "矿泉水瓶"
+    },
+    {
+      "text": "水",
+      "pinyin": "shuǐ",
+      "example": "矿泉水瓶"
+    },
+    {
+      "text": "瓶",
+      "pinyin": "píng",
+      "example": "矿泉水瓶"
+    },
+    {
+      "text": "粉",
+      "pinyin": "fěn",
+      "example": "粉笔盒"
+    },
+    {
+      "text": "笔",
+      "pinyin": "bǐ",
+      "example": "粉笔盒"
+    },
+    {
+      "text": "盒",
+      "pinyin": "hé",
+      "example": "粉笔盒"
+    },
+    {
+      "text": "分",
+      "pinyin": "fēn",
+      "example": "分别"
+    },
+    {
+      "text": "别",
+      "pinyin": "bié",
+      "example": "分别"
+    },
+    {
+      "text": "堆",
+      "pinyin": "duī",
+      "example": "堆起来"
+    },
+    {
+      "text": "起",
+      "pinyin": "qǐ",
+      "example": "堆起来"
+    },
+    {
+      "text": "来",
+      "pinyin": "lái",
+      "example": "来"
+    },
+    {
+      "text": "难",
+      "pinyin": "nán",
+      "example": "最难"
+    },
+    {
+      "text": "连",
+      "pinyin": "lián",
+      "example": "连一连"
+    },
+    {
+      "text": "编",
+      "pinyin": "biān",
+      "example": "编号"
+    },
+    {
+      "text": "应",
+      "pinyin": "yìng",
+      "example": "相应"
+    },
+    {
+      "text": "子",
+      "pinyin": "zi",
+      "example": "盒子"
+    },
+    {
+      "text": "横",
+      "pinyin": "héng",
+      "example": "横线"
+    },
+    {
+      "text": "线",
+      "pinyin": "xiàn",
+      "example": "横线"
+    },
+    {
+      "text": "筋",
+      "pinyin": "jīn",
+      "example": "动脑筋"
+    },
+    {
+      "text": "想",
+      "pinyin": "xiǎng",
+      "example": "想一想"
+    },
+    {
+      "text": "左",
+      "pinyin": "zuǒ",
+      "example": "左边"
+    },
+    {
+      "text": "边",
+      "pinyin": "biān",
+      "example": "边"
+    },
+    {
+      "text": "右",
+      "pinyin": "yòu",
+      "example": "右边"
+    },
+    {
+      "text": "共",
+      "pinyin": "gòng",
+      "example": "一共"
+    },
+    {
+      "text": "其",
+      "pinyin": "qí",
+      "example": "其中"
+    },
+    {
+      "text": "中",
+      "pinyin": "zhōng",
+      "example": "其中"
+    },
+    {
+      "text": "样",
+      "pinyin": "yàng",
+      "example": "同样多"
+    },
+    {
+      "text": "多",
+      "pinyin": "duō",
+      "example": "同样多"
+    },
+    {
+      "text": "涂",
+      "pinyin": "tú",
+      "example": "涂上"
+    },
+    {
+      "text": "颜",
+      "pinyin": "yán",
+      "example": "颜色"
+    },
+    {
+      "text": "色",
+      "pinyin": "sè",
+      "example": "颜色"
+    },
+    {
+      "text": "画",
+      "pinyin": "huà",
+      "example": "画上"
+    },
+    {
+      "text": "斜",
+      "pinyin": "xié",
+      "example": "斜线"
+    },
+    {
+      "text": "平",
+      "pinyin": "píng",
+      "example": "平时"
+    },
+    {
+      "text": "时",
+      "pinyin": "shí",
+      "example": "平时"
+    },
+    {
+      "text": "朋",
+      "pinyin": "péng",
+      "example": "小朋友"
+    },
+    {
+      "text": "友",
+      "pinyin": "yǒu",
+      "example": "友"
+    },
+    {
+      "text": "喜",
+      "pinyin": "xǐ",
+      "example": "喜欢"
+    },
+    {
+      "text": "欢",
+      "pinyin": "huān",
+      "example": "欢"
+    },
+    {
+      "text": "自",
+      "pinyin": "zì",
+      "example": "自己"
+    },
+    {
+      "text": "己",
+      "pinyin": "jǐ",
+      "example": "自己"
+    },
+    {
+      "text": "发",
+      "pinyin": "fā",
+      "example": "发现"
+    },
+    {
+      "text": "现",
+      "pinyin": "xiàn",
+      "example": "发现"
+    },
+    {
+      "text": "容",
+      "pinyin": "róng",
+      "example": "容易"
+    },
+    {
+      "text": "易",
+      "pinyin": "yì",
+      "example": "容易"
+    },
+    {
+      "text": "不",
+      "pinyin": "bù",
+      "example": "不"
+    },
+    {
+      "text": "只",
+      "pinyin": "zhǐ",
+      "example": "只能"
+    },
+    {
+      "text": "能",
+      "pinyin": "néng",
+      "example": "只能"
+    },
+    {
+      "text": "推",
+      "pinyin": "tuī",
+      "example": "推动"
+    },
+    {
+      "text": "找",
+      "pinyin": "zhǎo",
+      "example": "找规律"
+    },
+    {
+      "text": "规",
+      "pinyin": "guī",
+      "example": "找规律"
+    },
+    {
+      "text": "律",
+      "pinyin": "lǜ",
+      "example": "找规律"
+    },
+    {
+      "text": "圈",
+      "pinyin": "quān",
+      "example": "圈一圈"
+    },
+    {
+      "text": "是",
+      "pinyin": "shì",
+      "example": "是什么"
+    },
+    {
+      "text": "什",
+      "pinyin": "shén",
+      "example": "是什么"
+    },
+    {
+      "text": "么",
+      "pinyin": "me",
+      "example": "是什么"
+    },
+    {
+      "text": "评",
+      "pinyin": "píng",
+      "example": "评卷人"
+    },
+    {
+      "text": "卷",
+      "pinyin": "juàn",
+      "example": "评卷人"
+    },
+    {
+      "text": "人",
+      "pinyin": "rén",
+      "example": "评卷人"
+    },
+    {
+      "text": "的",
+      "pinyin": "de",
+      "example": "的"
+    },
+    {
+      "text": "都",
+      "pinyin": "dōu",
+      "example": "都"
+    },
+    {
+      "text": "有",
+      "pinyin": "yǒu",
+      "example": "有"
+    },
+    {
+      "text": "六",
+      "pinyin": "liù",
+      "example": "六"
+    },
+    {
+      "text": "每",
+      "pinyin": "měi",
+      "example": "每"
+    },
+    {
+      "text": "又",
+      "pinyin": "yòu",
+      "example": "又"
+    },
+    {
+      "text": "用",
+      "pinyin": "yòng",
+      "example": "用"
+    },
+    {
+      "text": "八",
+      "pinyin": "bā",
+      "example": "八"
+    },
+    {
+      "text": "块",
+      "pinyin": "kuài",
+      "example": "块"
+    },
+    {
+      "text": "可",
+      "pinyin": "kě",
+      "example": "可"
+    },
+    {
+      "text": "以",
+      "pinyin": "yǐ",
+      "example": "以"
+    },
+    {
+      "text": "打",
+      "pinyin": "dǎ",
+      "example": "打"
+    },
+    {
+      "text": "叉",
+      "pinyin": "chā",
+      "example": "叉"
+    },
+    {
+      "text": "四",
+      "pinyin": "sì",
+      "example": "四"
+    },
+    {
+      "text": "放",
+      "pinyin": "fàng",
+      "example": "放"
+    },
+    {
+      "text": "在",
+      "pinyin": "zài",
+      "example": "在"
+    },
+    {
+      "text": "就",
+      "pinyin": "jiù",
+      "example": "就"
+    },
+    {
+      "text": "把",
+      "pinyin": "bǎ",
+      "example": "把"
+    },
+    {
+      "text": "里",
+      "pinyin": "lǐ",
+      "example": "里"
+    },
+    {
+      "text": "列",
+      "pinyin": "liè",
+      "example": "列"
+    },
+    {
+      "text": "它",
+      "pinyin": "tā",
+      "example": "它"
+    },
+    {
+      "text": "们",
+      "pinyin": "men",
+      "example": "们"
+    },
+    {
+      "text": "哪",
+      "pinyin": "nǎ",
+      "example": "哪"
+    },
+    {
+      "text": "几",
+      "pinyin": "jǐ",
+      "example": "几"
+    },
+    {
+      "text": "请",
+      "pinyin": "qǐng",
+      "example": "请"
+    },
+    {
+      "text": "和",
+      "pinyin": "hé",
+      "example": "和"
+    },
+    {
+      "text": "从",
+      "pinyin": "cóng",
+      "example": "从"
+    },
+    {
+      "text": "第",
+      "pinyin": "dì",
+      "example": "第"
+    },
+    {
+      "text": "比",
+      "pinyin": "bǐ",
+      "example": "比"
+    },
+    {
+      "text": "三",
+      "pinyin": "sān",
+      "example": "三"
+    },
+    {
+      "text": "很",
+      "pinyin": "hěn",
+      "example": "很"
+    }
+  ],
+  "words": [
+    {
+      "text": "数学",
+      "pinyin": "shù xué"
+    },
+    {
+      "text": "年级",
+      "pinyin": "nián jí"
+    },
+    {
+      "text": "上册",
+      "pinyin": "shàng cè"
+    },
+    {
+      "text": "单元",
+      "pinyin": "dān yuán"
+    },
+    {
+      "text": "练习",
+      "pinyin": "liàn xí"
+    },
+    {
+      "text": "写出",
+      "pinyin": "xiě chū"
+    },
+    {
+      "text": "下面",
+      "pinyin": "xià mian"
+    },
+    {
+      "text": "立体",
+      "pinyin": "lì tǐ"
+    },
+    {
+      "text": "图形",
+      "pinyin": "tú xíng"
+    },
+    {
+      "text": "名称",
+      "pinyin": "míng chēng"
+    },
+    {
+      "text": "认真",
+      "pinyin": "rèn zhēn"
+    },
+    {
+      "text": "填一填",
+      "pinyin": "tián yi tián"
+    },
+    {
+      "text": "数学书",
+      "pinyin": "shù xué shū"
+    },
+    {
+      "text": "魔方",
+      "pinyin": "mó fāng"
+    },
+    {
+      "text": "形状",
+      "pinyin": "xíng zhuàng"
+    },
+    {
+      "text": "圆柱",
+      "pinyin": "yuán zhù"
+    },
+    {
+      "text": "上下",
+      "pinyin": "shàng xià"
+    },
+    {
+      "text": "两面",
+      "pinyin": "liǎng miàn"
+    },
+    {
+      "text": "大小",
+      "pinyin": "dà xiǎo"
+    },
+    {
+      "text": "相等",
+      "pinyin": "xiāng děng"
+    },
+    {
+      "text": "长方体",
+      "pinyin": "cháng fāng tǐ"
+    },
+    {
+      "text": "正方体",
+      "pinyin": "zhèng fāng tǐ"
+    },
+    {
+      "text": "相对",
+      "pinyin": "xiāng duì"
+    },
+    {
+      "text": "既",
+      "pinyin": "jì"
+    },
+    {
+      "text": "站得稳",
+      "pinyin": "zhàn de wěn"
+    },
+    {
+      "text": "跑得快",
+      "pinyin": "pǎo de kuài"
+    },
+    {
+      "text": "拼成",
+      "pinyin": "pīn chéng"
+    },
+    {
+      "text": "一个",
+      "pinyin": "yí gè"
+    },
+    {
+      "text": "滚得最快",
+      "pinyin": "gǔn de zuì kuài"
+    },
+    {
+      "text": "乒乓球",
+      "pinyin": "pīng pāng qiú"
+    },
+    {
+      "text": "篮球",
+      "pinyin": "lán qiú"
+    },
+    {
+      "text": "完全",
+      "pinyin": "wán quán"
+    },
+    {
+      "text": "相同",
+      "pinyin": "xiāng tóng"
+    },
+    {
+      "text": "细心",
+      "pinyin": "xì xīn"
+    },
+    {
+      "text": "辨一辨",
+      "pinyin": "biàn yi biàn"
+    },
+    {
+      "text": "正确",
+      "pinyin": "zhèng què"
+    },
+    {
+      "text": "错误",
+      "pinyin": "cuò wù"
+    },
+    {
+      "text": "搭积木",
+      "pinyin": "dā jī mù"
+    },
+    {
+      "text": "最下面",
+      "pinyin": "zuì xià mian"
+    },
+    {
+      "text": "足球",
+      "pinyin": "zú qiú"
+    },
+    {
+      "text": "羽毛球",
+      "pinyin": "yǔ máo qiú"
+    },
+    {
+      "text": "动脑",
+      "pinyin": "dòng nǎo"
+    },
+    {
+      "text": "选一选",
+      "pinyin": "xuǎn yi xuǎn"
+    },
+    {
+      "text": "答案",
+      "pinyin": "dá àn"
+    },
+    {
+      "text": "序号",
+      "pinyin": "xù hào"
+    },
+    {
+      "text": "括号",
+      "pinyin": "kuò hào"
+    },
+    {
+      "text": "物品",
+      "pinyin": "wù pǐn"
+    },
+    {
+      "text": "课本",
+      "pinyin": "kè běn"
+    },
+    {
+      "text": "矿泉水瓶",
+      "pinyin": "kuàng quán shuǐ píng"
+    },
+    {
+      "text": "粉笔盒",
+      "pinyin": "fěn bǐ hé"
+    },
+    {
+      "text": "分别",
+      "pinyin": "fēn bié"
+    },
+    {
+      "text": "堆起来",
+      "pinyin": "duī qǐ lai"
+    },
+    {
+      "text": "最难",
+      "pinyin": "zuì nán"
+    },
+    {
+      "text": "数一数",
+      "pinyin": "shǔ yi shǔ"
+    },
+    {
+      "text": "小正方体",
+      "pinyin": "xiǎo zhèng fāng tǐ"
+    },
+    {
+      "text": "连一连",
+      "pinyin": "lián yi lián"
+    },
+    {
+      "text": "编号",
+      "pinyin": "biān hào"
+    },
+    {
+      "text": "相应",
+      "pinyin": "xiāng yìng"
+    },
+    {
+      "text": "盒子",
+      "pinyin": "hé zi"
+    },
+    {
+      "text": "横线",
+      "pinyin": "héng xiàn"
+    },
+    {
+      "text": "动脑筋",
+      "pinyin": "dòng nǎo jīn"
+    },
+    {
+      "text": "想一想",
+      "pinyin": "xiǎng yi xiǎng"
+    },
+    {
+      "text": "左边",
+      "pinyin": "zuǒ bian"
+    },
+    {
+      "text": "右边",
+      "pinyin": "yòu bian"
+    },
+    {
+      "text": "一共",
+      "pinyin": "yí gòng"
+    },
+    {
+      "text": "其中",
+      "pinyin": "qí zhōng"
+    },
+    {
+      "text": "同样多",
+      "pinyin": "tóng yàng duō"
+    },
+    {
+      "text": "涂上",
+      "pinyin": "tú shàng"
+    },
+    {
+      "text": "颜色",
+      "pinyin": "yán sè"
+    },
+    {
+      "text": "画上",
+      "pinyin": "huà shàng"
+    },
+    {
+      "text": "斜线",
+      "pinyin": "xié xiàn"
+    },
+    {
+      "text": "平时",
+      "pinyin": "píng shí"
+    },
+    {
+      "text": "小朋友",
+      "pinyin": "xiǎo péng you"
+    },
+    {
+      "text": "喜欢",
+      "pinyin": "xǐ huan"
+    },
+    {
+      "text": "物体",
+      "pinyin": "wù tǐ"
+    },
+    {
+      "text": "自己",
+      "pinyin": "zì jǐ"
+    },
+    {
+      "text": "发现",
+      "pinyin": "fā xiàn"
+    },
+    {
+      "text": "容易",
+      "pinyin": "róng yì"
+    },
+    {
+      "text": "滚动",
+      "pinyin": "gǔn dòng"
+    },
+    {
+      "text": "不易",
+      "pinyin": "bú yì"
+    },
+    {
+      "text": "只能",
+      "pinyin": "zhǐ néng"
+    },
+    {
+      "text": "推动",
+      "pinyin": "tuī dòng"
+    },
+    {
+      "text": "找规律",
+      "pinyin": "zhǎo guī lǜ"
+    },
+    {
+      "text": "圈一圈",
+      "pinyin": "quān yi quān"
+    },
+    {
+      "text": "下一个",
+      "pinyin": "xià yí gè"
+    },
+    {
+      "text": "是什么",
+      "pinyin": "shì shén me"
+    },
+    {
+      "text": "得分",
+      "pinyin": "dé fēn"
+    },
+    {
+      "text": "评卷人",
+      "pinyin": "píng juàn rén"
+    }
+  ],
+  "sentences": [
+    "写出下面立体图形的名称。",
+    "数学书是长方体。",
+    "魔方的形状是正方体。",
+    "圆柱上下两面都是圆形，大小相等。",
+    "长方体有六个面，相对的面相等。",
+    "正方体有六个面，每个面都一样大。",
+    "既站得稳又跑得快的图形是圆柱。",
+    "用八个小正方体能拼成一个大的正方体。",
+    "滚得最快的图形是球。",
+    "用两块完全相同的正方体可以拼成一个长方体。",
+    "乒乓球的形状是球，篮球的形状是球。",
+    "正确的打对号，错误的打叉号。",
+    "长方体有四个面。",
+    "圆柱的上下两个面相等。",
+    "搭积木时，不能放在最下面。",
+    "乒乓球、足球、羽毛球的形状都是球。",
+    "球就是圆。",
+    "把正确答案的序号填在括号里。",
+    "下列物品不是长方体的是。",
+    "六个面一样大的图形是。",
+    "把它们分别堆起来，哪一堆最难堆？",
+    "有几个正方体？",
+    "下列图形不是圆柱的是。",
+    "请把球、圆柱、长方体和正方体的编号写在相应盒子下面的横线上。",
+    "从左边起第几个是球？",
+    "从右边起第几个是正方体？",
+    "上面图形中一共有几个图形？",
+    "有几个圆柱？",
+    "有几个长方体？",
+    "圆柱比长方体多几个？",
+    "正方体和球同样多。",
+    "把从左边数的第三个图形涂上颜色。",
+    "把右边的两个图形画上斜线。",
+    "平时小朋友们都很喜欢下面的物体，把自己的发现填在括号里。",
+    "容易滚动的是哪两个？",
+    "不易滚动，只能推动的是哪两个？",
+    "找规律，圈一圈。",
+    "下一个是什么？",
+    "数一数，填一填。"
+  ]
+}
